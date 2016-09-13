@@ -177,6 +177,6 @@ FLOAT ({FRACTION}{EXPONENT}?|{DIGITS}{EXPONENT}|{HEXFRACTION}{BINARYEXPONENT})
 
 [/][/][^\n]* {}
 
-[a-zA-Z0-9_$]+ {return NAME;}
+[a-zA-Z0-9_$]+ {return IDENTIFIER;}
 
 %%

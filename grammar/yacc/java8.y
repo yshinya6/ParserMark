@@ -17,7 +17,7 @@ return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 
 %}
 
-%start Constant
+%start ExpressionTest
 
 %token VAR_LEN_PARAM EQ NE AND OR INC DEC MR
 %token AADD ASUB AMUL ADIV AMOD ALEFTSHIFT ARIGHTSHIFT ALOGICALRIGHTSHIFT ABITAND ABITXOR ABITOR
@@ -31,7 +31,7 @@ return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 %token EXTENDS FINAL FINALLY GOTO IMPLEMENTS IMPORT INSTANCEOF INTERFACE NATIVE
 %token NEW NULL_LITERAL PACKAGE PRIVATE PROTECTED PUBLIC STATIC STRICTFP SUPER SWITCH
 %token SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOLATILE WHILE
-%token INT STRING NAME EOF_SYMBOL LONG FLOAT DOUBLE CHAR
+%token INT STRING IDENTIFIER EOF_SYMBOL LONG FLOAT DOUBLE CHAR
 
 %%
 /*
@@ -47,7 +47,6 @@ TopLevel
   | ';'
   ;
 */
-
 /* Annotation */
 /*
 OptAnnotations
@@ -68,7 +67,7 @@ ElementValuePairList
   | ElementValuePair ',' ElementValuePair
   ;
 ElementValuePair
-  : Identifier '=' ElementValue
+  : IDENTIFIER '=' ElementValue
   ;
 ElementValue
   : ElementValueArrayInitializer
@@ -118,8 +117,8 @@ TypeDeclaration
   ;
 
 ClassDeclaration
-  : OptClassModifiers CLASS Identifier OptTypeParameters OptSuperClass OptSuperInterfaces ClassBody
-  | OptClassModifiers ENUM Identifier OptSuperInterfaces EnumBody
+  : OptClassModifiers CLASS IDENTIFIER OptTypeParameters OptSuperClass OptSuperInterfaces ClassBody
+  | OptClassModifiers ENUM IDENTIFIER OptSuperInterfaces EnumBody
   ;
 
 OptClassModifiers
@@ -196,15 +195,15 @@ AddEnumeratorList
   | Enumerator ',' Enumerator
   ;
 Enumerator
-  : OptAnnotations Identifier ArgumentExpressionList OptClassBody
-  | OptAnnotations Identifier ClassBody
-  | Annotations Identifier
+  : OptAnnotations IDENTIFIER ArgumentExpressionList OptClassBody
+  | OptAnnotations IDENTIFIER ClassBody
+  | Annotations IDENTIFIER
   ;
 
 // interface, annotation
 InterfaceDeclaration
-  : OptInterfaceModifiers INTERFACE Identifier OptTypeParameters ExtendsInterfaces InterfaceBody
-  | OptInterfaceModifiers '@' INTERFACE Identifier AnnotationTypeBody
+  : OptInterfaceModifiers INTERFACE IDENTIFIER OptTypeParameters ExtendsInterfaces InterfaceBody
+  | OptInterfaceModifiers '@' INTERFACE IDENTIFIER AnnotationTypeBody
   ;
 OptInterfaceModifiers
   :
@@ -258,7 +257,7 @@ AnnotationTypeMemberDeclaration
   | ';'
   ;
 AnnotationTypeElementDeclaration
-  : AnnotationTypeElementModifiers Type Identifier '(' ')' AnnotationTypeElementDefaultValue ';'
+  : AnnotationTypeElementModifiers Type IDENTIFIER '(' ')' AnnotationTypeElementDefaultValue ';'
   ;
 AnnotationTypeElementModifiers
   :
@@ -305,7 +304,7 @@ InitDeclList
   | InitDecl ',' InitDecl
   ;
 VarName
-  : Identifier ArrayModifiers
+  : IDENTIFIER ArrayModifiers
   ;
 ArrayModifiers
   :
@@ -366,8 +365,8 @@ ConstantModifier
 
 // method
 MethodDeclaration
-  : OptMethodModifiers OptTypeParamAnnotations TypeOrVoid Identifier '(' MethodParamList ')' OptThrows ';'
-  | OptMethodModifiers OptTypeParamAnnotations TypeOrVoid Identifier '(' MethodParamList ')' OptThrows Block
+  : OptMethodModifiers OptTypeParamAnnotations TypeOrVoid IDENTIFIER '(' MethodParamList ')' OptThrows ';'
+  | OptMethodModifiers OptTypeParamAnnotations TypeOrVoid IDENTIFIER '(' MethodParamList ')' OptThrows Block
   ;
 OptTypeParamAnnotations
   :
@@ -398,8 +397,8 @@ MethodModifier
   | STRICTFP
   ;
 InterfaceMethodDeclaration
-  : OptInterfaceMethodModifiers OptTypeParamAnnotations TypeOrVoid Identifier '(' MethodParamList ')' OptThrows Block
-  | OptInterfaceMethodModifiers OptTypeParamAnnotations TypeOrVoid Identifier '(' MethodParamList ')' OptThrows ';'
+  : OptInterfaceMethodModifiers OptTypeParamAnnotations TypeOrVoid IDENTIFIER '(' MethodParamList ')' OptThrows Block
+  | OptInterfaceMethodModifiers OptTypeParamAnnotations TypeOrVoid IDENTIFIER '(' MethodParamList ')' OptThrows ';'
   ;
 OptInterfaceMethodModifiers
   :
@@ -526,14 +525,14 @@ SimpleClassType
   | UnannoSimpleClassType
   ;
 UnannoSimpleClassType
-  : Identifier OptTypeArguments
+  : IDENTIFIER OptTypeArguments
   ;
 InterfaceType
   : ClassType
   ;
 TypeVariable
-  : Annotations Identifier
-  | Identifier
+  : Annotations IDENTIFIER
+  | IDENTIFIER
   ;
 OptTypeParameters
   :
@@ -551,7 +550,7 @@ TypeParameter
   | UnannoTypeParameter
   ;
 UnannoTypeParameter
-  : Identifier ExtendsTypeModifier
+  : IDENTIFIER ExtendsTypeModifier
   ;
 ExtendsTypeModifier
   :
@@ -628,14 +627,14 @@ Statement
   | DO Statement WHILE '(' Expression ')' ';'
   | FOR '(' OptExpressions ';' OptExpression ';' OptExpressions ')' Statement
   | FOR '(' VariableDeclaration ';' OptExpression ';' OptExpressions ')' Statement
-  | FOR '(' OptVariableModifiers Type Identifier ':' OptExpression ')' Statement
-  | CONTINUE OptIdentifier ';'
-  | BREAK OptIdentifier ';'
+  | FOR '(' OptVariableModifiers Type IDENTIFIER ':' OptExpression ')' Statement
+  | CONTINUE OptIDENTIFIER ';'
+  | BREAK OptIDENTIFIER ';'
   | RETURN OptExpression ';'
   | TryStatement
   | THROW Expression ';'
   | SYNCHRONIZED '(' Expression ')' Block
-  | Identifier ':'
+  | IDENTIFIER ':'
   | Expression ';'
   | ';'
   ;
@@ -656,7 +655,7 @@ Resources
   | Resources ';' Resource
   ;
 Resource
-  : OptVariableModifiers Type Identifier '=' Expression
+  : OptVariableModifiers Type IDENTIFIER '=' Expression
   ;
 OptCatches
   :
@@ -670,8 +669,8 @@ Catch
   : CATCH '(' AddCatchParameter ')' Block
   ;
 AddCatchParameter
-  : OptVariableModifiers ClassOrInterfaceType Identifier
-  | OptVariableModifiers AddClassOrInterfaceTypes Identifier
+  : OptVariableModifiers ClassOrInterfaceType IDENTIFIER
+  | OptVariableModifiers AddClassOrInterfaceTypes IDENTIFIER
   ;
 AddClassOrInterfaceTypes
   : ClassOrInterfaceType
@@ -698,9 +697,14 @@ CaseBlock
   | BlockStatement
   | CaseBlock BlockStatement
   ;
+
 */
 /* Expression */
-/*
+
+ExpressionTest
+ : Expression
+ | ExpressionTest Expression
+ ;
 Expression
   : LambdaExpression
   | AssignmentExpression
@@ -811,11 +815,14 @@ UnaryExpression
   ;
 PostfixExpression
   : PrimaryExpression
-  | PostfixExpression '.' OptTypeArguments Identifier ArgumentExpressionList
-  | PostfixExpression '.' NEW OptTypeArguments OptAnnotations ClassOrInterfaceType ArgumentExpressionList OptClassBody
+  | PostfixExpression '.' IDENTIFIER ArgumentExpressionList
+  | PostfixExpression '.' TypeArguments IDENTIFIER ArgumentExpressionList
+  | PostfixExpression '.' NEW /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+  | PostfixExpression '.' NEW OptTypeArguments OptAnnotations /*ClassOrInterfaceType*/IDENTIFIER ArgumentExpressionList OptClassBody
   | PostfixExpression '[' Expression ']'
-  | PostfixExpression '.' Identifier
-  | PostfixExpression MR OptTypeArguments Identifier
+  // | PostfixExpression '.' IDENTIFIER
+  | PostfixExpression ArgumentExpressionList
+  // | PostfixExpression MR OptTypeArguments IDENTIFIER
   | PostfixExpression INC
   | PostfixExpression DEC
   ;
@@ -830,73 +837,92 @@ PrimaryExpression
   | ClassLiteral
   | QualifiedName '.' THIS
   | QualifiedName '.' SUPER
-  | MethodInvocationExpression
   | InstanceCreationExpression
   | ArrayCreationExpression
   | MethodReference
-  | Identifier
+  | QualifiedName
   ;
 ClassLiteral
   : TypeOrVoid '.' CLASS
   ;
-MethodInvocationExpression
-  : Identifier ArgumentExpressionList
-  ;
 InstanceCreationExpression
-  : NEW OptTypeArguments OptAnnotations ClassOrInterfaceType ArgumentExpressionList OptClassBody
+  : NEW TypeArguments Annotations /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+  | NEW Annotations /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+  | NEW TypeArguments /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+  | NEW /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
   ;
 ArrayCreationExpression
-  : NEW OptAnnotations ArrayCreationModifiers ArrayCreationLastModifiers
+  : NEW OptAnnotations ArrayCreationModifiers OptArrayCreationLastModifiers
   | NEW OptAnnotations ArrayCreationModifiers ArrayInitializer
   ;
 ArrayCreationModifier
-  : NonArrayType OptAnnotations '[' Expression ']'
-  | NonArrayType OptAnnotations '[' ']'
+  : NonArrayType OptAnnotations '[' OptExpression ']'
   ;
 ArrayCreationModifiers
   : ArrayCreationModifier
   | ArrayCreationModifiers ArrayCreationModifier
   ;
-ArrayCreationLastModifiers
+OptArrayCreationLastModifiers
   :
-  | OptAnnotations '[' ']'
-  | ArrayCreationLastModifiers OptAnnotations '[' ']'
+  | ArrayCreationLastModifiers
+  ;
+ArrayCreationLastModifiers
+  : '[' ']'
+  | Annotations '[' ']'
+  | ArrayCreationLastModifiers '[' ']'
+  | ArrayCreationLastModifiers Annotations '[' ']'
   ;
 MethodReference
-  : ReferenceType MR OptTypeArguments Identifier
-  | ReferenceType MR OptTypeArguments NEW
+  : ReferenceType MR IDENTIFIEROrNew
+  | ReferenceType MR TypeArguments IDENTIFIEROrNew
+  ;
+IDENTIFIEROrNew
+  : IDENTIFIER
+  | NEW
   ;
 LambdaExpression
   : LambdaParameters RARROW LambdaBody
   ;
 LambdaParameters
-  : Identifier
+  : IDENTIFIER
   | '(' MethodParamList ')'
-  | '(' InferredParamList ')'
+  //| '(' InferredParamList ')'
   ;
 InferredParamList
-  : Identifier
-  | InferredParamList ',' Identifier
+  : IDENTIFIER
+  | InferredParamList ',' IDENTIFIER
   ;
 LambdaBody
   : Expression
   | Block
   ;
-*/
+
 /* Identifier */
-/*
-OptIdentifier
+OptIDENTIFIER
   :
-  | Identifier
-  ;
-Identifier
-  : NAME
+  | IDENTIFIER
   ;
 QualifiedName
-  : Identifier
-  | QualifiedName '.' Identifier
+  : IDENTIFIER
+  | QualifiedName '.' IDENTIFIER
   ;
-*/
+
+// stub
+TypeArguments: '<' IDENTIFIER '>';
+OptTypeArguments:'<' IDENTIFIER '>';
+ArrayInitializer:'{''}';
+TypeOrVoid:INT_TYPE;
+Type:INT_TYPE;
+NonArrayType:INT_TYPE;
+ReferenceType:IDENTIFIER;
+OptClassBody:'{' '}';
+Block:'{' '}';
+Annotations:'@'IDENTIFIER;
+OptAnnotations:'@'IDENTIFIER;
+MethodParamList:IDENTIFIER','IDENTIFIER;
+
+
+
 /* Literal, Constant */
 
 Literal
@@ -911,7 +937,6 @@ Literal
   ;
 Constant
   : Literal
-  | Constant Literal
   ;
 
 
