@@ -17,7 +17,7 @@ return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 
 %}
 
-%start ExpressionTest
+%start TypeTest
 
 %token VAR_LEN_PARAM EQ NE AND OR INC DEC MR
 %token AADD ASUB AMUL ADIV AMOD ALEFTSHIFT ARIGHTSHIFT ALOGICALRIGHTSHIFT ABITAND ABITXOR ABITOR
@@ -464,7 +464,11 @@ ExplicitConstructorInvocation
   ;
 */
 /* Types, Values, Variables */
-/*
+TypeTest
+  : Type
+  | TypeTest Type
+  ;
+
 Type
   : ReferenceType
   | PrimitiveType
@@ -498,23 +502,23 @@ BooleanType
 ReferenceType
   : ArrayType
   | ClassOrInterfaceType
-  | TypeVariable
+  // | TypeVariable
   ;
 ArrayType
   : PrimitiveType InitArrays
   | ClassOrInterfaceType InitArrays
-  | TypeVariable InitArrays
+  // | TypeVariable InitArrays
   ;
 InitArrays
   : InitArray
   | InitArrays InitArray
   ;
 InitArray
-  : OptAnnotations '[' ']'
+  : Annotations '[' ']'
+  | '[' ']'
   ;
 ClassOrInterfaceType
   : ClassType
-  | InterfaceType
   ;
 ClassType
   : SimpleClassType
@@ -525,42 +529,43 @@ SimpleClassType
   | UnannoSimpleClassType
   ;
 UnannoSimpleClassType
-  : IDENTIFIER OptTypeArguments
-  ;
-InterfaceType
-  : ClassType
-  ;
-TypeVariable
-  : Annotations IDENTIFIER
+  : IDENTIFIER TypeArguments
   | IDENTIFIER
   ;
-OptTypeParameters
-  :
-  | TypeParameters
-  ;
-TypeParameters
-  : '<' TypeParameterList '>'
-  ;
-TypeParameterList
-  : TypeParameter
-  | TypeParameterList TypeParameter
-  ;
-TypeParameter
-  : Annotations UnannoTypeParameter
-  | UnannoTypeParameter
-  ;
-UnannoTypeParameter
-  : IDENTIFIER ExtendsTypeModifier
-  ;
-ExtendsTypeModifier
-  :
-  | EXTENDS ClassOrInterfaceType InterfaceTypeList
-  ;
-InterfaceTypeList
-  :
-  | '&' InterfaceType
-  | InterfaceTypeList '&' InterfaceType
-  ;
+
+// Followings are deprecated because it deal same input consumed by SimpleClassType production.
+// TypeVariable
+//   : Annotations IDENTIFIER
+//   | IDENTIFIER
+//   ;
+
+// OptTypeParameters
+//   :
+//   | TypeParameters
+//   ;
+// TypeParameters
+//   : '<' TypeParameterList '>'
+//   ;
+// TypeParameterList
+//   : TypeParameter
+//   | TypeParameterList TypeParameter
+//   ;
+// TypeParameter
+//   : Annotations UnannoTypeParameter
+//   | UnannoTypeParameter
+//   ;
+// UnannoTypeParameter
+//   : IDENTIFIER ExtendsTypeModifier
+//   ;
+// ExtendsTypeModifier
+//   :
+//   | EXTENDS ClassOrInterfaceType InterfaceTypeList
+//   ;
+// InterfaceTypeList
+//   :
+//   | '&' InterfaceType
+//   | InterfaceTypeList '&' InterfaceType
+//   ;
 OptTypeArguments
   :
   | TypeArguments
@@ -575,11 +580,13 @@ TypeArgumentList
   ;
 TypeArgument
   : ReferenceType
-  | OptAnnotations '?' ExtendsOrSuper
+  | '?'
+  | '?' ExtendsOrSuper
+  | Annotations '?'
+  | Annotations '?' ExtendsOrSuper
   ;
 ExtendsOrSuper
-  :
-  | EXTENDS ReferenceType
+  : EXTENDS ReferenceType
   | SUPER ReferenceType
   ;
 Void
@@ -597,7 +604,7 @@ ClassOrInterfaceTypes
   : ClassOrInterfaceType
   | ClassOrInterfaceTypes ',' ClassOrInterfaceType
   ;
-*/
+
 /* Block, Statement */
 /*
 Block
@@ -701,201 +708,203 @@ CaseBlock
 */
 /* Expression */
 
-ExpressionTest
- : Expression
- | ExpressionTest Expression
- ;
-Expression
-  : LambdaExpression
-  | AssignmentExpression
-  ;
-OptExpression
-  :
-  | Expression
-  ;
-OptExpressions
-  :
-  | Expressions
-  ;
-Expressions
-  : Expression
-  | Expressions ',' Expression
-  ;
-AssignmentExpression
-  : UnaryExpression AddAssignmentOperator Expression
-  | ConditionalExpression
-  ;
-AddAssignmentOperator
-  : '='
-  | AMUL
-  | ADIV
-  | AMOD
-  | AADD
-  | ASUB
-  | ALEFTSHIFT
-  | ARIGHTSHIFT
-  | ALOGICALRIGHTSHIFT
-  | ABITAND
-  | ABITXOR
-  | ABITOR
-  ;
-OptConstantExpression
-  :
-  | ConditionalExpression
-  ;
-ConstantExpression
-  : ConditionalExpression
-  ;
-ConditionalExpression
-  : LogicalOrExpression
-  | ConditionalExpression '?' Expression ':' LogicalOrExpression
-  ;
-LogicalOrExpression
-  : LogicalAndExpression
-  | LogicalOrExpression OR LogicalAndExpression
-  ;
-LogicalAndExpression
-  : InclusiveOrExpression
-  | LogicalAndExpression AND InclusiveOrExpression
-  ;
-InclusiveOrExpression
-  : ExclusiveOrExpression
-  | InclusiveOrExpression '|' ExclusiveOrExpression
-  ;
-ExclusiveOrExpression
-  : AndExpression
-  | ExclusiveOrExpression '^' AndExpression
-  ;
-AndExpression
-  : EqualityExpression
-  | AndExpression '&' EqualityExpression
-  ;
-EqualityExpression
-  : RelationalExpression
-  | EqualityExpression EQ RelationalExpression
-  | EqualityExpression NE RelationalExpression
-  ;
-RelationalExpression
-  : ShiftExpression
-  | RelationalExpression LTEQ ShiftExpression
-  | RelationalExpression GTEQ ShiftExpression
-  | RelationalExpression '<' ShiftExpression
-  | RelationalExpression '>' ShiftExpression
-  | INSTANCEOF ReferenceType
-  ;
-ShiftExpression
-  : AdditiveExpression
-  | ShiftExpression LEFTSHIFT AdditiveExpression
-  | ShiftExpression RIGHTSHIFT AdditiveExpression
-  | ShiftExpression LOGICALRIGHTSHIFT AdditiveExpression
-  ;
-AdditiveExpression
-  : MultiplicativeExpression
-  | AdditiveExpression '+' MultiplicativeExpression
-  | AdditiveExpression '-' MultiplicativeExpression
-  ;
-MultiplicativeExpression
-  : CastNewExpression
-  | MultiplicativeExpression '*' CastNewExpression
-  | MultiplicativeExpression '/' CastNewExpression
-  | MultiplicativeExpression '%' CastNewExpression
-  ;
-CastNewExpression
-  : '(' Type ')' CastNewExpression
-  | UnaryExpression
-  ;
-UnaryExpression
-  : PostfixExpression
-  | INC UnaryExpression
-  | DEC UnaryExpression
-  | '+' CastNewExpression
-  | '-' CastNewExpression
-  | '~' CastNewExpression
-  | '!' CastNewExpression
-  ;
-PostfixExpression
-  : PrimaryExpression
-  | PostfixExpression '.' IDENTIFIER ArgumentExpressionList
-  | PostfixExpression '.' TypeArguments IDENTIFIER ArgumentExpressionList
-  | PostfixExpression '.' NEW /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
-  | PostfixExpression '.' NEW OptTypeArguments OptAnnotations /*ClassOrInterfaceType*/IDENTIFIER ArgumentExpressionList OptClassBody
-  | PostfixExpression '[' Expression ']'
-  // | PostfixExpression '.' IDENTIFIER
-  | PostfixExpression ArgumentExpressionList
-  // | PostfixExpression MR OptTypeArguments IDENTIFIER
-  | PostfixExpression INC
-  | PostfixExpression DEC
-  ;
-ArgumentExpressionList
-  : '(' Expressions ')'
-  ;
-PrimaryExpression
-  : Constant
-  | THIS
-  | SUPER
-  | '(' Expression ')'
-  | ClassLiteral
-  | QualifiedName '.' THIS
-  | QualifiedName '.' SUPER
-  | InstanceCreationExpression
-  | ArrayCreationExpression
-  | MethodReference
-  | QualifiedName
-  ;
-ClassLiteral
-  : TypeOrVoid '.' CLASS
-  ;
-InstanceCreationExpression
-  : NEW TypeArguments Annotations /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
-  | NEW Annotations /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
-  | NEW TypeArguments /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
-  | NEW /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
-  ;
-ArrayCreationExpression
-  : NEW OptAnnotations ArrayCreationModifiers OptArrayCreationLastModifiers
-  | NEW OptAnnotations ArrayCreationModifiers ArrayInitializer
-  ;
-ArrayCreationModifier
-  : NonArrayType OptAnnotations '[' OptExpression ']'
-  ;
-ArrayCreationModifiers
-  : ArrayCreationModifier
-  | ArrayCreationModifiers ArrayCreationModifier
-  ;
-OptArrayCreationLastModifiers
-  :
-  | ArrayCreationLastModifiers
-  ;
-ArrayCreationLastModifiers
-  : '[' ']'
-  | Annotations '[' ']'
-  | ArrayCreationLastModifiers '[' ']'
-  | ArrayCreationLastModifiers Annotations '[' ']'
-  ;
-MethodReference
-  : ReferenceType MR IDENTIFIEROrNew
-  | ReferenceType MR TypeArguments IDENTIFIEROrNew
-  ;
-IDENTIFIEROrNew
-  : IDENTIFIER
-  | NEW
-  ;
-LambdaExpression
-  : LambdaParameters RARROW LambdaBody
-  ;
-LambdaParameters
-  : IDENTIFIER
-  | '(' MethodParamList ')'
-  //| '(' InferredParamList ')'
-  ;
-InferredParamList
-  : IDENTIFIER
-  | InferredParamList ',' IDENTIFIER
-  ;
-LambdaBody
-  : Expression
-  | Block
-  ;
+// ExpressionTest
+//  : Expression
+//  | ExpressionTest Expression
+//  ;
+// Expression
+//   : LambdaExpression
+//   | AssignmentExpression
+//   ;
+// OptExpression
+//   :
+//   | Expression
+//   ;
+// OptExpressions
+//   :
+//   | Expressions
+//   ;
+// Expressions
+//   : Expression
+//   | Expressions ',' Expression
+//   ;
+// AssignmentExpression
+//   : UnaryExpression AddAssignmentOperator Expression
+//   | ConditionalExpression
+//   ;
+// AddAssignmentOperator
+//   : '='
+//   | AMUL
+//   | ADIV
+//   | AMOD
+//   | AADD
+//   | ASUB
+//   | ALEFTSHIFT
+//   | ARIGHTSHIFT
+//   | ALOGICALRIGHTSHIFT
+//   | ABITAND
+//   | ABITXOR
+//   | ABITOR
+//   ;
+// OptConstantExpression
+//   :
+//   | ConditionalExpression
+//   ;
+// ConstantExpression
+//   : ConditionalExpression
+//   ;
+// ConditionalExpression
+//   : LogicalOrExpression
+//   | ConditionalExpression '?' Expression ':' LogicalOrExpression
+//   ;
+// LogicalOrExpression
+//   : LogicalAndExpression
+//   | LogicalOrExpression OR LogicalAndExpression
+//   ;
+// LogicalAndExpression
+//   : InclusiveOrExpression
+//   | LogicalAndExpression AND InclusiveOrExpression
+//   ;
+// InclusiveOrExpression
+//   : ExclusiveOrExpression
+//   | InclusiveOrExpression '|' ExclusiveOrExpression
+//   ;
+// ExclusiveOrExpression
+//   : AndExpression
+//   | ExclusiveOrExpression '^' AndExpression
+//   ;
+// AndExpression
+//   : EqualityExpression
+//   | AndExpression '&' EqualityExpression
+//   ;
+// EqualityExpression
+//   : RelationalExpression
+//   | EqualityExpression EQ RelationalExpression
+//   | EqualityExpression NE RelationalExpression
+//   ;
+// RelationalExpression
+//   : ShiftExpression
+//   | RelationalExpression LTEQ ShiftExpression
+//   | RelationalExpression GTEQ ShiftExpression
+//   | RelationalExpression '<' ShiftExpression
+//   | RelationalExpression '>' ShiftExpression
+//   | INSTANCEOF ReferenceType
+//   ;
+// ShiftExpression
+//   : AdditiveExpression
+//   | ShiftExpression LEFTSHIFT AdditiveExpression
+//   | ShiftExpression RIGHTSHIFT AdditiveExpression
+//   | ShiftExpression LOGICALRIGHTSHIFT AdditiveExpression
+//   ;
+// AdditiveExpression
+//   : MultiplicativeExpression
+//   | AdditiveExpression '+' MultiplicativeExpression
+//   | AdditiveExpression '-' MultiplicativeExpression
+//   ;
+// MultiplicativeExpression
+//   : CastNewExpression
+//   | MultiplicativeExpression '*' CastNewExpression
+//   | MultiplicativeExpression '/' CastNewExpression
+//   | MultiplicativeExpression '%' CastNewExpression
+//   ;
+// CastNewExpression
+//   : '(' Type ')' CastNewExpression
+//   | UnaryExpression
+//   ;
+// UnaryExpression
+//   : PostfixExpression
+//   | INC UnaryExpression
+//   | DEC UnaryExpression
+//   | '+' CastNewExpression
+//   | '-' CastNewExpression
+//   | '~' CastNewExpression
+//   | '!' CastNewExpression
+//   ;
+// PostfixExpression
+//   : PrimaryExpression
+//   | PostfixExpression '.' IDENTIFIER ArgumentExpressionList
+//   | PostfixExpression '.' TypeArguments IDENTIFIER ArgumentExpressionList
+//   | PostfixExpression '.' NEW /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+//   | PostfixExpression '.' NEW OptTypeArguments OptAnnotations /*ClassOrInterfaceType*/IDENTIFIER ArgumentExpressionList OptClassBody
+//   | PostfixExpression '[' Expression ']'
+//   // | PostfixExpression '.' IDENTIFIER
+//   | PostfixExpression ArgumentExpressionList
+//   // | PostfixExpression MR OptTypeArguments IDENTIFIER
+//   | PostfixExpression INC
+//   | PostfixExpression DEC
+//   ;
+// ArgumentExpressionList
+//   : '(' Expressions ')'
+//   ;
+// PrimaryExpression
+//   : Constant
+//   | THIS
+//   | SUPER
+//   | '(' Expression ')'
+//   | ClassLiteral
+//   | QualifiedName '.' THIS
+//   | QualifiedName '.' SUPER
+//   | InstanceCreationExpression
+//   | ArrayCreationExpression
+//   | MethodReference
+//   | QualifiedName
+//   ;
+// ClassLiteral
+//   : TypeOrVoid '.' CLASS
+//   ;
+// InstanceCreationExpression
+//   : NEW TypeArguments Annotations /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+//   | NEW Annotations /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+//   | NEW TypeArguments /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+//   | NEW /*ClassOrInterfaceType*/ IDENTIFIER ArgumentExpressionList OptClassBody
+//   ;
+// ArrayCreationExpression
+//   : NEW OptAnnotations ArrayCreationModifiers OptArrayCreationLastModifiers
+//   | NEW OptAnnotations ArrayCreationModifiers ArrayInitializer
+//   ;
+// ArrayCreationModifier
+//   : NonArrayType OptAnnotations '[' OptExpression ']'
+//   ;
+// ArrayCreationModifiers
+//   : ArrayCreationModifier
+//   | ArrayCreationModifiers ArrayCreationModifier
+//   ;
+// OptArrayCreationLastModifiers
+//   :
+//   | ArrayCreationLastModifiers
+//   ;
+// ArrayCreationLastModifiers
+//   : '[' ']'
+//   | Annotations '[' ']'
+//   | ArrayCreationLastModifiers '[' ']'
+//   | ArrayCreationLastModifiers Annotations '[' ']'
+//   ;
+// MethodReference
+//   : ReferenceType MR IDENTIFIEROrNew
+//   | ReferenceType MR TypeArguments IDENTIFIEROrNew
+//   ;
+// IDENTIFIEROrNew
+//   : IDENTIFIER
+//   | NEW
+//   ;
+// LambdaExpression
+//   : LambdaParameters RARROW LambdaBody
+//   ;
+// LambdaParameters
+//   : IDENTIFIER
+//   | '(' ')'
+//   | '(' MethodParamList ')'
+//   | '(' InferredParamList ')'
+//   ;
+// //FIXME Followings occurr reduce/reduce conflicts
+// InferredParamList
+//   : IDENTIFIER
+//   | InferredParamList ',' IDENTIFIER
+//   ;
+// LambdaBody
+//   : Expression
+//   | Block
+//   ;
 
 /* Identifier */
 OptIDENTIFIER
@@ -908,13 +917,13 @@ QualifiedName
   ;
 
 // stub
-TypeArguments: '<' IDENTIFIER '>';
-OptTypeArguments:'<' IDENTIFIER '>';
+// TypeArguments: '<' IDENTIFIER '>';
+// OptTypeArguments:'<' IDENTIFIER '>';
 ArrayInitializer:'{''}';
-TypeOrVoid:INT_TYPE;
-Type:INT_TYPE;
-NonArrayType:INT_TYPE;
-ReferenceType:IDENTIFIER;
+// TypeOrVoid:INT_TYPE;
+// Type:INT_TYPE;
+// NonArrayType:INT_TYPE;
+// ReferenceType:IDENTIFIER;
 OptClassBody:'{' '}';
 Block:'{' '}';
 Annotations:'@'IDENTIFIER;
