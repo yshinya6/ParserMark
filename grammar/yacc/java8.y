@@ -17,7 +17,7 @@ return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 
 %}
 
-%start TypeTest
+%start StatementTest
 
 %token VAR_LEN_PARAM EQ NE AND OR INC DEC MR
 %token AADD ASUB AMUL ADIV AMOD ALEFTSHIFT ARIGHTSHIFT ALOGICALRIGHTSHIFT ABITAND ABITXOR ABITOR
@@ -464,6 +464,7 @@ ExplicitConstructorInvocation
   ;
 */
 /* Types, Values, Variables */
+/*
 TypeTest
   : Type
   | TypeTest Type
@@ -604,12 +605,18 @@ ClassOrInterfaceTypes
   : ClassOrInterfaceType
   | ClassOrInterfaceTypes ',' ClassOrInterfaceType
   ;
-
+*/
 /* Block, Statement */
-/*
-Block
-  : '{' OptBlockStatements '}'
+
+StatementTest
+  : Statement
+  | StatementTest Statement
   ;
+Block
+  : '{' '}'
+  | '{' BlockStatements '}'
+  ;
+//FIXME deprecated production
 OptBlockStatements
   :
   | BlockStatements
@@ -634,7 +641,8 @@ Statement
   | DO Statement WHILE '(' Expression ')' ';'
   | FOR '(' OptExpressions ';' OptExpression ';' OptExpressions ')' Statement
   | FOR '(' VariableDeclaration ';' OptExpression ';' OptExpressions ')' Statement
-  | FOR '(' OptVariableModifiers Type IDENTIFIER ':' OptExpression ')' Statement
+  | FOR '(' Type IDENTIFIER ':' OptExpression ')' Statement
+  // | FOR '(' OptVariableModifiers Type IDENTIFIER ':' OptExpression ')' Statement
   | CONTINUE OptIDENTIFIER ';'
   | BREAK OptIDENTIFIER ';'
   | RETURN OptExpression ';'
@@ -696,16 +704,16 @@ SwitchConditions
   | SwitchConditions SwitchCondition
   ;
 SwitchCondition
-  : CASE ConstantExpression ':' CaseBlock
+  : CASE ConstantExpression ':'
+  | CASE ConstantExpression ':' CaseBlock
+  | DEFAULT ':'
   | DEFAULT ':' CaseBlock
   ;
 CaseBlock
-  :
-  | BlockStatement
+  : BlockStatement
   | CaseBlock BlockStatement
   ;
 
-*/
 /* Expression */
 
 // ExpressionTest
@@ -919,21 +927,30 @@ QualifiedName
 // stub
 // TypeArguments: '<' IDENTIFIER '>';
 // OptTypeArguments:'<' IDENTIFIER '>';
-ArrayInitializer:'{''}';
+// ArrayInitializer:'{''}';
 // TypeOrVoid:INT_TYPE;
-// Type:INT_TYPE;
 // NonArrayType:INT_TYPE;
 // ReferenceType:IDENTIFIER;
-OptClassBody:'{' '}';
-Block:'{' '}';
-Annotations:'@'IDENTIFIER;
-OptAnnotations:'@'IDENTIFIER;
-MethodParamList:IDENTIFIER','IDENTIFIER;
-
-
+// OptClassBody:'{' '}';
+// Block:'{' '}';
+// Annotations:'@'IDENTIFIER;
+// OptAnnotations:'@'IDENTIFIER;
+// MethodParamList:IDENTIFIER','IDENTIFIER;
+Type: INT_TYPE|BOOLEAN_TYPE;
+VariableDeclaration: Type IDENTIFIER '=' Constant;
+ClassOrInterfaceType: IDENTIFIER;
+OptVariableModifiers: /* empty */ ;
+ConstantExpression: Constant;
+Expression: IDENTIFIER;
+OptExpression: Expression ;
+OptExpressions: Expression ;
+ClassDeclaration: CLASS IDENTIFIER '{''}';
 
 /* Literal, Constant */
-
+LiteralTest
+  : Literal
+  | LiteralTest Literal
+  ;
 Literal
   : FLOAT
   | DOUBLE
