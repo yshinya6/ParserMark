@@ -24,7 +24,7 @@ return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 %token VAR_LEN_PARAM EQ NE COMB_AND NON_COMB_AND COMB_VB NON_COMB_VB INC DEC MR
 %token AADD ASUB AMUL ADIV AMOD ALEFTSHIFT ARIGHTSHIFT ALOGICALRIGHTSHIFT ABITAND ABITXOR ABITOR
 %token RARROW LEFTSHIFT LTEQ GTEQ COMB_GT ANNO_DOT E_DIM_DOT
-
+%token TYPE_ARG_OP
 %token STRING_TYPE INT_TYPE BOOLEAN_TYPE DOUBLE_TYPE FLOAT_TYPE SHORT_TYPE
 %token CHAR_TYPE BYTE_TYPE LONG_TYPE VOID_TYPE E_DIM E_DIAMOND
 
@@ -462,8 +462,8 @@ OptTypeParameters
   | TypeParameters
   ;
 TypeParameters
-  : '<' TypeParameterList '>'
-  | '<' TypeParameterList COMB_GT
+  : TYPE_ARG_OP TypeParameterList '>'
+  | TYPE_ARG_OP TypeParameterList COMB_GT
   ;
 TypeParameterList
   : TypeParameter
@@ -487,8 +487,8 @@ InterfaceTypeList
   ;
 TypeArguments
   : E_DIAMOND
-  | '<' TypeArgumentList '>'
-  | '<' TypeArgumentList COMB_GT
+  | TYPE_ARG_OP TypeArgumentList '>'
+  | TYPE_ARG_OP TypeArgumentList COMB_GT
   ;
 TypeArgumentList
   : TypeArgument
@@ -731,7 +731,8 @@ CastOrGroup
   : '(' PrimitiveType ')'
   | '(' ArrayType ')'
   | '(' Expression ')'
-  // | '(' QualifiedName TypeArguments ')'
+  // | '(' QualifiedName ')'
+  | '(' QualifiedName TypeArguments ')'
   ;
 PostfixExpression
   : PrimaryExpression

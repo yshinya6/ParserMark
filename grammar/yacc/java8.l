@@ -153,6 +153,7 @@ FLOAT ({FRACTION}{EXPONENT}?|{DIGITS}{EXPONENT}|{HEXFRACTION}{BINARYEXPONENT})
 "volatile"  return VOLATILE;
 "while"     return WHILE;
 
+[<]/[a-zA-Z,<&?]*[>] {return TYPE_ARG_OP;}
 [>]/[>]     { return COMB_GT;}
 ["]["]      { return STRING;}
 [.]/[@]      { return ANNO_DOT;}
