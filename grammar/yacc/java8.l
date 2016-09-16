@@ -78,8 +78,6 @@ FLOAT ({FRACTION}{EXPONENT}?|{DIGITS}{EXPONENT}|{HEXFRACTION}{BINARYEXPONENT})
 "/"         return '/';
 "%"         return '%';
 "<<"        return LEFTSHIFT;
-">>"        return RIGHTSHIFT;
-">>>"       return LOGICALRIGHTSHIFT;
 "<="        return LTEQ;
 ">="        return GTEQ;
 "<"         return '<';
@@ -87,13 +85,13 @@ FLOAT ({FRACTION}{EXPONENT}?|{DIGITS}{EXPONENT}|{HEXFRACTION}{BINARYEXPONENT})
 "=="        return EQ;
 "!="        return NE;
 "^"         return '^';
-"|"         return '|';
-"&&"        return AND;
-"||"        return OR;
+[|]/[|]     return COMB_VB;
+[&]/[&]     return COMB_AND;
+"|"         return NON_COMB_VB;
 ";"         return ';';
 "++"        return INC;
 "--"        return DEC;
-"&"         return '&';
+"&"         return NON_COMB_AND;
 "*"         return '*';
 "+"         return '+';
 "-"         return '-';
@@ -155,6 +153,13 @@ FLOAT ({FRACTION}{EXPONENT}?|{DIGITS}{EXPONENT}|{HEXFRACTION}{BINARYEXPONENT})
 "volatile"  return VOLATILE;
 "while"     return WHILE;
 
+[>]/[>]     { return COMB_GT;}
+["]["]      { return STRING;}
+[.]/[@]      { return ANNO_DOT;}
+[\[]{space}*[\]] {return E_DIM;}
+[\[]{space}*[\]]/[.] {return E_DIM_DOT;}
+[<]{space}*[>] {return E_DIAMOND;}
+[@]{space}*"interface" {return ANNO_INTERFACE;}
 
 ({DECIMAL}|{HEX}|{BINARY}|{OCTAL}){INT_SUFFIX}? {return INT;}
 
