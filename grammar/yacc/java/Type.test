@@ -1,0 +1,19 @@
+int
+int[]
+int[][]
+// void
+MyClass.Integer
+MyClass.Clazz1.Clazz2
+UserDefinedType
+String
+boolean
+T
+List<V>
+List<? extends A>
+List<? super B>
+List<? extends A,? super B>
+Map<K,V>
+
+// <T>
+// <T extends C>
+// <T extends C & I>

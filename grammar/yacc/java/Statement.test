@@ -1,0 +1,59 @@
+{}
+{ a; }
+a;
+assert x;
+assert x : x;
+if (a) {
+
+}
+
+if (a) {
+}
+else {
+}
+
+if (a) {
+}
+else if(b) {
+}
+
+for (i; i; i) {
+}
+
+for (int i = 0; i; i) {
+}
+
+for (boolean a : x) {
+}
+
+do {
+  return x;
+} while (c);
+
+while (c) {
+  return x;
+}
+
+try{
+}
+catch (Exception1 e1){
+}
+catch (Exception2|Exception3 e){
+}
+
+try(int x = a){
+}
+catch (Exception e){
+}
+
+switch (x) {
+  case 1 :
+    return x;
+  default :
+    return y;
+}
+
+return x;
+break x;
+continue x;
+synchronized (x){}

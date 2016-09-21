@@ -1,0 +1,54 @@
+// PackageDeclaration
+package java.util.List;
+// ImportDeclaration
+import Myclass.Name;
+import Myclass.*;
+// ClassDeclaration
+class Test{}
+public class Test{}
+public class Test<T> extends A{}
+public class Test extends A implements B{}
+// InterfaceDeclaration
+public interface Test{}
+public interface Test<T> extends A{}
+public @interface Verboten {}
+// EnumDeclaration
+enum Sex { MAN, WOMAN }
+enum Test {
+  PENNY(1){}, NICKEL(2), DIME(3), QUARTER(4);
+  static{}
+}
+class Test {
+  int i;
+  int i = j;
+  int i = j,j = k,k = i;
+  int[] a = new int[3];
+  int a[3];
+  int a[3] = {i,j,k};
+  int a[3] = {i,j,k,};
+  final int i = k;
+}
+// MethodDeclaration
+class Test {
+  public void methodA(int a){}
+  public static int methodA(int a){}
+  public void methodA(int a);
+  public void methodA(int a, int b){}
+  public <T> void methodA(int a){}
+  <T extends C> void methodA(){}
+  <T extends C & I> void methodA(){}
+}
+// Constructor
+class Test {
+  int first;
+  int[] a = new int[3];
+  public Pair(int first) {
+    int[] a = new int[3];
+    this.first = first;
+    init(first);
+    this.init(first);
+    A.super.init(first);
+  }
+  // public Clazz test(int a){
+  // }
+}

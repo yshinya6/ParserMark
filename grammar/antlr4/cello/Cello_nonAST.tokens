@@ -1,0 +1,4 @@
+WhiteSpace=1
+LineComment=2
+BlockComment=3
+Declaration=4
