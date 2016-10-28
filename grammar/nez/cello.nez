@@ -1,4 +1,4 @@
-File                      = _ { ( $(TopLevel) / _ )* #Source } EOT
+File                      = _ { $(ImportDeclaration) ( $(TopLevel) / _ )* #Source } EOT
 _                         = ( S / BLOCKCOMMENT / LINECOMMENT )*
 S                         = [ \n\r\t\u000B\u000C]
 BLOCKCOMMENT              = '/*' ( !'*/' . )* '*/'
@@ -23,12 +23,13 @@ int fib(int n) {
 '''
 
 // Declaration
-Declaration               = FunctionDeclaration
+ImportDeclaration         = "import" { $(Name ('.' Name)*) #ImportDecl}
+Declaration               = MethodDeclaration
                           / VariableDeclaration
-FunctionDeclaration       = { $type(Type) _ $name(Name) _ "(" $list(FunctionParamList) ")" (_ $body(Block) / _ ";") #Function }
-                          / { $type(Type) _ $(Block) #Function }
-FunctionParamList         = { ( $(FunctionParam) ( "," $(FunctionParam) )* )? ( "," "..." )? #List }
-FunctionParam             = { $type(Type) _ $name(Name)? #Param } _
+MethodDeclaration       = { $type(Type) _ $name(Name) _ "(" $list(FunctionParamList) ")" (_ $body(Block) / _ ";") #MethodDecl }
+                          / { $type(Type) _ $(Block) #MethodDecl }
+MethodParamList           = { ( $(FunctionParam) ( "," $(FunctionParam) )* )? ( "," "..." )? #List }
+MethodParam               = { $type(Type) _ $name(Name)? #Param } _
 VariableDeclaration       = { $type(Type) _ $list(VariableList) ";" #Declaration }
 VariableList              = { $(InitDecl) ( "," $(InitDecl) )*  #VarList}
 InitDecl                  = { $name(Name) ( "=" $expr(Initializer) )? #VarDecl } _
@@ -41,18 +42,18 @@ example VariableDeclaration ~ef2263 int a=0;
 example VariableDeclaration ~4bd8c5 int a=0,b=1,c=2;
 
 // Type
-Type                      = PrimaryType
+Type                      = PrimitiveType
+                          / ReferenceType
 PrimaryType               = { "int" #TInt }
                           / { "boolean" #TBoolean }
+                          / { "long" #TLong}
                           / { "string" #TString }
-
+ReferenceType             = Name
 // Block, Statement
 Block                     = { "{" ( $(Statement) / $(Declaration) / _ )* "}" #Block }
 Statement                 = Block
                           / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If }
                           / { "return" _ $expr(Expression)? ";" #Return }
-                          / { "for" _ "(" $init(Expression) ";" $cond(Expression)? ";" $iter(Expression)? ")" $body(Block) #For }
-                          / { "for" _ "(" $init(VariableDeclaration) $cond(Expression)? ";" $iter(Expression)? ")" $body(Block) #For }
                           / { $expr(Expression) ";" #ExpressionStatement }
                           / { #Empty } ";"
 
@@ -83,12 +84,8 @@ _AssignmentOperator       = "=" #Assign
 ConstantExpression        = ConditionalExpression
 ConditionalExpression     = EqualityExpression {$left ("||" #Or / "&&" #And) $right(EqualityExpression) }*
 EqualityExpression        = RelationalExpression {$left ("==" #Equals / "!=" #NotEquals) $right(RelationalExpression) }*
-RelationalExpression      = AdditiveExpression {$left ("<" #LessThan / ">" #GreaterThan) $right(AdditiveExpression) }*
-AdditiveExpression        = MultiplicativeExpression {$left ("+" #Add / "-" #Sub) $right(MultiplicativeExpression) }*
-MultiplicativeExpression  = UnaryExpression {$left ("*" #Mul / "/" #Div) $right(UnaryExpression) }*
+RelationalExpression      = UnaryExpression {$left "<" #LessThan  $right(UnaryExpression) }*
 UnaryExpression           = PostfixExpression
-                          / { "++" $expr(UnaryExpression) #Inc }
-                          / { "--" $expr(UnaryExpression) #Dec }
                           / { "!" $expr(UnaryExpression) #Not }
 PostfixExpression         = PrimaryExpression {$recv _FunctionCall }*
 _FunctionCall             = $({ "(" _ArgumentExpressionList? ")" #List }) #Apply
@@ -98,16 +95,18 @@ PrimaryExpression         = Constant
                           / Name
 
 //Literal
-Constant                  = CInteger
-                          / CBoolean
-                          / CString
+Constant                  = IntegerLiteral
+                          / BooleanLiteral
+                          / StringLiteral
+                          / NullLiteral
 
-CInteger                  = { DECIMAL #Integer } _
+IntegerLiteral            = { DECIMAL #Integer } _
 DECIMAL                   = [1-9] DIGIT* / '0'
-CBoolean                  = "true" { #True } _
+BooleanLiteral            = "true" { #True } _
                           / "false" { #False } _
-CString                   = '"' { STRING_CONTENT* #String } '"' _
+StringLiteral             = '"' { STRING_CONTENT* #String } '"' _
 STRING_CONTENT            = ![\"\n\\] .
+NullLiteral               = 'null' { #Null} _
 
 
 example Constant 1
