@@ -7,7 +7,7 @@ EOT                       = !.
 Name                      = { NAME #Name } _
 NAME                      = !DIGIT !( KEYWORD !W ) W+
 DIGIT                     = [0-9]
-W                         = [a-zA-Z0-9_]
+W                         = [a-zA-Z0-9_$]
 TopLevel                  = Declaration
                           / { #Empty } ";"
 KEYWORD                   = 'else'
@@ -26,9 +26,9 @@ int fib(int n) {
 ImportDeclaration         = "import" { $(Name ('.' Name)*) #ImportDecl}
 Declaration               = MethodDeclaration
                           / VariableDeclaration
-MethodDeclaration       = { $type(Type) _ $name(Name) _ "(" $list(FunctionParamList) ")" (_ $body(Block) / _ ";") #MethodDecl }
+MethodDeclaration       = { $type(Type) _ $name(Name) _ "(" $list(MethodParamList) ")" (_ $body(Block) / _ ";") #MethodDecl }
                           / { $type(Type) _ $(Block) #MethodDecl }
-MethodParamList           = { ( $(FunctionParam) ( "," $(FunctionParam) )* )? ( "," "..." )? #List }
+MethodParamList           = { ( $(MethodParam) ( "," $(MethodParam) )* )? ( "," "..." )? #List }
 MethodParam               = { $type(Type) _ $name(Name)? #Param } _
 VariableDeclaration       = { $type(Type) _ $list(VariableList) ";" #Declaration }
 VariableList              = { $(InitDecl) ( "," $(InitDecl) )*  #VarList}
@@ -44,7 +44,7 @@ example VariableDeclaration ~4bd8c5 int a=0,b=1,c=2;
 // Type
 Type                      = PrimitiveType
                           / ReferenceType
-PrimaryType               = { "int" #TInt }
+PrimitiveType             = { "int" #TInt }
                           / { "boolean" #TBoolean }
                           / { "long" #TLong}
                           / { "string" #TString }
@@ -146,7 +146,8 @@ example Constant 1
 "return"                  = 'return' !W
 "false"                   = 'false' !W
 "true"                    = 'true' !W
-
+"import"                  = 'import' !W
+"long"                    = 'long' !W
 
 
 
