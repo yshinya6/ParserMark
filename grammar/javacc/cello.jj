@@ -1,16 +1,59 @@
 options {
-  JAVA_UNICODE_ESCAPE = true;
-  ERROR_REPORTING = false;
-  STATIC = false;
-  COMMON_TOKEN_ACTION = false;
-  TOKEN_FACTORY = "MyToken";
-  JDK_VERSION = "1.5";
+  JDK_VERSION = "1.8";
 }
 
-PARSER_BEGIN(JavaParser)
+PARSER_BEGIN(CelloParser)
 
 import java.io.*;
 
+/**
+ * Grammar to parse Java version 1.5
+ * @author Sreenivasa Viswanadha - Simplified and enhanced for 1.5
+ */
+public class CelloParser
+{
+   public CelloParser(String fileName)
+   {
+      this(System.in);
+      try { ReInit(new FileInputStream(new File(fileName))); }
+      catch(Exception e) { e.printStackTrace(); }
+   }
+
+  public static void main(String args[]) {
+    CelloParser parser;
+    if (args.length == 0) {
+      System.out.println("Java Parser Version 1.1:  Reading from standard input . . .");
+      parser = new CelloParser(System.in);
+    } else if (args.length == 1) {
+      System.out.println("Java Parser Version 1.1:  Reading from file " + args[0] + " . . .");
+      try {
+        parser = new CelloParser(new java.io.FileInputStream(args[0]));
+      } catch (java.io.FileNotFoundException e) {
+        System.out.println("Java Parser Version 1.1:  File " + args[0] + " not found.");
+        return;
+      }
+    } else {
+      System.out.println("Java Parser Version 1.1:  Usage is one of:");
+      System.out.println("         java CelloParser < inputfile");
+      System.out.println("OR");
+      System.out.println("         java CelloParser inputfile");
+      return;
+    }
+    try {
+      parser.File();
+      System.out.println("Java Parser Version 1.1:  Java program parsed successfully.");
+    } catch (ParseException e) {
+      System.out.println(e.getMessage());
+      System.out.println("Java Parser Version 1.1:  Encountered errors during parse.");
+    }
+  }
+
+}
+
+PARSER_END(CelloParser)
+
+
+// Lexer Rule
 /* WHITE SPACE */
 
 SKIP :
@@ -54,110 +97,301 @@ MORE :
   < ~[] >
 }
 
+TOKEN :
+{
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+}
+
+/* OPERATORS */
+
+TOKEN :
+{
+  < ASSIGN: "=" >
+| < LT: "<" >
+| < GT: ">" >
+| < BANG: "!" >
+| < EQ: "==" >
+| < NE: "!=" >
+| < SC_OR: "||" >
+| < SC_AND: "&&" >
+| < ELLIPSIS: "..." >
+}
+
 /* RESERVED WORDS AND LITERALS */
 
 TOKEN :
 {
-  < ABSTRACT: "abstract" >
-| < ASSERT: "assert" >
-| < BOOLEAN: "boolean" >
-| < BREAK: "break" >
-| < BYTE: "byte" >
-| < CASE: "case" >
-| < CATCH: "catch" >
-| < CHAR: "char" >
-| < CLASS: "class" >
-| < CONST: "const" >
-| < CONTINUE: "continue" >
-| < _DEFAULT: "default" >
-| < DO: "do" >
-| < DOUBLE: "double" >
+  < BOOLEAN: "boolean" >
 | < ELSE: "else" >
-| < ENUM: "enum" >
-| < EXTENDS: "extends" >
-| < FALSE: "false" >
-| < FINAL: "final" >
-| < FINALLY: "finally" >
-| < FLOAT: "float" >
 | < FOR: "for" >
-| < GOTO: "goto" >
+| < FALSE: "false" >
 | < IF: "if" >
-| < IMPLEMENTS: "implements" >
 | < IMPORT: "import" >
-| < INSTANCEOF: "instanceof" >
 | < INT: "int" >
-| < INTERFACE: "interface" >
 | < LONG: "long" >
-| < NATIVE: "native" >
-| < NEW: "new" >
 | < NULL: "null" >
-| < PACKAGE: "package">
-| < PRIVATE: "private" >
-| < PROTECTED: "protected" >
-| < PUBLIC: "public" >
 | < RETURN: "return" >
-| < SHORT: "short" >
-| < STATIC: "static" >
-| < STRICTFP: "strictfp" >
-| < SUPER: "super" >
-| < SWITCH: "switch" >
-| < SYNCHRONIZED: "synchronized" >
-| < THIS: "this" >
-| < THROW: "throw" >
-| < THROWS: "throws" >
-| < TRANSIENT: "transient" >
 | < TRUE: "true" >
-| < TRY: "try" >
-| < VOID: "void" >
-| < VOLATILE: "volatile" >
-| < WHILE: "while" >
 }
 
-/*expression*/
-Token:
+/* LITERALS */
+
+TOKEN :
 {
- <EXPRESSION:
-     <ASSIGNMENT_EXPRESSION> (","<ASSIGNMENT_EXPRESSION>)*
+  < INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < STRING_LITERAL:
+      "\""
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )*
+      "\""
+  >
+| < NAME: <LETTER> (<PART_LETTER>)* >
+| < #LETTER:
+      [  "$","A"-"Z","_","a"-"z"]
+  >
+|
+  < #PART_LETTER:
+      [
+         "$",
+         "0"-"9",
+         "A"-"Z",
+         "_",
+         "a"-"z"
+      ]
+  >
+}
+
+/* TYPE */
+TOKEN:
+{
+  <TYPE:
+      <PRIMITIVE_TYPE>
+     |<REFERENCE_TYPE>
      >
      |
-       <#ASSIGNMENT_EXPRESSION:
-       <UNARY_EXPRESSION> 
+      <#PRIMITIVE_TYPE:
+         "int"
+         |"boolean"
+         |"long"
+         |"string"
+         >
+     |
+      <#REFERENCE_TYPE:
+        <NAME>
+        >
+}
+
+
+// Parsing Rule
+void File():
+{}
+{
+ (ImportDeclaration())* (TopLevel())+
+}
+
+void ImportDeclaration():
+{}
+{
+ "import" <NAME> ("." <NAME>)*
+}
+
+void TopLevel():
+{}
+{
+ Declaration()
+}
+
+/*declaration*/
+void Declaration():
+{}
+{
+  LOOKAHEAD(3)
+      MethodDeclaration()
+    | VariableDeclaration()
+}
+
+void MethodDeclaration():
+{}
+{
+ LOOKAHEAD(2)
+ (<TYPE> <NAME> "(" (MethodParamList())? ")" (Block() | ";"))
+ |
+  <TYPE> Block()
+}
+
+void MethodParamList():
+{}
+{
+ MethodParam() ("," MethodParam())*
+}
+
+void MethodParam():
+{}
+{
+ <TYPE> (<NAME>)?
+}
+
+void VariableDeclaration():
+{}
+{
+ <TYPE> VariableList() ";"
+}
+
+void VariableList():
+{}
+{
+ InitDecl() (","InitDecl())*
+}
+
+void InitDecl():
+{}
+{
+ <NAME> ("=" AssignmentExpression())?
 }
 
 
 
-
-
-
-/*literal*/
-Token:
+/*block,statement*/
+void Block():
+{}
 {
-    <CONSTANT:
-    <INTEGER_LITERAL>
-    |<BOOLEAN_LITERAL>
-    |<STRING_LITERAL>
-    |<NULL_LITERAL>
-    >
-  |
-   <#INTEGER_LITERAL:
-    <DECIMAL>
-    >
-    <#DECIMAL:["1"-"9"](["0"-"9"])*>
-  |
-   <BOOLEAN_LITERAL:
-     <TRUE>
-    |<FALSE>
-    >
-  |
-   <STRING_LITERAL:
-    ""(<STRING_CONTENT>)*""
-    >
-    <#STRING_CONTENT:
+  "{" (Statement() | Declaration())* "}"
+}
 
-    >
-  |
-   <NULL_LITERAL:
-     <NULL>
-     >
+void Statement():
+{}
+{
+  Block()
+  | "if" "(" Expression() ")" Block() ("else" Block())?
+  | "return" (Expression())? ";"
+  | Expression() ";"
+  | ";"
+}
 
+
+/*expression*/
+void Expression():
+{}
+{
+ AssignmentExpression() ("," AssignmentExpression())*
+}
+
+void AssignmentExpression():
+{}
+{
+  LOOKAHEAD(3) 
+  (UnaryExpression() "=" AssignmentExpression())
+ |ConditionalExpression()
+}
+
+void ConditionalExpression():
+{}
+{
+ EqualityExpression() (("||"|"&") EqualityExpression())*
+}
+
+void EqualityExpression():
+{}
+{
+ RelationalExpression() (("=="|"!=") RelationalExpression())*
+}
+
+void RelationalExpression():
+{}
+{
+ UnaryExpression() ("<" UnaryExpression())*
+}
+
+void UnaryExpression():
+{}
+{
+ PostfixExpression()
+ |"!" UnaryExpression()
+}
+
+void PostfixExpression():
+{}
+{
+ PrimaryExpression() (FunctionCall())*
+}
+
+void FunctionCall():
+{}
+{
+ "(" (ArgumentExpressionList())? ")"
+}
+
+void ArgumentExpressionList():
+{}
+{
+ AssignmentExpression() ("," AssignmentExpression())*
+
+}
+
+void PrimaryExpression():
+{}
+{
+  Constant()
+ |"("Expression()")"
+ | ExpressionName()
+}
+
+void Constant():
+{}
+{
+  IntegerLiteral()
+ |BooleanLiteral()
+ |StringLiteral()
+ |NullLiteral()
+}
+
+void ExpressionName():
+{}
+{
+  <NAME>
+}
+
+
+void IntegerLiteral():
+{}
+{
+  <INTEGER_LITERAL>
+}
+
+void BooleanLiteral():
+{}
+{
+   "true"
+  |"false"
+}
+
+void StringLiteral():
+{}
+{
+  <STRING_LITERAL>
+}
+
+void NullLiteral():
+{}
+{
+  "null"
 }
