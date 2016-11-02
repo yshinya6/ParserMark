@@ -6,13 +6,21 @@
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->default(compile)]
 [info] Resolving org.scala-lang#scala-library;2.12.0 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@150cbdb3
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@621036ca
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.12.0
 [debug] 	found org.scala-lang#scala-library;2.12.0 in sbt-chain
 [debug] 	[2.12.0] org.scala-lang#scala-library;2.12.0
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->default(compile)]
+[info] Resolving org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 ...
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@66dc9f9d
+[debug] sbt-chain: module revision found in cache: org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4
+[debug] 	found org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 in sbt-chain
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->master]
 [debug] resolving dependencies for configuration 'runtime'
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [runtime]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [compile]
@@ -20,10 +28,18 @@
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->master]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->master]
 [debug] resolving dependencies for configuration 'test'
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [test]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [runtime]
@@ -32,14 +48,26 @@
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->master]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->master]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test->master]
 [debug] resolving dependencies for configuration 'provided'
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [provided]
 [debug] resolving dependencies for configuration 'optional'
@@ -51,12 +79,20 @@
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->master]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [optional]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [provided]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile-internal->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile-internal->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile-internal->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile-internal->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile-internal->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile-internal->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile-internal->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile-internal->master]
 [debug] resolving dependencies for configuration 'runtime-internal'
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [runtime-internal]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [runtime]
@@ -65,15 +101,27 @@
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->master]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->master]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [optional]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime-internal->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime-internal->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime-internal->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime-internal->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime-internal->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime-internal->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime-internal->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime-internal->master]
 [debug] resolving dependencies for configuration 'test-internal'
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [test-internal]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [test]
@@ -83,20 +131,36 @@
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->master]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [runtime->master]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test->master]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [optional]
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [provided]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test-internal->default(compile)]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test-internal->runtime]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test-internal->compile]
 [debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test-internal->master]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test-internal->default(compile)]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test-internal->runtime]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test-internal->compile]
+[debug] == resolving dependencies default#scala$sources_javadoc_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [test-internal->master]
 [debug] resolving dependencies for configuration 'plugin'
 [debug] == resolving dependencies for default#scala$sources_javadoc_2.12;1.0 [plugin]
 [debug] resolving dependencies for configuration 'sources'
@@ -150,6 +214,27 @@
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.0!scala-library.jar
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.0!scala-library.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.0!scala-library.jar(doc)
+[debug] 		tried /Users/ryo/.ivy2/local/org.scala-lang.modules/scala-parser-combinators_2.12/1.0.4/docs/scala-parser-combinators_2.12-javadoc.jar
+[debug] 		tried /Users/ryo/.ivy2/local/org.scala-lang.modules/scala-parser-combinators_2.12/1.0.4/srcs/scala-parser-combinators_2.12-sources.jar
+[debug] 		tried /Users/ryo/.ivy2/local/org.scala-lang.modules/scala-parser-combinators_2.12/1.0.4/jars/scala-parser-combinators_2.12.jar
+[debug] 		tried https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-javadoc.jar
+[info] downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-javadoc.jar ...
+[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-javadoc.jar
+[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-javadoc.jar.sha1
+[debug] sha1 OK for https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-javadoc.jar
+[info] 	[SUCCESSFUL ] org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4!scala-parser-combinators_2.12.jar(doc) (5913ms)
+[debug] 		tried https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-sources.jar
+[info] downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-sources.jar ...
+[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-sources.jar
+[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-sources.jar.sha1
+[debug] sha1 OK for https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-sources.jar
+[info] 	[SUCCESSFUL ] org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4!scala-parser-combinators_2.12.jar(src) (1049ms)
+[debug] 		tried https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar
+[info] downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar ...
+[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar
+[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar.sha1
+[debug] sha1 OK for https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar
+[info] 	[SUCCESSFUL ] org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4!scala-parser-combinators_2.12.jar (928ms)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.0!scala-compiler.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.0!scala-compiler.jar(doc)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.0!scala-reflect.jar(doc)
@@ -158,7 +243,7 @@
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.5!scala-xml_2.12.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.1!jline.jar(doc)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.1!jline.jar(src)
-[debug] :: resolution report :: resolve 29ms :: artifacts dl 12ms
+[debug] :: resolution report :: resolve 62ms :: artifacts dl 7930ms
 [debug] 	report for default#scala$sources_javadoc_2.12;1.0 compile produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala$sources_javadoc_2.12-compile.xml
 [debug] 	report for default#scala$sources_javadoc_2.12;1.0 runtime produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala$sources_javadoc_2.12-runtime.xml
 [debug] 	report for default#scala$sources_javadoc_2.12;1.0 test produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala$sources_javadoc_2.12-test.xml
@@ -172,4 +257,4 @@
 [debug] 	report for default#scala$sources_javadoc_2.12;1.0 docs produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala$sources_javadoc_2.12-docs.xml
 [debug] 	report for default#scala$sources_javadoc_2.12;1.0 pom produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala$sources_javadoc_2.12-pom.xml
 [debug] 	report for default#scala$sources_javadoc_2.12;1.0 scala-tool produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala$sources_javadoc_2.12-scala-tool.xml
-[debug] 	resolve done (29ms resolve - 12ms download)
+[debug] 	resolve done (62ms resolve - 7930ms download)

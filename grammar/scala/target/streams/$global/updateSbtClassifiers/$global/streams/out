@@ -10,7 +10,6 @@
 [debug] == resolving dependencies default#scala$sbt_2.12;1.0->org.scala-sbt#sbt;0.13.8 [default->default(compile)]
 [info] Resolving org.scala-sbt#sbt;0.13.8 ...
 [debug] sbt-chain: Checking cache for: dependency: org.scala-sbt#sbt;0.13.8 {default=[default(compile)]}
-[debug] no default cache defined: set to /Users/ryo/.ivy2/cache
 [debug] sbt-chain: module revision found in cache: org.scala-sbt#sbt;0.13.8
 [debug] 	found org.scala-sbt#sbt;0.13.8 in sbt-chain
 [debug] == resolving dependencies org.scala-sbt#sbt;0.13.8->org.scala-lang#scala-library;2.10.4 [compile->default(compile)]
@@ -704,9 +703,9 @@
 [debug] 	[NOT REQUIRED] org.scala-sbt#test-agent;0.13.8!test-agent.jar
 [debug] 	[NOT REQUIRED] org.scala-sbt#test-interface;1.0!test-interface.jar
 [debug] 	[NOT REQUIRED] org.scala-sbt#apply-macro;0.13.8!apply-macro.jar
-[debug] :: resolution report :: resolve 588ms :: artifacts dl 36ms
+[debug] :: resolution report :: resolve 1078ms :: artifacts dl 50ms
 [debug] 	report for default#scala$sbt_2.12;1.0 default produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala$sbt_2.12-default.xml
-[debug] 	resolve done (588ms resolve - 36ms download)
+[debug] 	resolve done (1078ms resolve - 50ms download)
 [debug] Using inline dependencies specified in Scala.
 [debug] :: resolving dependencies :: default#scala$sources_2.12;1.0
 [debug] 	confs: [default]
@@ -1070,6 +1069,6 @@
 [debug] 	[NOT REQUIRED] org.scala-sbt#precompiled-2_8_2;0.13.8!precompiled-2_8_2.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-sbt#precompiled-2_9_2;0.13.8!precompiled-2_9_2.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-sbt#precompiled-2_9_3;0.13.8!precompiled-2_9_3.jar(src)
-[debug] :: resolution report :: resolve 181ms :: artifacts dl 42ms
+[debug] :: resolution report :: resolve 231ms :: artifacts dl 58ms
 [debug] 	report for default#scala$sources_2.12;1.0 default produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala$sources_2.12-default.xml
-[debug] 	resolve done (181ms resolve - 42ms download)
+[debug] 	resolve done (231ms resolve - 58ms download)

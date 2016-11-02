@@ -4,7 +4,7 @@
 		module="scala_2.12"
 		revision="1.0"
 		status="integration"
-		publication="20161101175118"
+		publication="20161102143456"
 	>
 		<description>
 		scala
@@ -34,5 +34,6 @@
 	<dependencies>
 		<dependency org="org.scala-lang" name="scala-compiler" rev="2.12.0" conf="scala-tool->default,optional(default)"/>
 		<dependency org="org.scala-lang" name="scala-library" rev="2.12.0" conf="scala-tool->default,optional(default);compile->default(compile)"/>
+		<dependency org="org.scala-lang.modules" name="scala-parser-combinators_2.12" rev="1.0.4" conf="compile->default(compile)"/>
 	</dependencies>
 </ivy-module>
