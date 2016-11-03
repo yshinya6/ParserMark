@@ -1,5 +1,10 @@
 module Main where
 
 import CelloParser
+import Control.Monad
+import Text.Parsec
+import Data.Char
 
-main = print "test Parse Code"
+main = do
+  l <- getContents
+  parseTest programParser l

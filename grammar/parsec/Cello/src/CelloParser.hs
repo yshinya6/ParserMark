@@ -9,10 +9,7 @@ import Text.Parsec.Language
 
 
 {-setup reserved token-}
-def = emptyDef{ commentStart = "/*"
-              , commentEnd = "*/"
-              , commentLine = "//"
-              , identStart = letter
+def = javaStyle{ identStart = letter
               , identLetter = alphaNum
               , opStart = oneOf "=.:/%<>!^|&;+-*"
               , opLetter = oneOf "=.:/%<>^|&;+-*!"
@@ -20,8 +17,8 @@ def = emptyDef{ commentStart = "/*"
                                    ">", "==", "!=", "&&", "||",
                                    ";", "++", "--", "&", "+", "-",
                                    "*", "!"]
-              , reservedNames = ["string", "int", "long", "boolean"
-                                 "if", "for", "else", "return"
+              , reservedNames = ["string", "int", "long", "boolean",
+                                 "if", "for", "else", "return",
                                  "false", "true", "import", "null"]
               }
 
@@ -30,6 +27,7 @@ tokenParser = makeTokenParser def
 
 {-parser units for Cello-}
 celloParens = parens tokenParser
+celloBraces = braces tokenParser
 celloIdentifier = identifier tokenParser
 celloReservedOp = reservedOp tokenParser
 celloReserved = reserved tokenParser
@@ -38,41 +36,125 @@ celloWhiteSpace = whiteSpace tokenParser
 celloCommaSep = commaSep tokenParser
 celloSemiColon = semi tokenParser
 
-{-Cello Parser in Nez Like Fassion-}
-celloFile :: Parser String
-celloFile = celloWhiteSpace >> celloImportDecl >> many celloImportDecl >> many (try celloToplevel <|> (celloWhiteSpace >> return []))
+{-expression Parser-}
+exprparser :: Parser String
+exprparser = buildExpressionParser table term <?> "expression"
 
-celloImportDecl :: Parser String
-celloImportDecl = celloReserved "import" >> celloIdentifier >> many (char '.' >> celloIdentifier)
+table = [ [Prefix (do
+                    funcname <- celloIdentifier
+                    return ((++) funcname)) ]
+        , [Prefix (celloReservedOp "!" >> return ((:) '!')) ]
+        , [Infix (celloReservedOp "<" >> return (midleCons "<")) AssocLeft]
+        , [Infix (celloReservedOp "==" >> return (midleCons "==")) AssocLeft]
+        , [Infix (celloReservedOp "!=" >> return (midleCons "!=")) AssocLeft]
+        , [Infix (celloReservedOp "&&" >> return (midleCons "&&")) AssocLeft]
+        , [Infix (celloReservedOp "=" >> return (midleCons "=")) AssocLeft]
+        ]
+        where
+          midleCons :: String -> String -> String -> String
+          midleCons op x y = x ++ op ++ y
 
-celloToplevel :: Parser String
-celloToplevel = try celloDecl
-             <|> string ";"
+term = celloParens exprparser
+    <|> (celloIdentifier >>= (\n -> return n))
+    <|> (celloReserved "true" >> return "true")
+    <|> (celloReserved "false" >> return "false")
 
-celloDecl :: Parser String
-celloDecl = try celloMeathodDecl
-         <|> celloVarDecl
+{-Program Parser-}
+programParser :: Parser String
+programParser =  endBy topLevelParser eof >>= (return . concat)
 
-celloMeathodDecl :: Parser String
-celloMeathodDecl = celloType >> celloWhiteSpace >> celloIdentifier >> celloParens cellMPList >> celloWhiteSpace
-                 >> (try celloBlock <|> string ";")
+topLevelParser :: Parser String
+topLevelParser = do
+  imdecls <- many importDeclarationparser
+  decl <- declarationParser
+  return $ (concat imdecls) ++ decl
 
-celloType = try celloPremitiveType <|> celloRefType <?> "type"
+importDeclarationparser :: Parser String
+importDeclarationparser = do
+  celloReserved "import"
+  packageName <- concat <$> sepBy (celloIdentifier <|> string "*") (char '.')
+  endSymbol <- celloSemiColon
+  return $ "import" ++ packageName ++ endSymbol
 
-celloPremitiveType = celloReserved "string"
-                  <|> celloReserved "int"
-                  <|> celloReserved "long"
-                  <|> celloReserved "boolean"
+declarationParser :: Parser String
+declarationParser = (functionDeclarationParser <|> variableDeclarationParser)
 
-celloRefType = celloIdentifier
+functionDeclarationParser :: Parser String
+functionDeclarationParser = do
+  typesParser
+  name <- celloIdentifier
+  fplist <- celloParens (optional fpListParser)
+  block <- blockParser
+  return $ concat [name, show fplist, block]
+  <|> do
+    typesParser
+    name <- celloIdentifier
+    fplist <- celloParens (optional fpListParser)
+    endsim <- celloSemiColon
+    return $ concat [name, show fplist, endsim]
+  <|> do
+    typesParser
+    block <- blockParser
+    return block
 
-cellMPList =  optional (celloCommaSep cellMP) >> optional (string ",..." )
+typesParser = celloReserved "string"
+           <|> celloReserved "int"
+           <|> celloReserved "long"
+           <|> celloReserved "boolean"
+           <?> "types"
+
+fpListParser :: Parser String
+fpListParser = do
+  fp <- sepBy fParam (char ',')
+  return $ concat fp
+                where
+                  fParam = do
+                    typesParser
+                    name <- optional celloIdentifier
+                    return $ "types" ++ (show name)
+
+blockParser :: Parser String
+blockParser = do
+  innar <- celloBraces (many blockinnar)
+  return $ concat $ concat innar
+                where
+                  blockinnar = return <$> (stmtparser <|> declarationParser)
+
+stmtparser :: Parser String
+stmtparser = blockParser
+          <|> ifstmt
+          <|> returnstmt
+          <|> expstmt
+            where
+              ifstmt = do -- if
+                celloReserved "if"
+                expr <- celloParens (exprparser)
+                blc <- blockParser
+                return $ concat ["if", expr, blc]
+              returnstmt = do -- return
+                celloReserved "return"
+                expr <- optional exprparser
+                char ';'
+                return $ concat ["if",show expr, ";"]
+              expstmt = do -- expStmt
+                expr <- exprparser
+                char ';'
+                return $ expr ++ ";"
+
+variableDeclarationParser :: Parser String
+variableDeclarationParser = do
+  typesParser
+  variableList <- sepBy1 initDecl (char ',')
+  char ';'
+  return $ concat variableList ++ ";"
+
+initDecl :: Parser String
+initDecl = do
+  name <- celloIdentifier
+  initialer <- optional initializer
+  return $ name ++ show initialer
   where
-    cellMP = celloType >> celloWhiteSpace >> optional celloIdentifier
-
-celloBlock = celloIdentifier -- fixme
-
-celloVarDecl =  celloType >> celloWhiteSpace >> valList >> celloSemiColon
-  where
-    valList = celloCommaSep iniDecl
-    iniDecl = celloIdentifier -- fixme
+    initializer = do
+      celloReservedOp "="
+      ini <- exprparser
+      return $ '=':ini
