@@ -21,7 +21,7 @@ object CelloParser extends RegexParsers {
   def IfStatement = ( IF ~ '(' ~ Expression ~ ')' ~ Block ) | ( IF ~ '(' ~ Expression ~ ')' ~ Block ~ ELSE ~ Block )
   def ReturnStatement = ( RETURN ~ ';' ) | ( RETURN ~ Expression ~ ';' )
   def ExpressionStatement = Expression ~ ';'
-  def VariableDeclaration = Type ~ VariableList ';'
+  def VariableDeclaration = Type ~ VariableList　';'
   def VariableList = InitDecl ~ ( ',' ~ InitDecl ).*
   def InitDecl = NAME | ( NAME ~ '=' ~ Initializer )
   def Initializer = AssignmentExpression
@@ -33,10 +33,10 @@ object CelloParser extends RegexParsers {
   def EqualityExpression = RelationalExpression ~ ( ( EQ | NE ) ~ RelationalExpression ).*
   def RelationalExpression = UnaryExpression ~ (( '<' | '>' ) ~ UnaryExpression ).*
   def UnaryExpression = '!'.* ~ PostfixExpression
-  def PostfixExpression = PrimaryExpression | ( PrimaryExpression ~ FunctionCall )
+  def PostfixExpression = ( PrimaryExpression ~ FunctionCall ) | PrimaryExpression
   def FunctionCall = ( '(' ~ ArgumentExpressionList ~ ')' ) | ( '(' ~ ')' )
   def ArgumentExpressionList = AssignmentExpression ~ ( ',' ~ AssignmentExpression ).*
-  def PrimaryExpression = Literal | ( '(' ~! Expression ~ ')' )
+  def PrimaryExpression = Literal | ( '(' ~ Expression ~ ')' )
   def QualifiedName = NAME ~ ( '.' ~ NAME ).*
   def Literal = INT | TRUE | FALSE | STRING | NULL_LITERAL | NAME
 
