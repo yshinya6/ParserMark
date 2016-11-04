@@ -3,5 +3,4 @@ import Map
 import Hoge.Fuga.Foo
 
 int main(int a) {
-  return 0;
 }

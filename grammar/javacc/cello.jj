@@ -139,6 +139,7 @@ TOKEN :
 | < LONG: "long" >
 | < NULL: "null" >
 | < RETURN: "return" >
+| < STRING: "string" >
 | < TRUE: "true" >
 }
 
@@ -147,10 +148,13 @@ TOKEN :
 TOKEN :
 {
   < INTEGER_LITERAL:
-        <DECIMAL_LITERAL> (["l","L"])?
+         <DECIMAL_LITERAL> (["l","L"])?
+        |<ZERO> (["l","L"])?
   >
 |
   < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #ZERO: "0">
 |
   < STRING_LITERAL:
       "\""
@@ -181,25 +185,28 @@ TOKEN :
 }
 
 /* TYPE */
-TOKEN:
+void Type():
+{}
 {
-  <TYPE:
-      <PRIMITIVE_TYPE>
-     |<REFERENCE_TYPE>
-     >
-     |
-      <#PRIMITIVE_TYPE:
-         "int"
-         |"boolean"
-         |"long"
-         |"string"
-         >
-     |
-      <#REFERENCE_TYPE:
-        <NAME>
-        >
+ PrimitiveType()
+ |
+ ReferenceType()
 }
 
+void PrimitiveType():
+{}
+{
+ "int"
+ |"boolean"
+ |"long"
+ |"string"
+}
+
+void ReferenceType():
+{}
+{
+ <NAME>
+}
 
 // Parsing Rule
 void File():
@@ -233,9 +240,9 @@ void MethodDeclaration():
 {}
 {
  LOOKAHEAD(2)
- (<TYPE> <NAME> "(" (MethodParamList())? ")" (Block() | ";"))
+ (Type() <NAME> "(" (MethodParamList())? ")" (Block() | ";"))
  |
-  <TYPE> Block()
+  Type() Block()
 }
 
 void MethodParamList():
@@ -247,13 +254,13 @@ void MethodParamList():
 void MethodParam():
 {}
 {
- <TYPE> (<NAME>)?
+  Type() (<NAME>)?
 }
 
 void VariableDeclaration():
 {}
 {
- <TYPE> VariableList() ";"
+ Type() VariableList() ";"
 }
 
 void VariableList():
@@ -274,7 +281,9 @@ void InitDecl():
 void Block():
 {}
 {
-  "{" (Statement() | Declaration())* "}"
+  "{" (LOOKAHEAD(2)
+        Statement()
+      | Declaration())* "}"
 }
 
 void Statement():
@@ -298,15 +307,15 @@ void Expression():
 void AssignmentExpression():
 {}
 {
-  LOOKAHEAD(3) 
-  (UnaryExpression() "=" AssignmentExpression())
- |ConditionalExpression()
+    ConditionalExpression()
+  [ LOOKAHEAD(2) "=" AssignmentExpression() ]
+
 }
 
 void ConditionalExpression():
 {}
 {
- EqualityExpression() (("||"|"&") EqualityExpression())*
+ EqualityExpression() (("||"|"&&") EqualityExpression())*
 }
 
 void EqualityExpression():
@@ -331,13 +340,13 @@ void UnaryExpression():
 void PostfixExpression():
 {}
 {
- PrimaryExpression() (FunctionCall())*
+ PrimaryExpression() ( LOOKAHEAD(2) FunctionCall())*
 }
 
 void FunctionCall():
 {}
 {
- "(" (ArgumentExpressionList())? ")"
+ "(" [ArgumentExpressionList()] ")"
 }
 
 void ArgumentExpressionList():
@@ -354,6 +363,8 @@ void PrimaryExpression():
  |"("Expression()")"
  | ExpressionName()
 }
+
+
 
 void Constant():
 {}
