@@ -36,7 +36,7 @@ object CelloParser extends RegexParsers {
   def PostfixExpression = PrimaryExpression | ( PrimaryExpression ~ FunctionCall )
   def FunctionCall = ( '(' ~ ArgumentExpressionList ~ ')' ) | ( '(' ~ ')' )
   def ArgumentExpressionList = AssignmentExpression ~ ( ',' ~ AssignmentExpression ).*
-  def PrimaryExpression = Literal | ( '(' ~ Expression ~ ')' )
+  def PrimaryExpression = Literal | ( '(' ~! Expression ~ ')' )
   def QualifiedName = NAME ~ ( '.' ~ NAME ).*
   def Literal = INT | TRUE | FALSE | STRING | NULL_LITERAL | NAME
 
