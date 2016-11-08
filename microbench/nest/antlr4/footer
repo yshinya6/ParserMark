@@ -1,0 +1,26 @@
+			ParseTree tree = parser.n_97();
+      long t2 = System.nanoTime();
+
+      if ((t2 - t1) < fastest || fastest == 0) {
+        fastest = (t2 - t1);
+      }
+      int errors = parser.getNumberOfSyntaxErrors();
+      if (errors >= 1) {
+        System.out.println(String.format("%s ERROR",filePath));
+        failed = true;
+        break;
+      }
+    }
+		double result = fastest / 1000000;
+		System.out.println(String.format("%s %s", filePath, result));
+		FileWriter fw = new FileWriter("parseTime.txt", false);
+		PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
+		if (!failed) {
+			pw.println(fastest);
+		} else {
+			pw.println("ERROR");
+		}
+		pw.close();
+	}
+
+}
