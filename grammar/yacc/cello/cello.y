@@ -18,10 +18,12 @@ return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 %}
 
 %start Program
-%token VAR_LEN_PARAM EQ NE AND OR INC DEC
-%token STRING_TYPE INT_TYPE BOOLEAN_TYPE LONG_TYPE
+%token VAR_LEN_PARAM EQ NE AND OR INC DEC GTEQ LTEQ
+%token INT_TYPE BOOLEAN_TYPE LONG_TYPE
 %token IF FOR ELSE RETURN FALSE TRUE IMPORT
 %token INT STRING NAME EOF_SYMBOL NULL_LITERAL
+%token IF0 IF1 IF2 IF3 IF4 IF5 IF6 IF7 IF8 IF9 IFA IFB IFC IFD IFE DUMMY1 DUMMY2
+%token AADD ASUB AMUL ADIV AMOD ALEFTSHIFT ARIGHTSHIFT ALOGICALRIGHTSHIFT ABITAND ABITXOR ABITOR
 
 %%
 
@@ -33,7 +35,6 @@ Program
 TopLevel
   : ImportDeclarations Declaration
   | Declaration
-  | ';'
   ;
 
 ImportDeclarations
@@ -41,7 +42,7 @@ ImportDeclarations
   | ImportDeclarations ImportDeclaration
   ;
 ImportDeclaration
-  : IMPORT PackageName ';'
+  : IMPORT PackageName
   ;
 PackageName
   : QualifiedName '.' '*'
@@ -51,14 +52,21 @@ PackageName
 Declaration
   : FunctionDeclaration
   | VariableDeclaration
+  | Dummy1Declaration
+  | Dummy2Declaration
+  ;
+
+Dummy1Declaration
+  : DUMMY1 VariableList ';'
+  ;
+
+Dummy2Declaration
+  : DUMMY2 VariableList ';'
   ;
 
 FunctionDeclaration
   : Type NAME '(' FunctionParamList ')' Block
-  | Type NAME '(' FunctionParamList ')' ';'
   | Type NAME '(' ')' Block
-  | Type NAME '(' ')' ';'
-  | Type Block
   ;
 
 FunctionParamList
@@ -87,14 +95,93 @@ BlockInner
 Statement
   : Block
   | IfStatement
+  | If0Statement
+  | If1Statement
+  | If2Statement
+  | If3Statement
+  | If4Statement
+  | If5Statement
+  | If6Statement
+  | If7Statement
+  | If8Statement
+  | If9Statement
+  | IfAStatement
+  | IfBStatement
+  | IfCStatement
+  | IfDStatement
+  | IfEStatement
   | ReturnStatement
   | ExpressionStatement
-  | ';'
   ;
 
 IfStatement
   : IF '(' Expression ')' Block
   | IF '(' Expression ')' Block ELSE Block
+  ;
+
+If0Statement
+  : IF0 '(' Expression ')' Block
+  | IF0 '(' Expression ')' Block ELSE Block
+  ;
+If1Statement
+  : IF1 '(' Expression ')' Block
+  | IF1 '(' Expression ')' Block ELSE Block
+  ;
+If2Statement
+  : IF2 '(' Expression ')' Block
+  | IF2 '(' Expression ')' Block ELSE Block
+  ;
+If3Statement
+  : IF3 '(' Expression ')' Block
+  | IF3 '(' Expression ')' Block ELSE Block
+  ;
+If4Statement
+  : IF4 '(' Expression ')' Block
+  | IF4 '(' Expression ')' Block ELSE Block
+  ;
+If5Statement
+  : IF5 '(' Expression ')' Block
+  | IF5 '(' Expression ')' Block ELSE Block
+  ;
+If6Statement
+  : IF6 '(' Expression ')' Block
+  | IF6 '(' Expression ')' Block ELSE Block
+  ;
+If7Statement
+  : IF7 '(' Expression ')' Block
+  | IF7 '(' Expression ')' Block ELSE Block
+  ;
+If8Statement
+  : IF8 '(' Expression ')' Block
+  | IF8 '(' Expression ')' Block ELSE Block
+  ;
+If9Statement
+  : IF9 '(' Expression ')' Block
+  | IF9 '(' Expression ')' Block ELSE Block
+  ;
+IfAStatement
+  : IFA '(' Expression ')' Block
+  | IFA '(' Expression ')' Block ELSE Block
+  ;
+
+IfBStatement
+  : IFB '(' Expression ')' Block
+  | IFB '(' Expression ')' Block ELSE Block
+  ;
+
+IfCStatement
+  : IFC '(' Expression ')' Block
+  | IFC '(' Expression ')' Block ELSE Block
+  ;
+
+IfDStatement
+  : IFD '(' Expression ')' Block
+  | IFD '(' Expression ')' Block ELSE Block
+  ;
+
+IfEStatement
+  : IFE '(' Expression ')' Block
+  | IFE '(' Expression ')' Block ELSE Block
   ;
 
 ReturnStatement
@@ -125,10 +212,16 @@ Initializer
 
 // Type
 Type
+  : PrimitiveType
+  | ReferenceType
+  ;
+PrimitiveType
   : INT_TYPE
   | BOOLEAN_TYPE
-  | STRING_TYPE
   | LONG_TYPE
+  ;
+ReferenceType
+  : NAME
   ;
 
 Expression
@@ -137,13 +230,33 @@ Expression
   ;
 
 AssignmentExpression
-  : UnaryExpression '=' AssignmentExpression //FIXME
+  : UnaryExpression AssignmentOperator AssignmentExpression //FIXME
   | ConditionalExpression
   ;
 
+AssignmentOperator
+  : '='
+  | AMUL
+  | ADIV
+  | AMOD
+  | AADD
+  | ASUB
+  | ALEFTSHIFT
+  | ARIGHTSHIFT
+  | ALOGICALRIGHTSHIFT
+  | ABITAND
+  | ABITXOR
+  | ABITOR
+  ;
+
 ConditionalExpression
+  : LogicalOrExpression
+  | ConditionalExpression '?' Expression ':' LogicalOrExpression
+  ;
+
+LogicalOrExpression
   : LogicalANDExpression
-  | ConditionalExpression OR LogicalANDExpression
+  | LogicalOrExpression OR LogicalANDExpression
   ;
 
 LogicalANDExpression
@@ -153,14 +266,16 @@ LogicalANDExpression
 
 EqualityExpression
   : RelationalExpression
-  | EqualityExpression  EQ RelationalExpression
-  | EqualityExpression  NE RelationalExpression
+  | EqualityExpression EQ RelationalExpression
+  | EqualityExpression NE RelationalExpression
   ;
 
 RelationalExpression
   : UnaryExpression
   | RelationalExpression '<' UnaryExpression
   | RelationalExpression '>' UnaryExpression
+  | RelationalExpression LTEQ UnaryExpression
+  | RelationalExpression GTEQ UnaryExpression
   ;
 
 UnaryExpression
@@ -186,7 +301,13 @@ ArgumentExpressionList
 PrimaryExpression
   : Literal
   | '(' Expression ')'
+  // | FunctionExpression
   ;
+
+// FunctionExpression
+//   : Type NAME '(' FunctionParamList ')' Block
+//   | Type '(' FunctionParamList ')' Block
+//   ;
 
 QualifiedName
   : NAME

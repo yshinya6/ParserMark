@@ -20,6 +20,17 @@ comment //[^\n]*
 %%
 
 "="         return '=';
+"+="        return AADD;
+"-="        return ASUB;
+"*="        return AMUL;
+"/="        return ADIV;
+"%="        return AMOD;
+"<<="       return ALEFTSHIFT;
+">>="       return ARIGHTSHIFT;
+">>>="      return ALOGICALRIGHTSHIFT;
+"&="        return ABITAND;
+"^="        return ABITXOR;
+"|="        return ABITOR;
 "."         return '.';
 "'"         return '\'';
 "("         return '(';
@@ -34,11 +45,11 @@ comment //[^\n]*
 "/"         return '/';
 "%"         return '%';
 "<"         return '<';
+"<="         return LTEQ;
 ">"         return '>';
+">="         return GTEQ;
 "=="        return EQ;
 "!="        return NE;
-"^"         return '^';
-"|"         return '|';
 "&&"        return AND;
 "||"        return OR;
 ";"         return ';';
@@ -49,11 +60,26 @@ comment //[^\n]*
 "+"         return '+';
 "-"         return '-';
 "!"         return '!';
-"string"    return STRING_TYPE;
+"?"         return '?';
 "int"       return INT_TYPE;
 "long"      return LONG_TYPE;
 "boolean"   return BOOLEAN_TYPE;
 "if"        return IF;
+"if0"        return IF0;
+"if1"        return IF1;
+"if2"        return IF2;
+"if3"        return IF3;
+"if4"        return IF4;
+"if5"        return IF5;
+"if6"        return IF6;
+"if7"        return IF7;
+"if8"        return IF8;
+"if9"        return IF9;
+"ifA"        return IFA;
+"ifB"        return IFB;
+"ifC"        return IFC;
+"ifD"        return IFD;
+"ifE"        return IFE;
 "for"       return FOR;
 "else"      return ELSE;
 "return"    return RETURN;
@@ -61,6 +87,8 @@ comment //[^\n]*
 "true"      return TRUE;
 "null"      return NULL_LITERAL;
 "import"    return IMPORT;
+"dummy1"    return DUMMY1;
+"dummy2"    return DUMMY2;
 
 0|[1-9][0-9]*             { return INT;}
 
