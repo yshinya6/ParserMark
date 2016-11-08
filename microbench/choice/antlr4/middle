@@ -1,0 +1,25 @@
+	public static boolean failed = false;
+
+	public static void main(String args[]) throws Exception {
+
+		if (args.length != 1) {
+			System.err.println("This is a pmark benchmark program for ANTLR4");
+			System.err.println("Usage: <Input>");
+			System.exit(1);
+		}
+		parse(args[0]);
+
+		// System.out.println(tree.toStringTree(parser)); // print LISP-style
+		// tree
+		// System.out.println(parser.compilationUnit().toString()); // begin
+		// parsing at query rule
+
+	}
+
+	public static void parse(String filePath) throws IOException {
+		long fastest = 0;
+		for (int i = 0; i < 10; i++) {
+
+			ANTLRFileStream input = new ANTLRFileStream(filePath);
+
+			long t1 = System.nanoTime();
