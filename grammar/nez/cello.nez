@@ -23,7 +23,7 @@ int fib(int n) {
 '''
 
 // Declaration
-ImportDeclaration         = "import" { $(Name ('.' Name)*) #ImportDecl}
+ImportDeclaration         = "import" { $(Name ('.' Name)*) ";" #ImportDecl}
 Declaration               = MethodDeclaration
                           / VariableDeclaration
 MethodDeclaration       = { $type(Type) _ $name(Name) _ "(" $list(MethodParamList) ")" (_ $body(Block) / _ ";") #MethodDecl }
@@ -81,10 +81,23 @@ Expression                = AssignmentExpression {$ "," $(AssignmentExpression) 
 AssignmentExpression      = { $left(UnaryExpression) _AssignmentOperator $right(AssignmentExpression) }
                           / ConditionalExpression
 _AssignmentOperator       = "=" #Assign
+                          / "*=" #AssignMul
+                          / "/=" #AssignDiv
+                          / "%=" #AssignMod
+                          / "+=" #AssignAdd
+                          / "-=" #AssignSub
+                          / "<<=" #AssignLeftShift
+                          / ">>=" #AssignRightShift
+                          / ">>>=" #AssignLogicalRightShift
+                          / "&=" #AssignBitwiseAnd
+                          / "^=" #AssignBitwiseXOr
+                          / "|=" #AssignBitwiseOr
 ConstantExpression        = ConditionalExpression
-ConditionalExpression     = EqualityExpression {$left ("||" #Or / "&&" #And) $right(EqualityExpression) }*
+ConditionalExpression     = LogicalOrExpression {$cond "?" $then(Expression) ":" $else(LogicalOrExpression) #Conditional }*
+LogicalOrExpression       = LogicalAndExpression {$left "||" $right(LogicalAndExpression) #Or }*
+LogicalAndExpression      = EqualityExpression {$left "&&" $right(EqualityExpression) #And }*
 EqualityExpression        = RelationalExpression {$left ("==" #Equals / "!=" #NotEquals) $right(RelationalExpression) }*
-RelationalExpression      = UnaryExpression {$left "<" #LessThan  $right(UnaryExpression) }*
+RelationalExpression      = UnaryExpression {$left ("<" #LessThan / "<=" #LessThanEquals / ">" #GreaterThan / ">=" #GreaterThanEquals)  $right(UnaryExpression) }*
 UnaryExpression           = PostfixExpression
                           / { "!" $expr(UnaryExpression) #Not }
 PostfixExpression         = PrimaryExpression {$recv _FunctionCall }*
