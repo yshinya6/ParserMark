@@ -4,7 +4,7 @@ S                         = [ \n\r\t\u000B\u000C]
 BLOCKCOMMENT              = '/*' ( !'*/' . )* '*/'
 LINECOMMENT               = '//' ( !'\n' . )*
 EOT                       = !.
-Name                      = { NAME #Name } _
+Identifier                      = { NAME #Name } _
 NAME                      = !DIGIT !( KEYWORD !W ) W+
 DIGIT                     = [0-9]
 W                         = [a-zA-Z0-9_$]
@@ -23,17 +23,20 @@ int fib(int n) {
 '''
 
 // Declaration
-ImportDeclaration         = "import" { $(Name ('.' Name)*) ";" #ImportDecl}
+ImportDeclaration         = "import" { $(Identifier) ('.' $(Identifier))* ";" #ImportDecl}
 Declaration               = MethodDeclaration
                           / VariableDeclaration
-MethodDeclaration       = { $type(Type) _ $name(Name) _ "(" $list(MethodParamList) ")" (_ $body(Block) / _ ";") #MethodDecl }
-                          / { $type(Type) _ $(Block) #MethodDecl }
+                          / Dummy1
+                          / Dummy2
+MethodDeclaration         = { $type(Type) _ $name(Identifier) _ "(" $list(MethodParamList) ")" (_ $body(Block) / _ ";") #MethodDecl }
 MethodParamList           = { ( $(MethodParam) ( "," $(MethodParam) )* )? ( "," "..." )? #List }
-MethodParam               = { $type(Type) _ $name(Name)? #Param } _
+MethodParam               = { $type(Type) _ $name(Identifier)? #Param } _
 VariableDeclaration       = { $type(Type) _ $list(VariableList) ";" #Declaration }
 VariableList              = { $(InitDecl) ( "," $(InitDecl) )*  #VarList}
-InitDecl                  = { $name(Name) ( "=" $expr(Initializer) )? #VarDecl } _
+InitDecl                  = { $name(Identifier) ( "=" $expr(Initializer) )? #VarDecl } _
 Initializer               = AssignmentExpression
+Dummy1                    = "dummy1" { $list(VariableList) #Dummy1} ";"
+Dummy2                    = "dummy2" { $list(VariableList) #Dummy2} ";"
 
 example Declaration int a = 0;
 example VariableDeclaration ~0cf1e0 int a;
@@ -47,12 +50,25 @@ Type                      = PrimitiveType
 PrimitiveType             = { "int" #TInt }
                           / { "boolean" #TBoolean }
                           / { "long" #TLong}
-                          / { "string" #TString }
-ReferenceType             = Name
+ReferenceType             = Identifier
 // Block, Statement
 Block                     = { "{" ( $(Statement) / $(Declaration) / _ )* "}" #Block }
 Statement                 = Block
                           / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If }
+                          / { "if1" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If1 }
+                          / { "if2" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If2 }
+                          / { "if3" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If3 }
+                          / { "if4" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If4 }
+                          / { "if5" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If5 }
+                          / { "if6" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If6 }
+                          / { "if7" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If7 }
+                          / { "if8" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If8 }
+                          / { "if9" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If9 }
+                          / { "ifA" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfA }
+                          / { "ifB" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfB }
+                          / { "ifC" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfC }
+                          / { "ifD" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfD }
+                          / { "ifE" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfE }
                           / { "return" _ $expr(Expression)? ";" #Return }
                           / { $expr(Expression) ";" #ExpressionStatement }
                           / { #Empty } ";"
@@ -105,7 +121,10 @@ _FunctionCall             = $({ "(" _ArgumentExpressionList? ")" #List }) #Apply
 _ArgumentExpressionList   = $(AssignmentExpression) ( "," $(AssignmentExpression) )*
 PrimaryExpression         = Constant
                           / "(" Expression ")"
-                          / Name
+                          / Identifier
+                          / FunctionExpression
+
+FunctionExpression        = { $type(Type) _ $name(Identifier)? _ "(" $list(MethodParamList) ")" $body(Block) #MethodDecl }
 
 //Literal
 Constant                  = IntegerLiteral
@@ -121,10 +140,20 @@ StringLiteral             = '"' { STRING_CONTENT* #String } '"' _
 STRING_CONTENT            = ![\"\n\\] .
 NullLiteral               = 'null' { #Null} _
 
-
 example Constant 1
 
 "="                       = '=' !'=' _
+"*="                      = '*=' _
+"/="                      = '/=' _
+"%="                      = '%=' _
+"+="                      = '+=' _
+"-="                      = '-=' _
+"<<="                     = '<<=' _
+">>="                     = '>>=' _
+">>>="                    = '>>>=' _
+"&="                      = '&=' _
+"^="                      = '^=' _
+"|="                      = '|=' _
 "."                       = '.' _
 "'"                       = '\'' _
 "("                       = '(' _
@@ -138,11 +167,14 @@ example Constant 1
 "/"                       = '/' !'=' _
 "<"                       = '<' ![=] _
 ">"                       = '>' ![=] _
+"<="                      = '<=' ![=] _
+">="                      = '>=' ![=] _
 "=="                      = '==' _
 "!="                      = '!=' _
 "&&"                      = '&&' _
 "||"                      = '||' _
 ";"                       = ';' _
+"?"                       = '?' _
 "}"                       = '}' _
 "++"                      = '++' _
 "--"                      = '--' _
@@ -150,7 +182,6 @@ example Constant 1
 "-"                       = '-' !( '-' / [=>] ) _
 "*"                       = '*' _
 "!"                       = '!' !'=' _
-"string"                  = 'string' !W
 "int"                     = 'int' !W
 "boolean"                 = 'boolean' !W
 "if"                      = 'if' !W
@@ -161,6 +192,24 @@ example Constant 1
 "true"                    = 'true' !W
 "import"                  = 'import' !W
 "long"                    = 'long' !W
+"dummy1"                  = 'dummy1' !W
+"dummy2"                  = 'dummy2' !W
+"if0"                      = 'if0' !W
+"if1"                      = 'if1' !W
+"if2"                      = 'if2' !W
+"if3"                      = 'if3' !W
+"if4"                      = 'if4' !W
+"if5"                      = 'if5' !W
+"if6"                      = 'if6' !W
+"if7"                      = 'if7' !W
+"if8"                      = 'if8' !W
+"if9"                      = 'if9' !W
+"ifA"                      = 'ifA' !W
+"ifB"                      = 'ifB' !W
+"ifC"                      = 'ifC' !W
+"ifD"                      = 'ifD' !W
+"ifE"                      = 'ifE' !W
+
 
 
 
