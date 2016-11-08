@@ -1,0 +1,863 @@
+/**
+ * Java8 Grammar
+ *
+ *  Based on grammar from Java8 langauge specification
+ *
+ * [1] https://docs.oracle.com/javase/specs/jls/se8/html/jls-2.html#jls-2.4
+ *
+ * Authors:
+ *   Kimio Kuramitsu (https://github.com/kkuramitsu/)
+ *   Kohei Moriya
+ */
+File                               = _ { $(PackageDeclaration)? $(ImportDeclaration)* $(TypeDeclaration)* #Source } _ EOT
+
+/* Code Layout (Whitespace) */
+_                                  = ( S / BLOCKCOMMENT / LINECOMMENT )*
+__                                 = !S
+S                                  = [ \n\r\t\u000B\u000C]
+BLOCKCOMMENT                       = '/*' ( !'*/' . )* '*/'
+LINECOMMENT                        = '//' ( !'\n' . )*
+EOL                                = '\r'? '\n'
+                                   / !.
+EOT                                = !.
+
+/* Operators */
+"++"                               = '++' _
+"--"                               = '--' _
+"&"                                = '&' ![&=] _
+"*"                                = '*' !'=' _
+"+"                                = '+' ![+=] _
+"-"                                = '-' !( '-' / [=>] ) _
+"~"                                = '~' _
+"!"                                = '!' !'=' _
+"{"                                = '{' _
+"["                                = '[' _
+"]"                                = ']' _
+","                                = ',' _
+"..."                              = '...' _
+":"                                = ':' ![>:] _
+"::"                               = '::' _
+"/"                                = '/' !'=' _
+"%"                                = '%' ![=>] _
+"<<"                               = '<<' !'=' _
+">>"                               = '>>' ![=>] _
+">>>"                              = '>>>' !'=' _
+"<="                               = '<=' _
+">="                               = '>=' _
+"<"                                = '<' ![=] _
+">"                                = '>' ![=] _
+"=="                               = '==' _
+"!="                               = '!=' _
+"^"                                = '^' ![=] _
+"|"                                = '|' ![|=] _
+"&&"                               = '&&' _
+"||"                               = '||' _
+"?"                                = '?' _
+";"                                = ';' _
+"}"                                = '}' _
+"*="                               = '*=' _
+"/="                               = '/=' _
+"%="                               = '%=' _
+"+="                               = '+=' _
+"-="                               = '-=' _
+"<<="                              = '<<=' _
+">>="                              = '>>=' _
+">>>="                             = '>>>=' _
+"&="                               = '&=' _
+"^="                               = '^=' _
+"|="                               = '|=' _
+"="                                = '=' !'=' _
+"."                                = '.' !'.' _
+"("                                = '(' _
+")"                                = ')' _
+"@"                                = '@' _
+"->"                               = '->' _
+
+// reserved keyword
+"abstract"                         = 'abstract' !W _
+"assert"                           = 'assert' !W _
+"boolean"                          = 'boolean' !W _
+"break"                            = 'break' !W _
+"byte"                             = 'byte' !W _
+"case"                             = 'case' !W _
+"catch"                            = 'catch' !W _
+"char"                             = 'char' !W _
+"class"                            = 'class' !W _
+"const"                            = 'const' !W _
+"continue"                         = 'continue' !W _
+"default"                          = 'default' !W _
+"do"                               = 'do' !W _
+"double"                           = 'double' !W _
+"else"                             = 'else' !W _
+"enum"                             = 'enum' !W _
+"extends"                          = 'extends' !W _
+"false"                            = 'false' !W _
+"final"                            = 'final' !W _
+"finally"                          = 'finally' !W _
+"float"                            = 'float' !W _
+"for"                              = 'for' !W _
+"goto"                             = 'goto' !W _
+"if"                               = 'if' !W _
+"implements"                       = 'implements' !W _
+"import"                           = 'import' !W _
+"instanceof"                       = 'instanceof' !W _
+"int"                              = 'int' !W _
+"interface"                        = 'interface' !W _
+"long"                             = 'long' !W _
+"native"                           = 'native' !W _
+"new"                              = 'new' !W _
+"null"                             = 'null' !W _
+"package"                          = 'package' !W _
+"private"                          = 'private' !W _
+"protected"                        = 'protected' !W _
+"public"                           = 'public' !W _
+"return"                           = 'return' !W _
+"short"                            = 'short' !W _
+"static"                           = 'static' !W _
+"strictfp"                         = 'strictfp' !W _
+"super"                            = 'super' !W _
+"switch"                           = 'switch' !W _
+"synchronized"                     = 'synchronized' !W _
+"this"                             = 'this' !W _
+"throw"                            = 'throw' !W _
+"throws"                           = 'throws' !W _
+"transient"                        = 'transient' !W _
+"true"                             = 'true' !W _
+"try"                              = 'try' !W _
+"void"                             = 'void' !W _
+"volatile"                         = 'volatile' !W _
+"while"                            = 'while' !W _
+KEYWORD                            = "abstract"
+                                   / "assert"
+                                   / "boolean"
+                                   / "break"
+                                   / "byte"
+                                   / "case"
+                                   / "catch"
+                                   / "char"
+                                   / "class"
+                                   / "const"
+                                   / "continue"
+                                   / "default"
+                                   / "double"
+                                   / "do"
+                                   / "else"
+                                   / "enum"
+                                   / "extends"
+                                   / "false"
+                                   / "final"
+                                   / "finally"
+                                   / "float"
+                                   / "for"
+                                   / "goto"
+                                   / "if"
+                                   / "implements"
+                                   / "import"
+                                   / "instanceof"
+                                   / "interface"
+                                   / "int"
+                                   / "long"
+                                   / "native"
+                                   / "new"
+                                   / "null"
+                                   / "package"
+                                   / "private"
+                                   / "protected"
+                                   / "public"
+                                   / "return"
+                                   / "short"
+                                   / "static"
+                                   / "strictfp"
+                                   / "super"
+                                   / "switch"
+                                   / "synchronized"
+                                   / "this"
+                                   / "throws"
+                                   / "throw"
+                                   / "transient"
+                                   / "true"
+                                   / "try"
+                                   / "void"
+                                   / "volatile"
+                                   / "while"
+
+/* Annotation */
+Annotations                        = { $(Annotation)+ #Modifiers }
+Annotation                         = "@" { $(QualifiedName) "(" $(ElementValuePairList)? ")" #Annotation }
+                                   / "@" { $(QualifiedName) "(" $(ElementValue) ")" #Annotation }
+                                   / "@" { $(QualifiedName) #Annotation }
+ElementValuePairList               = { $(ElementValuePair) ( "," $(ElementValuePair) )* #CommaList }
+ElementValuePair                   = { $(Identifier) "=" $(ElementValue) #KeyValue }
+ElementValue                       = ElementValueArrayInitializer
+                                   / ConditionalExpression
+                                   / Annotation
+ElementValueArrayInitializer       = "{" { addElementValueList? #List } ","? "}"
+addElementValueList                = $(ElementValue) ( "," $(ElementValue) )*
+
+/* Declaration */
+// package
+PackageDeclaration                 = { $(Annotations)? "package" $(QualifiedName) #JavaPackageDeclaration } ";"
+
+// import
+ImportDeclaration                  = { "import" ("static" #JavaStaticImport / #Import) $name(PackageName) } ";"
+PackageName                        = QualifiedName {$ "." "*" #WildCardName }?
+
+// type
+TypeDeclaration                    = ClassDeclaration
+                                   / InterfaceDeclaration
+                                   / ";" { #Empty }
+
+// class, enum
+ClassDeclaration                   = { $anno(ClassModifiers)? "class" $name(Identifier) $_(TypeParameters)? $super(SuperClass)? $impl(SuperInterfaces)? $body(ClassBody) #ClassDecl }
+                                   / { $anno(ClassModifiers)? "enum" $name(Identifier) $impl(SuperInterfaces)? $body(EnumBody) #EnumDecl }
+ClassModifiers                     = { $(ClassModifier)+ #Modifiers }
+ClassModifier                      = Annotation
+                                   / "public"    { #Public }
+                                   / "protected" { #Protected }
+                                   / "private"   { #Private }
+                                   / "abstract"  { #Abstract }
+                                   / "final"     { #Final }
+                                   / "static"    { #Static }
+                                   / "strictfp"  { #Strictfp }
+SuperClass                         = "extends" ClassOrInterfaceType
+SuperInterfaces                    = "implements" ClassOrInterfaceTypes
+ClassBody                          = "{" { $(ClassBodyDeclaration)* #Block } "}"
+ClassBodyDeclaration               = ClassMemberDeclaration
+                                   / { $(Block) #JavaInstanceInisializer }
+                                   / "static" { $(Block) #JavaStaticInitializer }
+                                   / ConstructorDeclaration
+ClassMemberDeclaration             = FieldDeclaration
+                                   / MethodDeclaration
+                                   / ClassDeclaration
+                                   / InterfaceDeclaration
+                                   / ";" { #Empty }
+EnumBody                           = "{" { addEnumeratorList? ","? ";" $({ $(ClassBodyDeclaration)+ #JavaEnumMemberList }) #List } "}"
+                                   / "{" { addEnumeratorList? ","? ";"? #List } "}"
+addEnumeratorList                  = $(Enumerator) ( "," $(Enumerator) )*
+Enumerator                         = { $anno(Annotations)? $name(Identifier) $(ArgumentExpressionList) $(ClassBody)? #JavaEnumerator }
+                                   / { $anno(Annotations)? $name(Identifier) $(ClassBody) #JavaEnumerator }
+                                   / { $anno(Annotations)? $name(Identifier) #Enumerator }
+
+// interface, annotation
+InterfaceDeclaration               = { $anno(InterfaceModifiers)? "interface" $name(Identifier) $_(TypeParameters)? $super(ExtendsInterfaces)? $body(InterfaceBody) #InterfaceDecl }
+                                   / { $(InterfaceModifiers)? "@" "interface" $(Identifier) $(AnnotationTypeBody) #JavaAnnotationTypeDecl }
+InterfaceModifiers                 = { $(InterfaceModifier)+ #Modifiers }
+InterfaceModifier                  = Annotation
+                                   / "public"    { #Public }
+                                   / "protected" { #Protected }
+                                   / "private"   { #Private }
+                                   / "abstract"  { #Abstract }
+                                   / "static"    { #Static }
+                                   / "strictfp"  { #Strictfp }
+ExtendsInterfaces                  = "extends" ClassOrInterfaceTypes
+InterfaceBody                      = "{" { $(InterfaceMemberDeclaration)* #Block } "}"
+InterfaceMemberDeclaration         = ConstantDeclaration
+                                   / InterfaceMethodDeclaration
+                                   / ClassDeclaration
+                                   / InterfaceDeclaration
+                                   / ";" { #Empty }
+AnnotationTypeBody                 = "{" { $(AnnotationTypeMemberDeclaration)* #Block } "}"
+AnnotationTypeMemberDeclaration    = AnnotationTypeElementDeclaration
+                                   / ConstantDeclaration
+                                   / ClassDeclaration
+                                   / InterfaceDeclaration
+                                   / ";" { #Empty }
+AnnotationTypeElementDeclaration   = { $(AnnotationTypeElementModifiers)? $(Type) $(Identifier) "(" ")" $(AnnotationTypeElementDefaultValue)? ";" #JavaAnnotationTypeElement }
+AnnotationTypeElementModifiers     = { $(AnnotationTypeElementModifier)+ #Modifiers }
+AnnotationTypeElementModifier      = Annotation
+                                   / "public"   { #Public }
+                                   / "abstract" { #Abstract }
+AnnotationTypeElementDefaultValue  = "default" ElementValue
+
+// local variable
+VariableDeclaration                = { $anno(VariableModifiers)? $type(Type) addVariableDeclarations }
+VariableModifiers                  = { $(VariableModifier)+ #Modifiers }
+VariableModifier                   = Annotation
+                                   / "final" { #Final }
+addVariableDeclarations            = $name(VarName) ( "=" $expr(Initializer) )? !',' #VarDecl
+                                   / $list(InitDeclList) #MultiVarDecl
+InitDecl                           = { $name(VarName) ( "=" $expr(Initializer) )? #VarDecl }
+InitDeclList                       = { $(InitDecl) ( "," $(InitDecl) )* #List }
+VarName                            = Identifier {$name "[" $param(ConstantExpression)? "]" #ArrayName }*
+Initializer                        = Expression
+                                   / ArrayInitializer
+ArrayInitializer                   = { "{" ( $(Initializer) ( "," $(Initializer) )* )? ","? "}" #Array }
+
+//field
+FieldDeclaration                   = { $anno(FieldModifiers)? $type(Type) $list(InitDeclList) #FieldDecl } ";"
+FieldModifiers                     = { $(FieldModifier)+ #Modifiers }
+FieldModifier                      = Annotation
+                                   / "public"    { #Public }
+                                   / "protected" { #Protected }
+                                   / "private"   { #Private }
+                                   / "final"     { #Final }
+                                   / "static"    { #Static }
+                                   / "transient" { #Transient }
+                                   / "volatile"  { #Volatile }
+
+//constant
+ConstantDeclaration                = { $anno(ConstantModifiers)? $type(Type) $list(InitDeclList) #JavaInterfaceConstantDecl } ";"
+ConstantModifiers                  = { $(ConstantModifier)+ #Modifiers }
+ConstantModifier                   = Annotation
+                                   / "public" { #Public }
+                                   / "final"  { #Final }
+                                   / "static" { #Static }
+
+//method
+MethodDeclaration                  = { $anno(MethodModifiers)? ( $(TypeParameters) $anno(Annotations)? )? $type(TypeOrVoid) $name(Identifier) "(" $param(MethodParamList) ")" $throws(Throws)? ($body(Block) / ";") #MethodDecl }
+MethodModifiers                    = { $(MethodModifier)+ #Modifiers }
+MethodModifier                     = Annotation
+                                   / "public"       { #Public }
+                                   / "protected"    { #Protected }
+                                   / "private"      { #Private }
+                                   / "abstract"     { #Abstract }
+                                   / "final"        { #Final }
+                                   / "static"       { #Static }
+                                   / "synchronized" { #Synchronized }
+                                   / "native"       { #Native }
+                                   / "strictfp"     { #Strictfp }
+InterfaceMethodDeclaration         = { $anno(InterfaceMethodModifiers)? ( $(TypeParameters) $anno(Annotations)? )? $type(TypeOrVoid) $name(Identifier) "(" $param(MethodParamList) ")" $throws(Throws)? ($body(Block) / ";") #MethodDecl }
+InterfaceMethodModifier            = Annotation
+                                   / "public"   { #Public }
+                                   / "abstract" { #Abstract }
+                                   / "default"  { #Default }
+                                   / "static"   { #Static }
+                                   / "strictfp" { #Strictfp }
+InterfaceMethodModifiers           = { $(InterfaceMethodModifier)+ #Modifiers }
+MethodParamList                    = { ( $(MethodParam) "," )* $(VarParam) #List }
+                                   / { ( $(MethodParam) ( "," $(MethodParam) )* )? #List }
+MethodParam                        = { $anno(VariableModifiers)? $type(Type) $name(VarName) #Param }
+VarParam                           = { $anno(VariableModifiers)? $(Type) "..." $(VarName) #VarParam }
+Throws                             = "throws" { $(ClassOrInterfaceTypes) #Throws }
+
+//constructor
+ConstructorDeclaration             = { $anno(ConstructorModifiers)? $type(ReferenceType) "(" $param(MethodParamList) ")" $throws(Throws)? $body(ConstructorBody) #Constructor }
+ConstructorModifiers               = { $(ConstructorModifier)+ #Modifiers }
+ConstructorModifier                = Annotation
+                                   / "public"    { #Public }
+                                   / "protected" { #Protected }
+                                   / "private"   { #Private }
+ConstructorBody                    = "{" { $(ExplicitConstructorInvocation)? $(BlockStatement)* #Block } "}"
+ExplicitConstructorInvocation      = { $(TypeArguments)? $({ $(This) "(" addArgumentExpressionList? ")" #List }) #ExplicitConstructorInvocation } ";"
+                                   / { $(TypeArguments)? $({ $(Super) "(" addArgumentExpressionList? ")" #List }) #ExplicitConstructorInvocation } ";"
+                                   / { $(PostfixExpression) "." $(TypeArguments)? $(Super) $({ "(" addArgumentExpressionList? ")" #List }) #ExplicitConstructorInvocation } ";"
+
+/* Types, Values, Variables */
+Type                               = ReferenceType
+                                   / PrimitiveType
+PrimitiveType                      = { $anno(Annotations) $(UnannoPrimitiveType) #Annotated }
+                                   / UnannoPrimitiveType
+UnannoPrimitiveType                = NumericType
+                                   / BooleanType
+NumericType                        = IntegralType
+                                   / FloatingPointType
+IntegralType                       = { "byte"    #Name }
+                                   / { "char"    #Name }
+                                   / { "short"   #Name }
+                                   / { "int"     #Name }
+                                   / { "long"    #Name }
+FloatingPointType                  = { "float"   #Name }
+                                   / { "double"  #Name }
+BooleanType                        = { "boolean" #Name }
+ReferenceType                      = ArrayType
+                                   / ClassOrInterfaceType
+                                   / TypeVariable
+ArrayType                          = (PrimitiveType / ClassOrInterfaceType / TypeVariable) {$base $(Annotations)? "[" "]" #ArrayType }+
+ClassOrInterfaceType               = ClassType
+                                   / InterfaceType
+ClassType                          = SimpleClassType {$prefix "." $name(SimpleClassType) #JavaQualifiedNamedType }*
+SimpleClassType                    = { $anno(Annotations) $(UnannoSimpleClassType) #Annotated }
+                                   / UnannoSimpleClassType
+UnannoSimpleClassType              = Identifier {$base $param(TypeArguments) #GenericType }?
+InterfaceType                      = ClassType
+TypeVariable                       = { $anno(Annotations) $(Identifier) #Annotated }
+                                   / Identifier
+TypeParameter                      = { $anno(Annotations) $(UnannoTypeParameter) #Annotated }
+                                   / UnannoTypeParameter
+UnannoTypeParameter                = Identifier {$base "extends" $extends(ClassOrInterfaceType) ( "&" $(InterfaceType) )* #TypeBound }?
+TypeParameters                     = { "<" $(TypeParameter) ( "," $(TypeParameter) )* ">" #TypeLists }
+TypeArgument                       = ReferenceType
+                                   / { $(Annotations)? "?" #TWildCard } {$ ("extends" #UpperBound / "super" #LowerBound) $(ReferenceType) }?
+TypeArguments                      = { "<" ( $(TypeArgument) ( "," $(TypeArgument) )* )? ">" #TypeArguments }
+Void                               = { "void" #VoidType }
+TypeOrVoid                         = Type
+                                   / Void
+NonArrayType                       = ClassOrInterfaceType
+                                   / PrimitiveType
+ClassOrInterfaceTypes              = { $(ClassOrInterfaceType) ( "," $(ClassOrInterfaceType) )* #List }
+
+// Block, Statement
+//===================
+Block                              = "{" { $(BlockStatement)* #Block } "}"
+BlockStatement                     = Statement
+                                   / VariableDeclaration ";"
+                                   / ClassDeclaration
+Statement                          = Block
+                                   / { "assert" $cond(Expression) ( ":" $msg(Expression) )? #Assert } ";"
+                                   / { "if" "(" $cond(Expression) ")" $then(Statement) ( "else" $else(Statement) )? #If }
+                                   / SwitchStatement
+                                   / { "while" "(" $cond(Expression) ")" $body(Statement) #While }
+                                   / { "do" $body(Statement) "while" "(" $cond(Expression) ")" #DoWhile } ";"
+                                   / { "for" "(" $init(Expressions)? ";" $cond(Expression)? ";" $iter(Expressions)? ")" $body(Statement) #For }
+                                   / { "for" "(" $init(VariableDeclaration) ";" $cond(Expression)? ";" $iter(Expressions)? ")" $body(Statement) #For }
+                                   / { "for" "(" $anno(VariableModifiers)? $type(Type) $name(Identifier) ":" $iter(Expression) ")" $body(Statement) #ForEach }
+                                   / { "continue" $label(Identifier)? `` #Continue } ";"
+                                   / { "break" $label(Identifier)? `` #Break } ";"
+                                   / { "return" $expr(Expression)? #Return } ";"
+                                   / TryStatement
+                                   / { "throw" $expr(Expression) #Throw } ";"
+                                   / { "synchronized" "(" $cond(Expression) ")" $body(Block) #Synchronized }
+                                   / { $label(Identifier) ":" #Label }
+                                   / Expression ";"
+                                   / ";" { #Empty }
+
+// try-catch-finally
+TryStatement                       = { "try" $(ResourceList) $try(Block) $catch({ $(Catch)* #List }) ( "finally" $finally(Block) )? #JavaTryWithResource }
+                                   / { "try" $try(Block) $catch({ $(Catch)* #List }) "finally" $finally(Block) #Try }
+                                   / { "try" $try(Block) $catch({ $(Catch)+ #List }) #Try }
+ResourceList                       = "(" { $(Resource) ( ";" $(Resource) )* #JavaResourceList } ";"? ")"
+Resource                           = { $anno(VariableModifiers)? $type(Type) $name(Identifier) "=" $expr(Expression) #VarDecl }
+Catch                              = { "catch" "(" addCatchParameter ")" $body(Block) #Catch }
+addCatchParameter                  = $anno(VariableModifiers)? $type(ClassOrInterfaceType) $name(Identifier)
+                                   / $anno(VariableModifiers)? $type({ $(ClassOrInterfaceType) ( "|" $(ClassOrInterfaceType) )+ #JavaMultiExceptions }) $name(Identifier)
+
+// switch
+SwitchStatement                    = { "switch" "(" $cond(Expression) ")" $body(SwitchBlock) #Switch }
+SwitchBlock                        = "{" { $(SwitchCondition)+ #Block } "}"
+SwitchCondition                    = { "case" $cond(ConstantExpression) ":" $body(CaseBlock) #SwitchCase }
+                                   / { "default" ":" $body(CaseBlock) #SwitchDefault }
+CaseBlock                          = { $(BlockStatement)* #Block }
+
+
+/* Expression */
+Expression                         = LambdaExpression
+                                   / AssignmentExpression
+Expressions                        = { $(Expression) ( "," $(Expression) )* #List }
+AssignmentExpression               = { $left(UnaryExpression) addAssignmentOperator $right(Expression) }
+                                   / ConditionalExpression
+addAssignmentOperator              = "=" #Assign
+                                   / "*=" #AssignMul
+                                   / "/=" #AssignDiv
+                                   / "%=" #AssignMod
+                                   / "+=" #AssignAdd
+                                   / "-=" #AssignSub
+                                   / "<<=" #AssignLeftShift
+                                   / ">>=" #AssignRightShift
+                                   / ">>>=" #AssignLogicalRightShift
+                                   / "&=" #AssignBitwiseAnd
+                                   / "^=" #AssignBitwiseXOr
+                                   / "|=" #AssignBitwiseOr
+ConstantExpression                 = ConditionalExpression
+ConditionalExpression              = LogicalOrExpression {$cond "?" $then(Expression) ":" $else(LogicalOrExpression) #Conditional }*
+LogicalOrExpression                = LogicalAndExpression {$left "||" $right(LogicalAndExpression) #Or }*
+LogicalAndExpression               = InclusiveOrExpression {$left "&&" $right(InclusiveOrExpression) #And }*
+InclusiveOrExpression              = ExclusiveOrExpression {$left "|" $right(ExclusiveOrExpression) #BitwiseOr }*
+ExclusiveOrExpression              = AndExpression {$left "^" $right(AndExpression) #BitwiseXor }*
+AndExpression                      = EqualityExpression {$left "&" $right(EqualityExpression) #BitwiseAnd }*
+EqualityExpression                 = RelationalExpression {$left ("==" #Equals / "!=" #NotEquals) $right(RelationalExpression) }*
+RelationalExpression               = ShiftExpression {$left addRelationalOperator }*
+addRelationalOperator              = "<=" $right(ShiftExpression) #LessThanEquals
+                                   / ">=" $right(ShiftExpression) #GreaterThanEquals
+                                   / "<" $right(ShiftExpression) #LessThan
+                                   / ">" $right(ShiftExpression) #GreaterThan
+                                   / "instanceof" $right(ReferenceType) #InstanceOf
+ShiftExpression                    = AdditiveExpression {$left ("<<" #LeftShift / ">>" #RightShift / ">>>" #LogicalRightShift) $right(AdditiveExpression) }*
+AdditiveExpression                 = MultiplicativeExpression {$left ("+" #Add / "-" #Sub) $right(MultiplicativeExpression) }*
+MultiplicativeExpression           = CastNewExpression {$left ("*" #Mul / "/" #Div / "%" #Mod) $right(CastNewExpression) }*
+CastNewExpression                  = { "(" $type(Type) ")" $expr(CastNewExpression) #Cast }
+                                   / UnaryExpression
+UnaryExpression                    = PostfixExpression
+                                   / { "++" $expr(UnaryExpression) #PreInc }
+                                   / { "--" $expr(UnaryExpression) #PreDec }
+                                   / { "+" $expr(CastNewExpression) #Plus }
+                                   / { "-" $expr(CastNewExpression) #Minus }
+                                   / { "~" $expr(CastNewExpression) #Compl }
+                                   / { "!" $expr(CastNewExpression) #Not }
+PostfixExpression                  = PrimaryExpression {$recv addMethodCall / addInstanceCreation / addIndex / addField / addMethodReference / addInc / addDec }*
+addMethodCall                      = "." $(TypeArguments)? $name(Identifier) $param(ArgumentExpressionList) #MethodApply
+addInstanceCreation                = "." "new" $(TypeArguments)? $(Annotations)? $(ClassOrInterfaceType) $(ArgumentExpressionList) $(ClassBody)? #JavaInstanceCreation
+ArgumentExpressionList             = { "(" addArgumentExpressionList? ")" #List }
+addArgumentExpressionList          = $(Expression) ( "," $(Expression) )*
+addIndex                           = "[" $param({ $(Expression) #List }) "]" #Indexer
+addField                           = "." $name(Identifier) !'(' #Field
+addMethodReference                 = "::" $(TypeArguments)? $(Identifier) #JavaMethodReference
+addInc                             = "++" #Inc
+addDec                             = "--" #Dec
+PrimaryExpression                  = Constant
+                                   / This
+                                   / Super
+                                   / "(" Expression ")"
+                                   / ClassLiteral
+                                   / { $(QualifiedName) "." "this" #JavaThis }
+                                   / { $(QualifiedName) "." "super" #JavaSuper }
+                                   / MethodInvocationExpression
+                                   / InstanceCreationExpression
+                                   / ArrayCreationExpression
+                                   / MethodReference
+                                   / Identifier
+ClassLiteral                       = { $(TypeOrVoid) "." "class" #JavaClassLiteral }
+This                               = "this" { #This }
+Super                              = "super" { #Super }
+MethodInvocationExpression         = { $name(Identifier) $param(ArgumentExpressionList) #Apply }
+InstanceCreationExpression         = { "new" $({ $(TypeArguments) #JavaTypeArgs })? $(Annotations)? $type(ClassOrInterfaceType) $param(ArgumentExpressionList) $body(ClassBody)? #New }
+ArrayCreationExpression            = { "new" $(Annotations)? $type(NonArrayType {$base $(Annotations)? "[" $size(Expression) "]" #ArrayType }+ {$base $(Annotations)? "[" "]" #ArrayType }*) #NewArray }
+                                   / { "new" $(Annotations)? $type(NonArrayType {$base $(Annotations)? "[" "]" #ArrayType }+) $(ArrayInitializer) #NewArray }
+MethodReference                    = { $(ReferenceType) "::" $(TypeArguments)? $(Identifier / { "new" #Name }) #JavaMethodReference }
+LambdaExpression                   = { $param(LambdaParameters) "->" $body(LambdaBody) #Lambda }
+LambdaParameters                   = Identifier
+                                   / "(" MethodParamList ")"
+                                   / "(" InferredParamList ")"
+InferredParamList                  = { $(Identifier) ( "," $(Identifier) )* #List }
+LambdaBody                         = !'{' { $({ $expr(Expression) #Return }) #Block }
+                                   / Block
+
+/* Identifier */
+Identifier                         = { NAME #Name } _
+QualifiedName                      = Identifier {$ "." $(Identifier) #QualifiedName }*
+W                                  = [a-zA-Z0-9_$]
+NAME                               = !DIGIT !KEYWORD W+
+
+/* Literal, Constant */
+Literal                            = FloatingPointLiteral
+                                   / IntegerLiteral
+                                   / BooleanLiteral
+                                   / CharacterLiteral
+                                   / StringLiteral
+                                   / NullLiteral
+Constant                           = Literal
+NullLiteral                        = "null" { #Null }
+BooleanLiteral                     = "true" { #True }
+                                   / "false" { #False }
+
+IntegerLiteral                     = { (DECIMAL / HEXADECIMAL / BINARY / OCTAL) (INT_SUFFIX #Long / #Integer) } _
+DIGIT                              = [0-9]
+DIGITS                             = DIGIT ( '_'* DIGIT )*
+DECIMAL                            = '0' ![bBxX0-9_]
+                                   / !'0' DIGITS
+HEXDIGIT                           = [a-fA-F0-9]
+HEXDIGITS                          = HEXDIGIT ( '_'* HEXDIGIT )*
+HEXADECIMAL                        = '0' [xX] HEXDIGITS
+BINARYDIGIT                        = [01]
+BINARYDIGITS                       = BINARYDIGIT ( '_'* BINARYDIGIT )*
+BINARY                             = '0' [bB] BINARYDIGITS
+OCTALDIGIT                         = [0-7]
+OCTAL                              = '0' ( '_'* OCTALDIGIT )*
+INT_SUFFIX                         = [lL]
+FloatingPointLiteral               = { FLOAT (FLOAT_SUFFIX #Float / DOUBLE_SUFFIX? #Double) } _
+                                   / { DIGITS (FLOAT_SUFFIX #Float / DOUBLE_SUFFIX #Double) } _
+FLOAT_SUFFIX                       = [fF]
+DOUBLE_SUFFIX                      = [dD]
+FLOAT                              = FRACTION EXPONENT?
+                                   / DIGITS EXPONENT
+                                   / HEXFRACTION BINARYEXPONENT
+EXPONENT                           = [eE] [+\-]? DIGITS
+BINARYEXPONENT                     = [pP] [+\-]? DIGITS
+FRACTION                           = '.' DIGITS
+                                   / DIGITS '.' DIGITS?
+HEXFRACTION                        = '0' [xX] '.' HEXDIGITS
+                                   / HEXADECIMAL ( '.' HEXDIGITS? )?
+StringLiteral                      = '"' { STRING_CONTENT* #String } '"' _
+CharacterLiteral                   = '\'' { CHAR_CONTENT #Character } '\'' _
+STRING_CONTENT                     = ESCAPE
+                                   / ![\"\n\\] .
+CHAR_CONTENT                       = ESCAPE
+                                   / !['\n\\] .
+ESCAPE                             = SIMPLE_ESCAPE
+                                   / OCTAL_ESCAPE
+                                   / HEX_ESCAPE
+SIMPLE_ESCAPE                      = '\\' ['\"\\bfnrt]
+OCTAL_ESCAPE                       = '\\' [0-3] OCTALDIGIT OCTALDIGIT
+                                   / '\\' OCTALDIGIT OCTALDIGIT
+                                   / '\\' OCTALDIGIT
+HEX_ESCAPE                         = '\\' 'u'+ HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT
+
+/* Example */
+
+// The traditional "Hello, world!" program can be written in Java 
+example TypeDeclaration&File '''
+class HelloWorldApp {
+    public static void main(String[] args) {
+        System.out.println("Hello World!"); // Prints the string to the console.
+    }
+}
+'''
+
+// Generics
+example File '''
+package java.util.List;
+public interface List<E> { 
+    void add(E x);
+    Iterator<E> iterator();
+}
+'''
+
+// Annotation
+example File '''
+@Entity                                             // Declares this an entity bean
+@Table(name = "people")                             // Maps the bean to SQL table "people"
+public class Person implements Serializable {
+    @Id                                             // Map this to the primary key column.
+    @GeneratedValue(strategy = GenerationType.AUTO) // Database will generate new primary keys, not us.
+    private Integer id;
+
+    @Column(length = 32)                            // Truncate column values to 32 characters.
+    private String name;
+}
+'''
+
+// Generic Method
+example MethodDeclaration '''
+public void doSomething(List<? extends MyClass> list) {
+  for(MyClass object : list) { // OK
+    // do something
+  }
+}
+'''
+
+// Generic Method
+example MethodDeclaration '''
+public static <Type> Entry<Type, Type> twice(Type value) {
+    return new Entry<Type, Type>(value, value);
+}
+'''
+
+// Generics in throws clause
+example MethodDeclaration '''
+public <T extends Throwable> void throwMeConditional(boolean conditional, T exception) throws T {
+    if(conditional) {
+        throw exception;
+    }
+}
+'''
+
+/* Variable Declraration */
+
+example VariableDeclaration '''
+int a = 1
+'''
+
+example VariableDeclaration '''
+int a = 1, b
+'''
+
+example VariableDeclaration '''
+int[] anArray = { 
+    1, 2,
+    3, 4
+}
+'''
+
+example VariableDeclaration '''
+String[][] names = {
+  {"Mr. ", "Mrs. ", "Ms. "},
+  {"Smith", "Jones"}
+}
+'''
+
+/* Statement */
+
+example Statement '''
+if(c);
+'''
+
+example Statement '''
+if(c) {
+}
+'''
+
+/* Expression (standard) */
+
+example Expression ~7d9419 '''
+1+2*3
+'''
+
+example Expression ~bfe331 '''
+1*2+3
+'''
+
+example Expression ~162311 '''
+(1+2)*3
+'''
+
+example Expression ~cd4f5d '''
+1+2-3*4%5
+'''
+
+example Expression '''
+x = x + 1
+'''
+
+example Expression '''
+x = x | 1
+'''
+
+example Expression '''
+x = x & 1
+'''
+
+
+/* Expression (local) */
+
+example Expression '''
+() -> {
+  System.out.println("example");
+}
+'''
+
+/* Identifier (standard) */
+
+example Expression ~a47e9fd '''
+x
+''' 
+
+example Expression  ~fdb051 '''
+Apple
+''' 
+
+/* Literal (standard) */
+
+example Literal ~1e4f2d '''
+true
+'''
+
+example Literal ~4eab66 '''
+false
+'''
+
+example Literal ~ec2775 '''
+'C'
+'''
+
+example Literal ~1951c6 '''
+0
+'''
+
+example Literal ~aef181 '''
+26
+'''
+
+example Literal ~c3b9d6 '''
+0x1a
+'''
+
+example Literal ~146f59 '''
+0b11010
+'''
+
+example Literal ~f74a78 '''
+123.4
+'''
+
+example Literal ~94b99c '''
+1.234e2
+'''
+
+example Literal ~c83c217 '''
+123.4f
+'''
+
+example Literal ~02bf7f6 '''
+"hello,world\n"
+'''
+
+/* Literal (standard) */
+
+example Literal ~db9f5e3 '''
+"S\u00ED Se\u00F1or"
+'''
+
+
+
+
+
+format #JavaPackageDeclaration[*] `package $[0];`
+format #Import[*] `import $[0];`
+format #JavaStaticImport[*] `import static $[0];`
+format #WildCardName[*] `$[0].*`
+format #Modifiers[*] `$[0 ` ` -1] `
+format #Annotation[*] `@$[0]($[1])`
+format #Annotation[*] `@$[0]`
+format #CommaList[*] `$[0 `, ` -1]`
+format #KeyValue[*] `$[0] = $[1]`
+format #Final[*] `final`
+format #VarDecl[*] `$[0]`
+format #VarDecl[*] `$[0] = $[1]`
+format #ArrayName[*] `$[0][]`
+format #ArrayName[*] `$[0][$[1]]`
+format #Array[*] `{$[0 `, ` -1]}`
+format #Annotated[*] `$[0] $[1]`
+format #VoidType[*] `void`
+format #Tbyte[*] `byte`
+format #Tshort[*] `short`
+format #Tint[*] `int`
+format #Tlong[*] `long`
+format #Tfloat[*] `float`
+format #Tdouble[*] `double`
+format #Tarray[*] `$[0][]`
+format #Tarray[*] `$[0] $[1] []`
+format #TypeBound[*] `$[0] extends $[1] $[2 ` & ` -1]`
+format #TypeArguments[*] `<$[0 `,` -1]>`
+format #Comma[*] `$[0], $[1]`
+format #Assign[*] `$[0] = $[1]`
+format #AssignMul[*] `$[0] *= $[1]`
+format #AssignDiv[*] `$[0] /= $[1]`
+format #AssignMod[*] `$[0] %= $[1]`
+format #AssignAdd[*] `$[0] += $[1]`
+format #AssignSub[*] `$[0] -= $[1]`
+format #AssignLeftShift[*] `$[0] <<= $[1]`
+format #AssignRightShift[*] `$[0] >>= $[1]`
+format #AssignLogicalRightShift[*] `$[0] >>>= $[1]`
+format #AssignBitwiseAnd[*] `$[0] &= $[1]`
+format #AssignBitwiseXOr[*] `$[0] ^= $[1]`
+format #AssignBitwiseOr[*] `$[0] != $[1]`
+format #Conditional[*] `$[0] ? $[1] : $[2]`
+format #LogicalAnd[*] `$[0] && $[1]`
+format #LogicalOr[*] `$[0] || $[1]`
+format #BitwiseOr[*] `($[0] | $[1])`
+format #BitwiseXor[*] `($[0] ^ $[1])`
+format #BitwiseAnd[*] `($[0] & $[1])`
+format #Equals[*] `$[0] == $[1]`
+format #NotEquals[*] `$[0] != $[1]`
+format #LessThanEquals[*] `$[0] <= $[1]`
+format #LessThan[*] `$[0] < $[1]`
+format #GreaterThanEquals[*] `$[0] >= $[1]`
+format #GreaterThan[*] `$[0] > $[1]`
+format #InstanceOf[*] `$[0] instanceof $[1]`
+format #HashIn[*] `$[0] in $[1]`
+format #LeftShift[*] `($[0] << $[1])`
+format #RightShift[*] `($[0] >> $[1])`
+format #LogicalRightShift[*] `($[0] >>> $[1])`
+format #Add[*] `($[0] + $[1])`
+format #Sub[*] `($[0] - $[1])`
+format #Mul[*] `($[0] * $[1])`
+format #Div[*] `($[0] / $[1])`
+format #Mod[*] `($[0] % $[1])`
+format #PreInc[*] `++$[0]`
+format #PreDec[*] `--$[0]`
+format #Plus[*] `+$[0]`
+format #Minus[*] `-$[0]`
+format #BitwiseNot[*] `~$[0]`
+format #LogicalNot[*] `!$[0]`
+format #SuffixInc[*] `$[0]++`
+format #SuffixDec[*] `$[0]--`
+format #This[*] `this`
+format #Array[*] `[$[0 `,` -1]]`
+format #Object[*] `{$[0 `,` -1]}`
+format #Property[*] `$[0]: $[1]`
+format #Field[*] `$[0].$[1]`
+format #Indexer[*] `$[0][$[1]]`
+format #List[*] `($[0 `, ` -1])`
+format #Name[*] `${text}`
+format #QualifiedName[*] `$[0].$[1]`
+format #Null[*] `null`
+format #True[*] `true`
+format #False[*] `false`
+format #Integer[*] `${text}`
+format #Long[*] `${text}`
+//format #OctalInteger[0] `${text}`
+//format #HexInteger[0] `${text}`
+format #Float[*] `${text}`
+format #Double[*] `${text}`
+format #String[*] `"${text}"`
+format #Character[*] `'${text}'`
+//format #RegExp[0] `${text}`
