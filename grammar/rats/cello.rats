@@ -1,0 +1,102 @@
+module cello;
+
+public generic File = L Declaration*  EOT ;
+
+// Declaration
+generic Declaration               = FunctionDeclaration
+                                  / VariableDeclaration
+                                  ;
+generic FunctionDeclaration       = Type L Name L "(" L FunctionParamList ")" L (L Block / L ";" L)
+                                  / Type L Block
+                                  ;
+generic FunctionParamList         = FunctionParam ( void:"," L FunctionParam)*
+                                  ;
+generic FunctionParam             = Type L (Name)?  L ;
+generic VariableDeclaration       = Type VariableList ";" L ;
+generic VariableList              = InitDecl ( "," L InitDecl )* ;
+generic InitDecl                  = Name ( "=" L Initializer )? L ;
+generic Initializer               = AssignmentExpression;
+
+// Type
+generic Type                      = PrimaryType;
+generic PrimaryType               = "int" L ;
+
+// Block, Statement
+generic Block                     = "{" L ( Statement / Declaration)* "}" L;
+generic Statement                 = Block
+                                  / "if" L "(" L Expression ")" L Block ( "else" L Block )?
+                                  / "return" L (Expression)? ";" L
+                                  / "for" L "(" L Declaration (Expression)? ";" L (Expression)? ")" L Block
+                                  / Expression ";" L
+                                  / ";" L
+                                  ;
+
+// Expression
+generic Expression                = (AssignmentExpression "," L AssignmentExpression )* ;
+generic AssignmentExpression      = UnaryExpression AssignmentOperator AssignmentExpression
+                                  / ConditionalExpression
+                                  ;
+generic AssignmentOperator       = "=" L
+                                  / "*=" L
+                                  / "/=" L
+                                  / "%=" L
+                                  / "+=" L
+                                  / "-=" L
+                                  / "<<=" L
+                                  / ">>=" L
+                                  / "&=" L
+                                  / "^=" L
+                                  / "|=" L
+                                  ;
+generic ConstantExpression        = ConditionalExpression ;
+generic ConditionalExpression     = LogicalORExpression ( "?" L Expression ":" L LogicalORExpression)* ;
+generic LogicalORExpression       = LogicalANDExpression ( "||" L LogicalANDExpression )* ;
+generic LogicalANDExpression      = InclusiveORExpression ( "&&" L InclusiveORExpression )* ;
+generic InclusiveORExpression     = ExclusiveORExpression ( "|" L ExclusiveORExpression  )* ;
+generic ExclusiveORExpression     = ANDExpression ( "^" L ANDExpression )* ;
+generic ANDExpression             = EqualityExpression ( "&" L EqualityExpression )* ;
+generic EqualityExpression        = RelationalExpression ( ("==" / "!=" ) L RelationalExpression )* ;
+generic RelationalExpression      = ShiftExpression ( ("<=" / ">=" / "<" / ">" ) L ShiftExpression )* ;
+generic ShiftExpression           = AdditiveExpression ( ("<<" / ">>" ) AdditiveExpression )* ;
+generic AdditiveExpression        = MultiplicativeExpression ( ("+" / "-" ) L MultiplicativeExpression )* ;
+generic MultiplicativeExpression  = UnaryExpression ( ("*" / "/" / "%" ) L UnaryExpression )* ;
+generic UnaryExpression           = PostfixExpression
+                                  / "++" L UnaryExpression
+                                  / "--" L UnaryExpression
+                                  / "&"  L UnaryExpression
+                                  / "*"  L UnaryExpression
+                                  / "+"  L UnaryExpression
+                                  / "-"  L UnaryExpression
+                                  / "~"  L UnaryExpression
+                                  / "!" L UnaryExpression
+                                  ;
+generic PostfixExpression         = PrimaryExpression ( FunctionCall )* ;
+generic FunctionCall             = "(" L ArgumentExpressionList? ")" L ;
+generic ArgumentExpressionList   = AssignmentExpression ( "," L AssignmentExpression )* ;
+generic PrimaryExpression         = Constant
+                                  / "(" L Expression ")" L
+                                  / Name
+                                  ;
+
+//Literal
+generic Constant                  = CInteger;
+generic CInteger                  = DECIMAL  L ;
+generic DECIMAL                   = [1-9] DIGIT* / '0';
+
+generic L                         = ( S / BLOCKCOMMENT / LINECOMMENT )* ;
+generic S                         = [ \n\r\t\u000B\u000C] ;
+generic BLOCKCOMMENT              = "/*" ( !"*/" _ )* "*/" ;
+generic LINECOMMENT               = "//" ( !"\n" _ )* ;
+generic EOT                       = !_ ;
+generic Name                      = NAME L ;
+generic NAME                      = !DIGIT !( KEYWORD NW ) W+ ;
+generic DIGIT                     = [0-9] ;
+generic W                         = [a-zA-Z0-9_] ;
+generic NW                        = !W;
+generic KEYWORD                   = "double" L
+                                  / "else" L
+                                  / "float" L
+                                  / "if" L
+                                  / "int" L
+                                  / "return" L
+                                  ;
