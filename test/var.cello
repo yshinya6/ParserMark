@@ -1,3 +1,4 @@
-int f(){
-  int a = 1;
-}
+int a = 1;
+int a = func();
+int a = b;
+boolean b = (a == c);

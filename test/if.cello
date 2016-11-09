@@ -2,4 +2,9 @@ int main(){
   if(a == 0){
    return 0;
   }
+  else {
+    if(a == f()){
+      return 1;
+    }
+  }
 }
