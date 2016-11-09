@@ -66,9 +66,6 @@ Statement                 = Block
                           / { "if9" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If9 }
                           / { "ifA" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfA }
                           / { "ifB" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfB }
-                          / { "ifC" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfC }
-                          / { "ifD" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfD }
-                          / { "ifE" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfE }
                           / { "return" _ $expr(Expression)? ";" #Return }
                           / { $expr(Expression) ";" #ExpressionStatement }
                           / { #Empty } ";"
