@@ -16,7 +16,7 @@
 [debug] == resolving dependencies for default#scala-build;0.1-SNAPSHOT [provided]
 [debug] == resolving dependencies default#scala-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.4 [provided->default(compile)]
 [info] Resolving org.scala-lang#scala-library;2.10.4 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@7290c46b
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5c7a866f
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.10.4
 [debug] 	found org.scala-lang#scala-library;2.10.4 in sbt-chain
 [debug] 	[2.10.4] org.scala-lang#scala-library;2.10.4
@@ -1766,7 +1766,7 @@
 [debug] 	[NOT REQUIRED] org.scala-sbt#apply-macro;0.13.8!apply-macro.jar
 [debug] 	[NOT REQUIRED] org.scala-lang#jline;2.10.4!jline.jar
 [debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.4!jansi.jar
-[debug] :: resolution report :: resolve 1705ms :: artifacts dl 62ms
+[debug] :: resolution report :: resolve 3057ms :: artifacts dl 88ms
 [debug] 	report for default#scala-build;0.1-SNAPSHOT compile produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/project/target/resolution-cache/reports/default-scala-build-compile.xml
 [debug] 	report for default#scala-build;0.1-SNAPSHOT runtime produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/project/target/resolution-cache/reports/default-scala-build-runtime.xml
 [debug] 	report for default#scala-build;0.1-SNAPSHOT test produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/project/target/resolution-cache/reports/default-scala-build-test.xml
@@ -1780,5 +1780,5 @@
 [debug] 	report for default#scala-build;0.1-SNAPSHOT docs produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/project/target/resolution-cache/reports/default-scala-build-docs.xml
 [debug] 	report for default#scala-build;0.1-SNAPSHOT pom produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/project/target/resolution-cache/reports/default-scala-build-pom.xml
 [debug] 	report for default#scala-build;0.1-SNAPSHOT scala-tool produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/project/target/resolution-cache/reports/default-scala-build-scala-tool.xml
-[debug] 	resolve done (1705ms resolve - 62ms download)
+[debug] 	resolve done (3057ms resolve - 88ms download)
 [info] Done updating.

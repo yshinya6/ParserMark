@@ -7,7 +7,7 @@
 [debug] == resolving dependencies for default#scala_2.12;1.0 [compile]
 [debug] == resolving dependencies default#scala_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->default(compile)]
 [info] Resolving org.scala-lang#scala-library;2.12.0 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@49679c1
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@3fec5e1b
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.12.0
 [debug] 	found org.scala-lang#scala-library;2.12.0 in sbt-chain
 [debug] 	[2.12.0] org.scala-lang#scala-library;2.12.0
@@ -17,21 +17,8 @@
 [debug] == resolving dependencies default#scala_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->default(compile)]
 [info] Resolving org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 ...
 [debug] sbt-chain: Checking cache for: dependency: org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 {compile=[default(compile)]}
-[info] Resolving org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 ...
-[debug] sbt-chain-delegate: Checking cache for: dependency: org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 {compile=[default(compile)]}
-[debug] 		tried /Users/ryo/.ivy2/local/org.scala-lang.modules/scala-parser-combinators_2.12/1.0.4/ivys/ivy.xml
-[debug] 	local: no ivy file found for org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4
-[debug] 		tried https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.pom
-[debug] 	jcenter: found md file for org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4
-[debug] 		=> https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.pom (1.0.4)
-[debug] downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.pom ...
-[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.pom
-[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.pom.sha1
-[debug] sha1 OK for https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.pom
-[debug] 	[SUCCESSFUL ] org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4!scala-parser-combinators_2.12.pom(pom.original) (782ms)
-[debug] 		tried /Users/ryo/.ivy2/local/org.scala-lang.modules/scala-parser-combinators_2.12/1.0.4/bundles/scala-parser-combinators_2.12.jar
-[debug] 		tried https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar
-[debug] 	found org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 in jcenter
+[debug] sbt-chain: module revision found in cache: org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4
+[debug] 	found org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 in sbt-chain
 [debug] == resolving dependencies default#scala_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->runtime]
 [debug] == resolving dependencies default#scala_2.12;1.0->org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4 [compile->compile]
 [debug] == resolving dependencies org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4->org.scala-lang#scala-library;2.12.0 [compile->master(compile)]
@@ -201,17 +188,12 @@
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.0!scala-library.jar
-[debug] 		tried https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar
-[info] downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar ...
-[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar
-[debug] 	jcenter: downloading https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar.sha1
-[debug] sha1 OK for https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar
-[info] 	[SUCCESSFUL ] org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4!scala-parser-combinators_2.12.jar(bundle) (1306ms)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4!scala-parser-combinators_2.12.jar(bundle)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.0!scala-compiler.jar
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.0!scala-reflect.jar
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.5!scala-xml_2.12.jar(bundle)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.1!jline.jar
-[debug] :: resolution report :: resolve 2647ms :: artifacts dl 1329ms
+[debug] :: resolution report :: resolve 143ms :: artifacts dl 4ms
 [debug] 	report for default#scala_2.12;1.0 compile produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala_2.12-compile.xml
 [debug] 	report for default#scala_2.12;1.0 runtime produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala_2.12-runtime.xml
 [debug] 	report for default#scala_2.12;1.0 test produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala_2.12-test.xml
@@ -225,5 +207,5 @@
 [debug] 	report for default#scala_2.12;1.0 docs produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala_2.12-docs.xml
 [debug] 	report for default#scala_2.12;1.0 pom produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala_2.12-pom.xml
 [debug] 	report for default#scala_2.12;1.0 scala-tool produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/target/resolution-cache/reports/default-scala_2.12-scala-tool.xml
-[debug] 	resolve done (2647ms resolve - 1329ms download)
+[debug] 	resolve done (143ms resolve - 4ms download)
 [info] Done updating.
