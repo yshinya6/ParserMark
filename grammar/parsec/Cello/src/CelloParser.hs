@@ -11,15 +11,15 @@ import Text.Parsec.Language
 {-setup reserved token-}
 def = javaStyle{ identStart = letter <|> oneOf "_$"
               , identLetter = alphaNum <|> oneOf "_'$"
-              , opStart = oneOf "=.:/%<>!^|&;+-*,"
-              , opLetter = oneOf "=.:/%<>^|&;+-*!,"
+              , opStart = oneOf "=.:/%<>!^|&;+-*,?"
+              , opLetter = oneOf "=.:/%<>^|&;+-*!,?"
               , reservedOpNames = ["=", "...", ":", "/", "%", "<",
                                    ">", "==", "!=", "&&", "||",
                                    ";", "++", "--", "&", "+", "-",
-                                   "*", "!", ","]
+                                   "*", "!", ",", "?"]
               , reservedNames = ["string", "int", "long", "boolean",
                                  "if", "for", "else", "return",
-                                 "false", "true", "import", "null"]
+                                 "false", "true", "import", "null", "dummy1", "dummy2"]
               }
 
 {-Lexer-}
@@ -37,8 +37,8 @@ celloCommaSep = commaSep tokenParser
 celloSemiColon = semi tokenParser
 
 {-expression Parser-}
-exprparser :: Parser String
-exprparser = buildExpressionParser table term <?> "expression"
+exprparser' :: Parser String
+exprparser' = buildExpressionParser table term <?> "expression"
 
 table = [ [Prefix (celloReservedOp "!" >> return ((:) '!')) ]
         , [Infix (celloReservedOp "<" >> return (midleCons "<")) AssocLeft]
@@ -46,7 +46,6 @@ table = [ [Prefix (celloReservedOp "!" >> return ((:) '!')) ]
         , [Infix (celloReservedOp "!=" >> return (midleCons "!=")) AssocLeft]
         , [Infix (celloReservedOp "&&" >> return (midleCons "&&")) AssocLeft]
         , [Infix (celloReservedOp "=" >> return (midleCons "=")) AssocLeft]
-        --, [Infix (celloReservedOp "," >> return (midleCons ",")) AssocLeft]
         ]
         where
           midleCons :: String -> String -> String -> String
@@ -54,12 +53,32 @@ table = [ [Prefix (celloReservedOp "!" >> return ((:) '!')) ]
 
 term = try (celloParens exprparser)
     <|> try (stringLiteral tokenParser)
+--    <|> try functionExpression  -->>>>> unit.cello is not passed when this line is inserted
     <|> try funccall
     <|> (celloIdentifier >>= (\n -> return n))
     <|> (celloReserved "true" >> return "true")
     <|> (celloReserved "false" >> return "false")
     <|> (celloReserved "null" >> return "null")
     <|> (integer tokenParser >>= return . show)
+
+functionExpression :: Parser String
+functionExpression = do
+  typesParser
+  ident <- optional celloIdentifier
+  mpList <- celloParens fpListParser
+  body <- blockParser
+  return . concat $ [show ident, mpList, body]
+
+exprparser :: Parser String
+exprparser = try cond <|> exprparser'
+    where
+        cond = do
+          c <- exprparser'
+          celloReservedOp "?"
+          t <- exprparser'
+          celloReservedOp ":"
+          e <- exprparser'
+          return . concat $ [c, "?", t, ":" , e]
 
 funccall :: Parser String
 funccall = do
@@ -87,7 +106,11 @@ importDeclarationparser = do
   return $ "import" ++ packageName-- ++ endSymbol
 
 declarationParser :: Parser String
-declarationParser = try functionDeclarationParser <|> variableDeclarationParser
+declarationParser = try functionDeclarationParser
+                 <|> try variableDeclarationParser
+                 <|> try dummyParser1
+                 <|> dummyParser2
+                 <?> "Declaration"
 
 functionDeclarationParser :: Parser String
 functionDeclarationParser = try (do
@@ -159,6 +182,20 @@ stmtparser = try blockParser
                 expr <- exprparser
                 celloSemiColon
                 return $ expr ++ ";"
+
+dummyParser1 :: Parser String
+dummyParser1 = do
+  celloReserved "dummy1"
+  variableList <- sepBy1 initDecl (comma tokenParser)
+  celloSemiColon
+  return $ "dummy1" ++ concat variableList ++ ";"
+
+dummyParser2 :: Parser String
+dummyParser2 = do
+  celloReserved "dummy2"
+  variableList <- sepBy1 initDecl (comma tokenParser)
+  celloSemiColon
+  return $ "dummy2" ++ concat variableList ++ ";"
 
 variableDeclarationParser :: Parser String
 variableDeclarationParser = do
