@@ -1,4 +1,4 @@
-# Cello Language definiton with Parsec
+# Cello Language definition with Parsec
 
 ## development log (CSV)
 ```
