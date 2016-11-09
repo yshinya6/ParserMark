@@ -28,6 +28,7 @@ executable Cello
   build-depends:       base
                      , parsec
                      , mtl
+                     , old-time
                      , Cello
   default-language:    Haskell2010
 
