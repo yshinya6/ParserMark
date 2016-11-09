@@ -7,8 +7,8 @@ PARSER_BEGIN(CelloParser)
 import java.io.*;
 
 /**
- * Grammar to parse Java version 1.5
- * @author Sreenivasa Viswanadha - Simplified and enhanced for 1.5
+ * Grammar to parse Cello language
+ * @author Shun Kubota, Shinya Yamaguchi
  */
 public class CelloParser
 {
