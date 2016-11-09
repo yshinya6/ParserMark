@@ -1,0 +1,5 @@
+int f() {
+  func();
+  func1(1);
+  func2(func(1),"a");
+}

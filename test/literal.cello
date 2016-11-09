@@ -1,0 +1,7 @@
+int f(){
+  1;
+  "hoge";
+  true;
+  false;
+  null;
+}

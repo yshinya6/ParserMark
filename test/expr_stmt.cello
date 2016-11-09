@@ -1,0 +1,7 @@
+int f() {
+  f();
+  x;
+  true;
+  "hogehoge";
+  1;
+}
