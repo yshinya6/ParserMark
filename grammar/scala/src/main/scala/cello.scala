@@ -72,18 +72,24 @@ object CelloParser extends RegexParsers {
 
 object input{
   def main (args:Array[String]):Unit={
-    val source2 = Source.fromFile("text.txt", "UTF-8")
-    val aBuffer = new StringBuilder
-    try {
-      for (line <- source2.getLines) {
-        aBuffer.append(line)
+    var firstest = 1000000.0
+    for (i <- 1 to 5){
+      val source2 = Source.fromFile("text.txt", "UTF-8")
+      val aBuffer = new StringBuilder
+      try {
+        for (line <- source2.getLines) {
+          aBuffer.append(line)
+        }
       }
+      finally {
+        source2.close
+      }
+      val start = System.nanoTime()
+      CelloParser(aBuffer.toString)
+      val end = System.nanoTime()
+      val time = (end-start)/1000000.0
+      if ( firstest > time ) firstest = time
     }
-    finally {
-      source2.close
-    }
-    println(CelloParser(aBuffer.toString))
-
-    //println(CelloParser("int f(){\n  int a = 1;\n}"))
+    println(firstest + " [ms]")
   }
 }
