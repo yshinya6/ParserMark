@@ -14,9 +14,11 @@ def = javaStyle{ identStart = letter <|> oneOf "_$"
               , opStart = oneOf "=.:/%<>!^|&;+-*,?"
               , opLetter = oneOf "=.:/%<>^|&;+-*!,?"
               , reservedOpNames = ["=", "...", ":", "/", "%", "<",
-                                   ">", "==", "!=", "&&", "||",
+                                   ">","<=", ">=", "==", "!=", "&&", "||",
                                    ";", "++", "--", "&", "+", "-",
-                                   "*", "!", ",", "?"]
+                                   "*", "!", ",", "?", "*=", "/=",
+                                  "%=", "+=", "-=", "<<=", ">>=",
+                                   ">>>=", "&=", "^=", "|="]
               , reservedNames = ["string", "int", "long", "boolean",
                                  "if", "for", "else", "return",
                                  "false", "true", "import", "null", "dummy1", "dummy2"]
@@ -42,9 +44,24 @@ exprparser' = buildExpressionParser table term <?> "expression"
 
 table = [ [Prefix (celloReservedOp "!" >> return ((:) '!')) ]
         , [Infix (celloReservedOp "<" >> return (midleCons "<")) AssocLeft]
+        , [Infix (celloReservedOp "<=" >> return (midleCons "<=")) AssocLeft]
+        , [Infix (celloReservedOp ">" >> return (midleCons ">")) AssocLeft]
+        , [Infix (celloReservedOp ">=" >> return (midleCons ">=")) AssocLeft]
         , [Infix (celloReservedOp "==" >> return (midleCons "==")) AssocLeft]
         , [Infix (celloReservedOp "!=" >> return (midleCons "!=")) AssocLeft]
+        , [Infix (celloReservedOp "||" >> return (midleCons "||")) AssocLeft]
         , [Infix (celloReservedOp "&&" >> return (midleCons "&&")) AssocLeft]
+        , [Infix (celloReservedOp "*=" >> return (midleCons "*=")) AssocLeft]
+        , [Infix (celloReservedOp "/=" >> return (midleCons "/=")) AssocLeft]
+        , [Infix (celloReservedOp "%=" >> return (midleCons "%=")) AssocLeft]
+        , [Infix (celloReservedOp "+=" >> return (midleCons "+=")) AssocLeft]
+        , [Infix (celloReservedOp "-=" >> return (midleCons "-=")) AssocLeft]
+        , [Infix (celloReservedOp "<<=" >> return (midleCons "<<=")) AssocLeft]
+        , [Infix (celloReservedOp ">>=" >> return (midleCons ">>=")) AssocLeft]
+        , [Infix (celloReservedOp ">>>=" >> return (midleCons ">>>=")) AssocLeft]
+        , [Infix (celloReservedOp "&=" >> return (midleCons "&=")) AssocLeft]
+        , [Infix (celloReservedOp "^=" >> return (midleCons "^=")) AssocLeft]
+        , [Infix (celloReservedOp "|=" >> return (midleCons "|=")) AssocLeft]
         , [Infix (celloReservedOp "=" >> return (midleCons "=")) AssocLeft]
         ]
         where
