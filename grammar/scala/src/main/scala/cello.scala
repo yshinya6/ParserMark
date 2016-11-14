@@ -9,7 +9,7 @@ import scala.collection.mutable.StringBuilder
 object cello{
   def main (args:Array[String]):Unit={
     var firstest = 1000000.0
-    for (i <- 1 to 1){
+    for (i <- 1 to 5){
       val source2 = Source.fromFile(args(0), "UTF-8")
       val aBuffer = new StringBuilder
       try {
@@ -21,8 +21,8 @@ object cello{
         source2.close
       }
       val start = System.nanoTime()
-      println(CelloParser(aBuffer.toString))
-      //CelloParser(aBuffer.toString)
+      // println(CelloParser(aBuffer.toString))
+      CelloParser(aBuffer.toString)
       val end = System.nanoTime()
       val time = (end-start)/1000000.0
       if ( firstest > time ) firstest = time
@@ -36,11 +36,6 @@ object CelloParser extends RegexParsers {
 
   def Program = TopLevel.*
   def TopLevel = ( ImportDeclarations ~ Declaration ) | Declaration | ";"
-
-//  def COM = ( BLOCKCOMMENT | LINECOMMENT ).*
-//  def BLOCKCOMMENT = "/*" <~ ( not("*/") ~ ".".r ).* ~ "*/"
-//  def LINECOMMENT  = "//" <~ ( not("\n") ~ ".".r ).*
-
   def ImportDeclarations = ImportDeclaration ~ ( ImportDeclaration ).*
   def ImportDeclaration = IMPORT ~ PackageName ~ ";"
   def PackageName = QualifiedName ~ ".*?".r
