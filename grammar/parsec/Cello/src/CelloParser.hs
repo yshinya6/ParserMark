@@ -175,9 +175,33 @@ stmtparser :: Parser String
 stmtparser = try blockParser
           <|> try ifelsestmt
           <|> try ifstmt
+          <|> try ifstmt1
+          <|> try ifstmt2
+          <|> try ifstmt3
+          <|> try ifstmt4
+          <|> try ifstmt5
+          <|> try ifstmt6
+          <|> try ifstmt7
+          <|> try ifstmt8
+          <|> try ifstmt9
+          <|> try ifstmt10
+          <|> try ifstmtA
+          <|> try ifstmtB
           <|> try returnstmt
           <|> expstmt
             where
+              ifstmt1 = ifstmt
+              ifstmt2 = ifstmt
+              ifstmt3 = ifstmt
+              ifstmt4 = ifstmt
+              ifstmt5 = ifstmt
+              ifstmt6 = ifstmt
+              ifstmt7 = ifstmt
+              ifstmt8 = ifstmt
+              ifstmt9 = ifstmt
+              ifstmt10 = ifstmt
+              ifstmtA = ifstmt
+              ifstmtB = ifstmt
               ifelsestmt = do
                 celloReserved "if"
                 expr <- celloParens exprparser
