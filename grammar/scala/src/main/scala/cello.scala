@@ -9,7 +9,7 @@ import scala.collection.mutable.StringBuilder
 object cello{
   def main (args:Array[String]):Unit={
     var firstest = 1000000.0
-    for (i <- 1 to 5){
+    for (i <- 1 to 1){
       val source2 = Source.fromFile(args(0), "UTF-8")
       val aBuffer = new StringBuilder
       try {
@@ -21,7 +21,8 @@ object cello{
         source2.close
       }
       val start = System.nanoTime()
-      CelloParser(aBuffer.toString)
+      println(CelloParser(aBuffer.toString))
+      //CelloParser(aBuffer.toString)
       val end = System.nanoTime()
       val time = (end-start)/1000000.0
       if ( firstest > time ) firstest = time
@@ -31,37 +32,44 @@ object cello{
 }
 
 object CelloParser extends RegexParsers {
-  def Program = TopLevel ~ ( TopLevel ).*
+  protected override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
+
+  def Program = TopLevel.*
   def TopLevel = ( ImportDeclarations ~ Declaration ) | Declaration | ";"
+
+//  def COM = ( BLOCKCOMMENT | LINECOMMENT ).*
+//  def BLOCKCOMMENT = "/*" <~ ( not("*/") ~ ".".r ).* ~ "*/"
+//  def LINECOMMENT  = "//" <~ ( not("\n") ~ ".".r ).*
+
   def ImportDeclarations = ImportDeclaration ~ ( ImportDeclaration ).*
   def ImportDeclaration = IMPORT ~ PackageName ~ ";"
   def PackageName = QualifiedName ~ ".*?".r
   def Declaration = FunctionDeclaration | VariableDeclaration
-  def FunctionDeclaration = ( Type ~ Block ) | ( Type ~ NAME ~ "();" ) | ( Type ~ NAME ~ "()" ~ Block ) | ( Type ~ NAME ~ "(" ~ FunctionParamList ~ ");" ) | ( Type ~ NAME ~ "(" ~ FunctionParamList ~ ")" ~ Block )
+  def FunctionDeclaration = ( Type  ~ Block ) | ( Type  ~ NAME  ~ "();" ) | ( Type  ~ NAME  ~ "()" ~ Block ) | ( Type  ~ NAME  ~ "(" ~ FunctionParamList ~ ");" ) | ( Type  ~ NAME  ~ "(" ~ FunctionParamList ~ ")" ~ Block )
   def FunctionParamList: Parser[Any] = FunctionParam ~ ("," ~ ( VAR_LEN_PARAM | FunctionParam ) ).*
-  def FunctionParam = ( Type ~ NAME ) | Type
-  def Block = "{}" | ( "{" ~ BlockInner ~ "}" )
+  def FunctionParam = ( ( Type  ~ NAME ) | Type )
+  def Block = "{" ~ "}" | ( "{" ~ BlockInner ~ "}" )
   def BlockInner: Parser[Any] = ( Statement | Declaration ) ~ ( Statement | Declaration ).*
   def Statement: Parser[Any] = Block | IfStatement | ReturnStatement | ExpressionStatement | ";"
-  def IfStatement = ( "if1" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if1" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "if2" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if2" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "if3" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if3" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "if4" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if4" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "if5" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if5" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "if6" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if6" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "if7" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if7" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "if8" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if8" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "if9" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "if9" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "ifA" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "ifA" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( "ifB" ~ "(" ~ Expression ~ ")" ~ Block ) | ( "ifB" ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block ) |
-                    ( IF ~ "(" ~ Expression ~ ")" ~ Block ) | ( IF ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE ~ Block )
+  def IfStatement = ( "if1"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if1"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "if2"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if2"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "if3"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if3"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "if4"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if4"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "if5"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if5"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "if6"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if6"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "if7"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if7"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "if8"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if8"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "if9"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "if9"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "ifA"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "ifA"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( "ifB"  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( "ifB"  ~ "(" ~ Expression ~ ")" ~ Block ) |
+                    ( IF  ~ "(" ~ Expression ~ ")" ~ Block ~ ELSE  ~ Block ) | ( IF  ~ "(" ~ Expression ~ ")" ~ Block )
   def ReturnStatement = ( RETURN ~ ";" ) | ( RETURN ~ Expression ~ ";" )
   def ExpressionStatement = Expression ~ ";"
-  def VariableDeclaration = Type ~ VariableList ~ ";"
+  def VariableDeclaration = Type  ~ VariableList ~ ";"
   def Dummy1 = "dummy1" ~ VariableList ~ ";"
   def Dummy2 = "dummy2" ~ VariableList ~ ";"
   def VariableList = InitDecl ~ ( "," ~ InitDecl ).*
-  def InitDecl = ( NAME ~ "=" ~ Initializer ) | NAME
+  def InitDecl = ( ( NAME ~ "=" ~ Initializer ) | NAME )
   def Initializer = AssignmentExpression
   def Type = INT_TYPE | BOOLEAN_TYPE | STRING_TYPE | LONG_TYPE
   def Expression = AssignmentExpression ~ ( "," ~ AssignmentExpression ).*
@@ -77,6 +85,7 @@ object CelloParser extends RegexParsers {
   def PrimaryExpression : Parser[Any] = ( "(" ~ Expression ~ ")" ) | Literal
   def QualifiedName = NAME ~ ( "." ~ NAME ).*
   def Literal = INT | TRUE | FALSE | NULL_LITERAL | STRING | NAME
+  def STRING = "\"" ~ ( not("\"") ~ ".".r ).* ~ "\""
 
   def VAR_LEN_PARAM = "..."
   def EQ = "=="
@@ -94,9 +103,8 @@ object CelloParser extends RegexParsers {
   def FALSE = "false"
   def TRUE = "true"
   def IMPORT = "import"
-  def INT = "[0-9][1-9]*".r
-  def STRING = "[a-zA-Z]+".r
-  def NAME = "[a-zA-Z0-9_]+".r
+  def INT = ( "[1-9][0-9]*".r | "0" )
+  def NAME = "[a-zA-Z0-9_$]+".r
   def NULL_LITERAL = "null"
 
 
@@ -106,5 +114,3 @@ object CelloParser extends RegexParsers {
     case NoSuccess(errorMessage, next) => Left(s"$errorMessage on line ${next.pos.line} on column ${next.pos.column}")
   }
 }
-
-
