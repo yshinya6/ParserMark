@@ -1,4 +1,3 @@
-package bench;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -30,18 +29,14 @@ public class Main {
 		long[] elapsedTimeList = new long[10];
 
 
-		if (args.length < 2) {
-			System.out.println("Usage: <ParserClassName> <file>");
+		if (args.length < 1) {
+			System.out.println("Usage: <file>+");
 			// showExistClasses();
 			System.exit(0);
 		}
 
-		Class<?> parserClass = loadClass(args[0]);
-		if (args[0].equals("java")) {
 
-		}
-
-		for (int argsIndex = 1; argsIndex < args.length; argsIndex++) {
+		for (int argsIndex = 0; argsIndex < args.length; argsIndex++) {
 			String fileName = args[argsIndex].substring(args[argsIndex].lastIndexOf("/") + 1);
 			long fileSize = new File(args[argsIndex]).length();
 
@@ -49,11 +44,10 @@ public class Main {
 			for (int itr = 0; itr < 10; itr++) {
 				try {
 					FileInputStream fis = new FileInputStream(args[argsIndex]);
-
 					BufferedInputStream bis = new BufferedInputStream(fis);
 					InputStreamReader isr = new InputStreamReader(bis);
-					PEGParser parser = (PEGParser) parserClass.getConstructor(Reader.class, String.class)
-							.newInstance(isr, args[argsIndex]);
+//					cello parser = new cello(isr, args[argsIndex]);
+					cello parser = new cello(isr, args[argsIndex]);
 					startTime = System.nanoTime();
 //					Result result = (Result) method.invoke(parser, 0);
 					Result result = parser.pFile(0);
@@ -61,21 +55,10 @@ public class Main {
 					elapsedTimeList[itr] = endTime - startTime;
 					// System.out.println(elapsedTimeList[itr] + "[ms]");
 					if (result instanceof ParseError) {
+						System.out.println("pos:"+ ((ParseError) result).index + " " +((ParseError) result).msg);
 						break;
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					e.printStackTrace();
-				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (StackOverflowError e) {
 					break;
@@ -86,23 +69,13 @@ public class Main {
 			}
 			long fastest = calcExecTime(elapsedTimeList);
 			if (fastest == 0) {
-				String msg = String.format("%s,%s,%s", fileName, fileSize, "failed");
+				String msg = String.format("%s %s %s", fileName, fileSize, "failed");
 				System.out.println(msg);
 			} else {
-				String msg = String.format("%s,%s,%s", fileName, fileSize, fastest);
+				String msg = String.format("%s %s %s", fileName, fileSize, fastest);
 				System.out.println(msg);
 			}
 		}
-	}
-
-	private static final Class<?> loadClass(String className) {
-		try {
-			return Class.forName("resource." + className);
-		} catch (ClassNotFoundException e) {
-			System.out.println("no such a parser class: " + className);
-			System.exit(1);
-		}
-		return null;
 	}
 
 	// private static final void showExistClasses(){
@@ -110,9 +83,5 @@ public class Main {
 	// URL url = loader.getResource("resource");
 	//
 	// }
-
-	public interface PEGParser {
-		public Result pFile(int yyStart) throws IOException;
-	}
 
 }
