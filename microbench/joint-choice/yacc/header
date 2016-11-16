@@ -1,0 +1,22 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <sys/time.h> // gettimeofday
+#define YYDEBUG 1
+
+int yyerror(char const *str);
+
+int yylex(void);
+
+uint64_t timer() {
+struct timeval tv;
+gettimeofday(&tv, NULL);
+return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+}
+
+%}
+
+%start S
+
+%%

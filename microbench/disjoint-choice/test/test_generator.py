@@ -11,7 +11,8 @@ for r in codes:
 for upper in range(0,62):
     inputList = []
     for n in range(0,1000000):
-        inputList.append(alphabets[random.randint(0,upper)])
+        term = alphabets[random.randint(0,upper)]
+        inputList.append(term+term)
     f = open("{u}.txt".format(u=upper), 'w')
     f.write("".join(inputList))
     f.close

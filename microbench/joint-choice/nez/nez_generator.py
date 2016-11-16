@@ -12,19 +12,21 @@ print alphabets
 
 for n in range(0,62):
     ntermList = []
+    prefix = "Prefix = \'@\'\n"
     grammarList = ["S=("]
     cnt = 0
     for alt in alphabets:
-        ntermList.append("N{a}=\'{a}\'\n".format(a=alt))
+        ntermList.append("N{a}=Prefix\'{a}\'\n".format(a=alt))
         grammarList.append("N{a}".format(a=alt))
         cnt = cnt + 1
         if cnt > n:
             break
         else:
             grammarList.append("/")
-    grammarList.append(")*")
+    grammarList.append(")*\n")
     f = open("{n}.nez".format(n=n), 'w')
     f.write("".join(grammarList))
+    f.write(prefix)
     f.write("".join(ntermList))
     f.close
     # print "".join(grammarList)
