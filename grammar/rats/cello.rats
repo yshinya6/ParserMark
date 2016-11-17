@@ -7,7 +7,7 @@ public generic File = L ImportDeclaration* TopLevel+ L EOT;
 
 //literal
  generic  ImportDeclaration =
-      "import" Identifier  (void:"." Identifier)* void:";"
+      "import" L Identifier  (void:"." Identifier)*  L
               ;
  generic Declaration =
         MethodDeclaration
@@ -16,7 +16,7 @@ public generic File = L ImportDeclaration* TopLevel+ L EOT;
         /Dummy2
         ;
  generic MethodDeclaration =
-        Type L Identifier L "(" MethodParamList ")" (L Block/ L ";")
+        Type L Identifier L "(" MethodParamList ")" (L Block L/ L ";")
         ;
 
  generic MethodParamList =
@@ -24,21 +24,31 @@ public generic File = L ImportDeclaration* TopLevel+ L EOT;
          ;
 
  generic MethodParams =
-          MethodParam (void:',' MethodParam)*
+          MethodParam MethodParamRepeat*
           ;
+          generic MethodParamRepeat =
+            void:',' L MethodParam
+            ;
 
  generic MethodParam =
          Type L Identifier? L
          ;
  generic VariableDeclaration =
-         Type L VariableList ";"
+         Type L VariableList ";" L
          ;
  generic VariableList =
-        InitDecl (void:"," InitDecl)*
+        InitDecl VariableListRepeat*
+        ;
+        generic VariableListRepeat =
+        void:"," L InitDecl
         ;
  generic InitDecl =
-        Identifier (void:"=" Initializer)? L
+        Identifier L Equal? L
         ;
+        generic Equal =
+        void:"=" L Initializer
+        ;
+
  generic Initializer =
        AssignmentExpression
        ;
@@ -49,6 +59,8 @@ public generic File = L ImportDeclaration* TopLevel+ L EOT;
        "dummy2" VariableList ";"
        ;
 
+
+//type
  generic Type =
         PrimitiveType
        / ReferenceType
@@ -63,38 +75,43 @@ public generic File = L ImportDeclaration* TopLevel+ L EOT;
        inline generic ReferenceType =
        Identifier
        ;
+
+//block
  generic Block =
-     "{" (Statement / Declaration )* "}"
+     "{" L (Statement / Declaration )*  "}" L
      ;
 
 
  generic Statement =
            Block
-          / "if" L "(" Expression ")" Block Else?
-          / "if1" L "(" Expression ")" Block Else?
-          / "if2" L "(" Expression ")" Block Else?
-          / "if3" L "(" Expression ")" Block Else?
-          / "if4" L "(" Expression ")" Block Else?
-          / "if5" L "(" Expression ")" Block Else?
-          / "if6" L "(" Expression ")" Block Else?
-          / "if7" L "(" Expression ")" Block Else?
-          / "if8" L "(" Expression ")" Block Else?
-          / "if9" L "(" Expression ")" Block Else?
-          / "ifA" L "(" Expression ")" Block Else?
-          / "ifB" L "(" Expression ")" Block Else?
-          / "return" L Expression? ";"
-          / Expression ";"
+          / "if" L "(" Expression ")" L Block Else?
+          / "if1" L "(" Expression ")" L Block Else?
+          / "if2" L "(" Expression ")" L Block Else?
+          / "if3" L "(" Expression ")" L Block Else?
+          / "if4" L "(" Expression ")" L Block Else?
+          / "if5" L "(" Expression ")" L Block Else?
+          / "if6" L "(" Expression ")" L Block Else?
+          / "if7" L "(" Expression ")" L Block Else?
+          / "if8" L "(" Expression ")" L Block Else?
+          / "if9" L "(" Expression ")" L Block Else?
+          / "ifA" L "(" Expression ")" L Block Else?
+          / "ifB" L "(" Expression ")" L Block Else?
+          / "return" L Expression? ";" L
+          / Expression ";" L
           / ";"
           ;
  generic Else =
        "else" L Block;
 
  generic Expression=
-  AssignmentExpression (void:"," AssignmentExpression )*
+  AssignmentExpression Comma*
   ;
+     generic Comma =
+        void:"," L AssignmentExpression
+        ;
 
 variant generic AssignmentExpression =
-    UnaryExpression AssignmentOperator AssignmentExpression
+    UnaryExpression L AssignmentOperator L AssignmentExpression
   / ConditionalExpression
   ;
 
@@ -117,29 +134,41 @@ variant generic AssignmentExpression =
   generic ConditionalExpression =
     LogicalOrExpression ExpressionRepeat*
    ;
-  generic ExpressionRepeat =
-    void:"?" Expression void:":" LogicalOrExpression
-    ;
+    generic ExpressionRepeat =
+      void:"?" Expression void:":" LogicalOrExpression
+      ;
  generic LogicalOrExpression =
-    LogicalAndExpression (void:"||" LogicalAndExpression)*
+    LogicalAndExpression Or*
     ;
+    generic Or =
+         void:"||" L LogicalAndExpression
+         ;
 
  generic LogicalAndExpression =
-   EqualityExpression (void:"&&" EqualityExpression)*
+   EqualityExpression And*
    ;
+      generic And =
+        void:"&&" L EqualityExpression
+        ;
 
  generic EqualityExpression =
-    RelationalExpression ((void:"=="/void:"!=") RelationalExpression)*
+    RelationalExpression EqualOrNotEqual*
     ;
-
+       generic EqualOrNotEqual =
+       (void:"=="/void:"!=") L RelationalExpression
+       ;
 
  generic RelationalExpression =
-      UnaryExpression ("<" / "<=" / ">" / ">=" )(UnaryExpression)*
+      UnaryExpression LessOrMore*
       ;
+      generic LessOrMore =
+         (void:"<"/ void:"<=" / void:">"/ void:">=") L
+         /UnaryExpression
+         ;
 
  generic UnaryExpression =
        PostfixExpression
-      / "!" UnaryExpression
+      / "!"  L UnaryExpression
      ;
 
  generic PostfixExpression =
@@ -147,7 +176,7 @@ variant generic AssignmentExpression =
      ;
 
  generic FunctionCall =
-    "(" ArgumentExpressionList? ")"
+    "(" ArgumentExpressionList? ")" L
     ;
 
  generic ArgumentExpressionList =
@@ -156,13 +185,13 @@ variant generic AssignmentExpression =
 
  generic PrimaryExpression =
   Constant
-  /"(" Expression ")"
+  /"(" Expression ")" L
   /Identifier
   /FunctionExpression
   ;
 
  generic FunctionExpression =
-   Type L Identifier? "(" MethodParamList ")" Block
+   Type L Identifier? "(" MethodParamList ")" Block*
    ;
 
  generic Constant =
@@ -177,16 +206,14 @@ variant generic AssignmentExpression =
   ;
   generic Decimal                   = [1-9] DIGIT* / '0'
   ;
-
   generic BooleanLiteral            =
               "true"  L
             / "false" L
             ;
-
   generic StringLiteral             =
-            "  StringContent*  " L
+            '"' StringContent*  '"' L
            ;
-  String StringContent            = ![\"\n\\] ;
+  String StringContent            = ![\"\n\\]_ ;
   generic NullLiteral               = "null" L ;
 
 
@@ -194,14 +221,15 @@ variant generic AssignmentExpression =
   generic S                         = [ \n\r\t\u000B\u000C] ;
   generic BlockComment              = "/*" ( !"*/" _ )* "*/" ;
   generic LineComment               = "//" ( !"\n" _ )* ;
-  generic EOT                       = ! L ;
+  generic EOT                       = !_ ;
   generic Identifier                = NAME L;
-  generic NAME                      = !DIGIT !( KEYWORD W ) W+ ;
+  generic NAME                      = !DIGIT !( KEYWORD NW ) W+ ;
   generic DIGIT                     = [0-9] ;
-  generic W                         = [a-zA-Z0-9_] ;
+  generic W                         = [a-zA-Z0-9_$] ;
+  generic NW                        = !W;
   generic TopLevel                 = Declaration/";";
-  generic KEYWORD                   = "else"
-                                    / "if"
-                                    / "int"
-                                    / "return"
+  generic KEYWORD                   = "else" L
+                                    / "if" L
+                                    / "int" L
+                                    / "return" L
                                     ;

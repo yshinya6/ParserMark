@@ -53,7 +53,8 @@ public class Main {
 					Result result = parser.pFile(0);
 					endTime = System.nanoTime();
 					elapsedTimeList[itr] = endTime - startTime;
-					// System.out.println(elapsedTimeList[itr] + "[ms]");
+
+					// System.out.println(elapsedTimeList[itr] + " [ms]");
 					if (result instanceof ParseError) {
 						System.out.println("pos:"+ ((ParseError) result).index + " " +((ParseError) result).msg);
 						break;
@@ -61,6 +62,7 @@ public class Main {
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (StackOverflowError e) {
+					e.printStackTrace();
 					break;
 				}
 			}
