@@ -19,7 +19,7 @@ return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 
 %start Program
 %token VAR_LEN_PARAM EQ NE AND OR INC DEC GTEQ LTEQ
-%token INT_TYPE BOOLEAN_TYPE LONG_TYPE
+%token INT_TYPE BOOLEAN_TYPE LONG_TYPE METHODCALL
 %token IF FOR ELSE RETURN FALSE TRUE IMPORT
 %token INT STRING NAME EOF_SYMBOL NULL_LITERAL
 %token IF0 IF1 IF2 IF3 IF4 IF5 IF6 IF7 IF8 IF9 IFA IFB IFC IFD IFE DUMMY1 DUMMY2
@@ -50,7 +50,7 @@ PackageName
   ;
 
 Declaration
-  : FunctionDeclaration
+  : MethodDeclaration
   | VariableDeclaration
   | Dummy1Declaration
   | Dummy2Declaration
@@ -64,18 +64,18 @@ Dummy2Declaration
   : DUMMY2 VariableList ';'
   ;
 
-FunctionDeclaration
-  : Type NAME '(' FunctionParamList ')' Block
+MethodDeclaration
+  : Type NAME '(' MethodParamList ')' Block
   | Type NAME '(' ')' Block
   ;
 
-FunctionParamList
-  : FunctionParam
-  | FunctionParamList ',' FunctionParam
+MethodParamList
+  : MethodParam
+  | MethodParamList ',' MethodParam
   | ',' VAR_LEN_PARAM
   ;
 
-FunctionParam
+MethodParam
   : Type
   | Type NAME
   ;
@@ -285,10 +285,10 @@ UnaryExpression
 
 PostfixExpression
   : PrimaryExpression
-  | PrimaryExpression FunctionCall
+  | PrimaryExpression MethodCall
   ;
 
-FunctionCall
+MethodCall
   : '(' ArgumentExpressionList ')'
   | '(' ')'
   ;
@@ -301,13 +301,12 @@ ArgumentExpressionList
 PrimaryExpression
   : Literal
   | '(' Expression ')'
-  // | FunctionExpression
+  | FunctionExpression
   ;
 
-// FunctionExpression
-//   : Type NAME '(' FunctionParamList ')' Block
-//   | Type '(' FunctionParamList ')' Block
-//   ;
+FunctionExpression
+  : Type NAME '(' MethodParamList ')' Block METHODCALL
+  ;
 
 QualifiedName
   : NAME
