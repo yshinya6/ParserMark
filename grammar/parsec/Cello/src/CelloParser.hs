@@ -17,7 +17,7 @@ def = javaStyle{ identStart = letter <|> oneOf "_$"
                                    ">","<=", ">=", "==", "!=", "&&", "||",
                                    ";", "++", "--", "&", "+", "-",
                                    "*", "!", ",", "?", "*=", "/=",
-                                  "%=", "+=", "-=", "<<=", ">>=",
+                                  "%=", "+=", "-=", "<<=", ">>=", "::",
                                    ">>>=", "&=", "^=", "|="]
               , reservedNames = ["string", "int", "long", "boolean",
                                  "if", "for", "else", "return",
@@ -70,7 +70,7 @@ table = [ [Prefix (celloReservedOp "!" >> return ((:) '!')) ]
 
 term = try (celloParens exprparser)
     <|> try (stringLiteral tokenParser)
---    <|> try functionExpression  -->>>>> unit.cello is not passed when this line is inserted
+    <|> try functionExpression
     <|> try funccall
     <|> (celloIdentifier >>= (\n -> return n))
     <|> (celloReserved "true" >> return "true")
@@ -84,6 +84,7 @@ functionExpression = do
   ident <- optional celloIdentifier
   mpList <- celloParens fpListParser
   body <- blockParser
+  celloReservedOp "::"
   return . concat $ [show ident, mpList, body]
 
 exprparser :: Parser String
