@@ -27,17 +27,17 @@ fragment W: [a-zA-Z0-9$_];
 importDeclaration: 'import' NAME ('.' NAME)*
                  ;
 
-declaration: functionDeclaration
+declaration: methodDeclaration
            | variableDeclaration
            | dummy1
            | dummy2
            ;
 
-functionDeclaration: type NAME '(' functionParamList ')' block
+methodDeclaration: type NAME '(' methodParamList ')' block
                    ;
-functionParamList: (functionParam (',' functionParam)*)?
+methodParamList: (methodParam (',' methodParam)*)?
                  ;
-functionParam: type NAME
+methodParam: type NAME
              ;
 
 variableDeclaration: type variableList ';'
@@ -128,7 +128,7 @@ primaryExpression: '(' expression ')'
 methodInvocation: primaryExpression '(' expressionList? ')'
                 ;
 
-functionExpression: type NAME? '(' functionParamList ')' block
+functionExpression: type NAME? '(' methodParamList ')' block '::'
                   ;
 
 expressionList: expression ( ',' expression)*
