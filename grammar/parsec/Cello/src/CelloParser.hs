@@ -17,7 +17,7 @@ def = javaStyle{ identStart = letter <|> oneOf "_$"
                                    ">","<=", ">=", "==", "!=", "&&", "||",
                                    ";", "++", "--", "&", "+", "-",
                                    "*", "!", ",", "?", "*=", "/=",
-                                  "%=", "+=", "-=", "<<=", ">>=",
+                                  "%=", "+=", "-=", "<<=", ">>=", "::",
                                    ">>>=", "&=", "^=", "|="]
               , reservedNames = ["string", "int", "long", "boolean",
                                  "if", "for", "else", "return",
@@ -70,7 +70,7 @@ table = [ [Prefix (celloReservedOp "!" >> return ((:) '!')) ]
 
 term = try (celloParens exprparser)
     <|> try (stringLiteral tokenParser)
---    <|> try functionExpression  -->>>>> unit.cello is not passed when this line is inserted
+    <|> try functionExpression
     <|> try funccall
     <|> (celloIdentifier >>= (\n -> return n))
     <|> (celloReserved "true" >> return "true")
@@ -84,6 +84,7 @@ functionExpression = do
   ident <- optional celloIdentifier
   mpList <- celloParens fpListParser
   body <- blockParser
+  celloReservedOp "::"
   return . concat $ [show ident, mpList, body]
 
 exprparser :: Parser String
@@ -175,9 +176,33 @@ stmtparser :: Parser String
 stmtparser = try blockParser
           <|> try ifelsestmt
           <|> try ifstmt
+          <|> try ifstmt1
+          <|> try ifstmt2
+          <|> try ifstmt3
+          <|> try ifstmt4
+          <|> try ifstmt5
+          <|> try ifstmt6
+          <|> try ifstmt7
+          <|> try ifstmt8
+          <|> try ifstmt9
+          <|> try ifstmt10
+          <|> try ifstmtA
+          <|> try ifstmtB
           <|> try returnstmt
           <|> expstmt
             where
+              ifstmt1 = ifstmt
+              ifstmt2 = ifstmt
+              ifstmt3 = ifstmt
+              ifstmt4 = ifstmt
+              ifstmt5 = ifstmt
+              ifstmt6 = ifstmt
+              ifstmt7 = ifstmt
+              ifstmt8 = ifstmt
+              ifstmt9 = ifstmt
+              ifstmt10 = ifstmt
+              ifstmtA = ifstmt
+              ifstmtB = ifstmt
               ifelsestmt = do
                 celloReserved "if"
                 expr <- celloParens exprparser
