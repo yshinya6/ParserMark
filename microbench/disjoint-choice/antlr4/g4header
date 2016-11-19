@@ -1,0 +1,3 @@
+WhiteSpace: [ \n\r\t]+
+              -> skip
+          ;

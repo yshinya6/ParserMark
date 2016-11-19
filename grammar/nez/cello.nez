@@ -121,7 +121,7 @@ PrimaryExpression         = Constant
                           / Identifier
                           / FunctionExpression
 
-FunctionExpression        = { $type(Type) _ $name(Identifier)? _ "(" $list(MethodParamList) ")" $body(Block) #MethodDecl }
+FunctionExpression        = { $type(Type) _ $name(Identifier)? _ "(" $list(MethodParamList) ")" $body(Block) "::" #MethodDecl }
 
 //Literal
 Constant                  = IntegerLiteral
@@ -160,6 +160,7 @@ example Constant 1
 "]"                       = ']' _
 ","                       = ',' _
 "..."                     = '...' _
+"::"                      = '::' _
 ":"                       = ':' ![>] _
 "/"                       = '/' !'=' _
 "<"                       = '<' ![=] _

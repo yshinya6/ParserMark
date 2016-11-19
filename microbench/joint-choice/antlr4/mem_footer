@@ -1,0 +1,25 @@
+		ParseTree tree = parser.choice();
+    int errors = parser.getNumberOfSyntaxErrors();
+    if (errors >= 1) {
+      System.out.println(String.format("%s ERROR",filePath));
+      failed = true;
+    }
+		System.out.println(String.format("%s %s", filePath, getMemoryInfo()));
+	}
+
+  public static String getMemoryInfo() {
+    StringBuilder sb = new StringBuilder();
+
+    DecimalFormat memoryFormat = new DecimalFormat("#,### [KB]");
+    DecimalFormat ratioFormat = new DecimalFormat("##.#");
+
+    long free = Runtime.getRuntime().freeMemory() / 1024;
+    long total = Runtime.getRuntime().totalMemory() / 1024;
+    long max = Runtime.getRuntime().maxMemory() / 1024;
+    long used = total - free;
+    double ratio = (used * 100 / (double) total);
+    System.gc();
+    sb.append(memoryFormat.format(used) + " (" + ratioFormat.format(ratio) + ")");
+    return sb.toString();
+  }
+}

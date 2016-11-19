@@ -8,23 +8,22 @@ for r in codes:
     chars = map(chr, range(ord(r[0]),ord(r[1])+1))
     alphabets.extend(chars)
 
-print alphabets
+# print alphabets
 
 for n in range(0,62):
     ntermList = []
-    grammarList = ["S=("]
     cnt = 0
     for alt in alphabets:
-        ntermList.append("N{a}=\'{a}\'\n".format(a=alt))
-        grammarList.append("N{a}".format(a=alt))
+        nextsymbol = "N" + alphabets[cnt + 1] if cnt < n else "Na"
+        if cnt == 0:
+            ntermList.append("N{a}=\'{a}\'{b}/!.\n".format(a=alt,b=nextsymbol))
+        else :
+            ntermList.append("N{a}=\'{a}\'{b}\n".format(a=alt,b=nextsymbol))
         cnt = cnt + 1
         if cnt > n:
             break
-        else:
-            grammarList.append("/")
-    grammarList.append(")*")
     f = open("{n}.nez".format(n=n), 'w')
-    f.write("".join(grammarList))
     f.write("".join(ntermList))
     f.close
     # print "".join(grammarList)
+    # print "".join(ntermList)
