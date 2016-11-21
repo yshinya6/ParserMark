@@ -2,6 +2,7 @@ import sys
 import random
 alphabets = []
 codes = (('a','z'),('A','Z'),('0','9'))
+prefixList = ['@','!','#','$']
 
 # create alphabet list
 for r in codes:
@@ -19,11 +20,14 @@ footer.close()
 
 for n in range(0,62):
     ntermList = []
-    startProduction = ["S: N | S N;\n"]
+    startProduction = "S: N | S N;\n"
+    prefixProduction = "Prefix:"
+    for i in range(0,len(prefixList)):
+        prefixProduction = prefixProduction + "\'{c}\'".format(c=prefixList[i])
     grammarList = ["N:"]
     cnt = 0
     for alt in alphabets:
-        ntermList.append("N{a}:\'{a}\'\n".format(a=alt))
+        ntermList.append("N{a}:Prefix\'{a}\'\n".format(a=alt))
         grammarList.append("N{a}".format(a=alt))
         cnt = cnt + 1
         if cnt > n:
@@ -34,7 +38,8 @@ for n in range(0,62):
 
     f = open("R{n}.y".format(n=n), 'w')
     f.write(hCode)
-    f.write("".join(startProduction))
+    f.write(startProduction)
+    f.write(prefixProduction)
     f.write("".join(grammarList))
     f.write("".join(ntermList))
     f.write(fCode)

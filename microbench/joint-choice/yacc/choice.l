@@ -78,6 +78,7 @@ comment //[^\n]*
 "7"	return '7';
 "8"	return '8';
 "9"	return '9';
+"@" return '@';
 <<EOF>>     return EOF;
 
 

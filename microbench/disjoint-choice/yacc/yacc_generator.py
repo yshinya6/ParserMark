@@ -23,7 +23,7 @@ for n in range(0,62):
     grammarList = ["N:"]
     cnt = 0
     for alt in alphabets:
-        ntermList.append("N{a}:\'{a}\'\n".format(a=alt))
+        ntermList.append("N{a}:\'{a}\' \'{a}\'\n".format(a=alt))
         grammarList.append("N{a}".format(a=alt))
         cnt = cnt + 1
         if cnt > n:
