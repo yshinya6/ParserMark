@@ -11,7 +11,6 @@ EOF
 
 for var in `seq ${start} ${end}`
 do
-    cat ./app/nest${var}.scala > ./app/Main.hs
     echo nest${var}.scala,"\c" >> ${filename}
     echo ${var}.txt,"\c" >> ${filename}
     scalac ./app/nest${var}.scala

@@ -46,7 +46,7 @@ for width in [1,10,20,30,40,50,60,70,80,90,100]:
                 break
         f = open("./app/wd{w}-{d}.scala".format(w=width,d=depth), 'w')
         f.write(iCode)
-        f.write("object wd{w}-{d}".format(w=width,d=depth))
+        f.write("object wd{w}_{d}".format(w=width,d=depth))
         f.write(hCode)
         f.write("".join(ntermList))
         f.write("def apply(input: String): Either[String, Any] = parseAll(Na, input) match {")

@@ -11,7 +11,6 @@ EOF
 
 for var in `seq ${start} ${end}`
 do
-    cat ./app/disjointChoice${var}.scala > ./app/Main.hs
     echo disjointChoice${var}.scala,"\c" >> ${filename}
     echo ${var}.txt,"\c" >> ${filename}
     scalac ./app/disjointChoice${var}.scala

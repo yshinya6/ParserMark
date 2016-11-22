@@ -13,7 +13,6 @@ for var in `seq ${start} ${end}`
 do
   if [ `expr $var % 2` == 0 ]
   then
-    cat ./app/middleRecursion${var}.scala > ./app/Main.hs
     echo middleRecursion${var}.scala,"\c" >> ${filename}
     echo ${var}.txt,"\c" >> ${filename}
     scalac ./app/middleRecursion${var}.scala
