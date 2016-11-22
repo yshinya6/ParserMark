@@ -77,7 +77,8 @@ object CelloParser extends RegexParsers {
   def PostfixExpression = ( PrimaryExpression ~ FunctionCall ) | PrimaryExpression
   def FunctionCall: Parser[Any] = ( "()" ) | ( "(" ~ ArgumentExpressionList ~ ")" )
   def ArgumentExpressionList = AssignmentExpression ~ ( "," ~ AssignmentExpression ).*
-  def PrimaryExpression : Parser[Any] = ( "(" ~ Expression ~ ")" ) | Literal
+  def PrimaryExpression : Parser[Any] = ( "(" ~ Expression ~ ")" ) | Literal | FunctionExpression
+  def FunctionExpression : Parser[Any] = Type ~ NAME ~ "(" ~ FunctionParamList ~ ")" ~ Block ~ "::"
   def QualifiedName = NAME ~ ( "." ~ NAME ).*
   def Literal = INT | TRUE | FALSE | NULL_LITERAL | STRING | NAME
   def STRING = "\"" ~ ( not("\"") ~ ".".r ).* ~ "\""
