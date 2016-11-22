@@ -2,6 +2,8 @@ import sys
 import random
 alphabets = []
 codes = (('a','z'),('A','Z'),('0','9'))
+prefix = "@"
+
 
 # create alphabet list
 for r in codes:
@@ -29,7 +31,7 @@ for n in range(0,62):
     grammarList = ["choice:("]
     cnt = 0
     for alt in alphabets:
-        ntermList.append("n_{a}:\'{b}\';\n".format(a=ord(alt),b=alt))
+        ntermList.append("n_{a}:\'@\'\'{b}\';\n".format(a=ord(alt),b=alt))
         grammarList.append("n_{a}".format(a=ord(alt)))
         cnt = cnt + 1
         if cnt > n:
