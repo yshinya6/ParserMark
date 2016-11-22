@@ -1,0 +1,4 @@
+    case Success(postalCodeData, next) => Right(postalCodeData)
+    case NoSuccess(errorMessage, next) => Left(s"$errorMessage on line ${next.pos.line} on column ${next.pos.column}")
+  }
+}
