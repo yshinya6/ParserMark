@@ -2,7 +2,7 @@ import sys
 import random
 alphabets = []
 codes = (('a','z'),('A','Z'),('0','9'))
-prefixList = ['@','!','#','$']
+prefixList = ['@', '#', '$', '%']
 
 # create alphabet list
 for r in codes:

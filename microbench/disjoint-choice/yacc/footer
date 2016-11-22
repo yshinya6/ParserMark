@@ -30,20 +30,27 @@
       }
 
       for (int i = 1; i < argc; i++) {
-        if (!(yyin = fopen(argv[i], "rb"))) {
-    			fprintf(stderr, "File [%s] is not found!\n", argv[i]);
-    			return 1;
+        double fastest = 0.0;
+        for (int j = 0; j < 5; j++) {
+          if (!(yyin = fopen(argv[i], "rb"))) {
+            fprintf(stderr, "File [%s] is not found!\n", argv[i]);
+            return 1;
+          }
+          int result = 0;
+          struct timeval start, end;
+          gettimeofday(&start, NULL);
+          result = yyparse();
+          gettimeofday(&end, NULL);
+          if (result) {
+            fprintf(stderr, "[%s] Parse Error!!!\n", argv[i]);
+            break;
+          }
+          double execTime = timediff(&start, &end);
+          if (fastest == 0.0 || (execTime < fastest) ) {
+            fastest = execTime;
+          }
+          fclose(yyin);
         }
-        int result = 0;
-        struct timeval start, end;
-        gettimeofday(&start, NULL);
-        result = yyparse();
-        gettimeofday(&end, NULL);
-        // printf("%d\n",result );
-        if (result) {
-          fprintf(stderr, "[%s] Parse Error!!!\n", argv[i]);
-          break;
-        }
-        fprintf(stdout, "%s OK %.4f [ms]\n", argv[i], timediff(&start, &end));
+        fprintf(stdout, "%s OK %.4f [ms]\n", argv[i], fastest);
       }
   }
