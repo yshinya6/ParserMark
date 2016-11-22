@@ -15,5 +15,5 @@ do
     echo jointChoice${var}.scala,"\c" >> ${filename}
     echo ${var}.txt,"\c" >> ${filename}
     scalac ./app/jointChoice${var}.scala
-    scala jointChoice${var} ../joint-choice/test/${var}.txt >> ${filename}
+    scala jointChoice${var} ../test/${var}.txt >> ${filename}
 done

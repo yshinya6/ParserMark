@@ -22,11 +22,10 @@ footer.close()
 
 for n in range(0,62):
     ntermList = []
-    prefix = "def Prefix= \'@\'\n"
     grammarList = ["def S: Parser[Any] =("]
     cnt = 0
     for alt in alphabets:
-        ntermList.append("def N{a}: Parser[Any] =Prefix~\'{a}\'\n".format(a=alt))
+        ntermList.append("def N{a}: Parser[Any] =\"{a}{a}\"\n".format(a=alt))
         grammarList.append("N{a}".format(a=alt))
         cnt = cnt + 1
         if cnt > n:
@@ -35,12 +34,11 @@ for n in range(0,62):
             grammarList.append("|")
 
     grammarList.append(").*\n")
-    f = open("./app/jointChoice{n}.scala".format(n=n), 'w')
+    f = open("./app/disjointChoice{n}.scala".format(n=n), 'w')
     f.write(iCode)
-    f.write("object jointChoice{n}".format(n=n))
+    f.write("object disjointChoice{n}".format(n=n))
     f.write(hCode)
     f.write("".join(grammarList))
-    f.write(prefix)
     f.write("".join(ntermList))
     f.write("def apply(input: String): Either[String, Any] = parseAll(S, input) match {")
     f.write(fCode)

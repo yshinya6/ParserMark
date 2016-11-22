@@ -1,7 +1,4 @@
-import scala.util.parsing.combinator._
-import scala.io.Source
-import scala.collection.mutable.StringBuilder
-object middleRecursion2{
+{
 def main (args:Array[String]):Unit={
   var firstest = 1000000.0
   for (i <- 1 to 5){
@@ -26,10 +23,3 @@ def main (args:Array[String]):Unit={
 }
 
 object Parser extends RegexParsers {
-def Na: Parser[Any] ='a'~Nb|"!.".r
-def Nb: Parser[Any] ='b'~Nc
-def Nc: Parser[Any] ='c'~Na
-def apply(input: String): Either[String, Any] = parseAll(Na, input) match {    case Success(postalCodeData, next) => Right(postalCodeData)
-    case NoSuccess(errorMessage, next) => Left(s"$errorMessage on line ${next.pos.line} on column ${next.pos.column}")
-  }
-}
