@@ -1,0 +1,133 @@
+options {
+  JDK_VERSION = "1.8";
+}
+
+PARSER_BEGIN(XXX)
+
+import java.io.*;
+
+public class XXX
+{
+   public XXX(String fileName)
+   {
+      this(System.in);
+      try { ReInit(new FileInputStream(new File(fileName))); }
+      catch(Exception e) { e.printStackTrace(); }
+   }
+
+  public static void main(String args[]) {
+    if (args.length != 1) {
+      System.err.println("This is a JavaCC parser for Cello");
+      System.err.println("Usage: <Input>");
+      System.exit(1);
+    }
+    parse(args[0]);
+  }
+
+  public static void parse(String filePath) {
+    XXX parser;
+    long fastest = 0;
+    for (int i = 0; i < 5; i++) {
+      try {
+        parser = new XXX(new java.io.FileInputStream(filePath));
+      } catch (java.io.FileNotFoundException e) {
+        System.out.println("File " + filePath + " not found.");
+        return;
+      }
+      try {
+        long start = System.nanoTime();
+        parser.File();
+        long end = System.nanoTime();
+        if ((end - start) < fastest || fastest == 0) {
+          fastest = (end - start);
+        }
+      } catch (ParseException e) {
+        System.out.println(e.getMessage());
+        System.out.println(String.format("%s ERROR", filePath));
+        System.exit(1);
+      }
+    }
+    double result = fastest/1000000.0;
+    System.out.println(String.format("%s %s", filePath, result));
+  }
+}
+
+PARSER_END(XXX)
+
+
+// Lexer Rule
+/* WHITE SPACE */
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+
+TOKEN :
+{
+  <L0:"0">
+| <L1:"1">
+| <L2:"2">
+| <L3:"3">
+| <L4:"4">
+| <L5:"5">
+| <L6:"6">
+| <L7:"7">
+| <L8:"8">
+| <L9:"9">
+| <La:"a">
+| <Lb:"b">
+| <Lc:"c">
+| <Ld:"d">
+| <Le:"e">
+| <Lf:"f">
+| <Lg:"g">
+| <Lh:"h">
+| <Li:"i">
+| <Lj:"j">
+| <Lk:"k">
+| <Ll:"l">
+| <Lm:"m">
+| <Ln:"n">
+| <Lo:"o">
+| <Lp:"p">
+| <Lq:"q">
+| <Lr:"r">
+| <Ls:"s">
+| <Lt:"t">
+| <Lu:"u">
+| <Lv:"v">
+| <Lw:"w">
+| <Lx:"x">
+| <Ly:"y">
+| <LA:"A">
+| <LB:"B">
+| <LC:"C">
+| <LD:"D">
+| <LE:"E">
+| <LF:"F">
+| <LG:"G">
+| <LH:"H">
+| <LI:"I">
+| <LJ:"J">
+| <LK:"K">
+| <LL:"L">
+| <LM:"M">
+| <LN:"N">
+| <LO:"O">
+| <LP:"P">
+| <LQ:"Q">
+| <LR:"R">
+| <LS:"S">
+| <LT:"T">
+| <LU:"U">
+| <LV:"V">
+| <LW:"W">
+| <LX:"X">
+| <LY:"Y">
+}
