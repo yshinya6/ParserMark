@@ -1,0 +1,43 @@
+// Test printing the example.
+// Daniel S. Wilkerson
+
+#include "example.h"
+#include "../smbase/astlist.h"
+#include "../smbase/objlist.h"
+#include "locstr.h"
+
+int main() {
+  // **** build the thing
+  FakeList<Node> *fl0;          // build in reverse
+  Node *n1 = new Node(1,101);
+  fl0 = FakeList<Node>::makeList(n1);
+  Node *n0 = new Node(0,100);
+  fl0 = fl0->prepend(n0);
+  NodeList *nl0 = new NodeList(fl0);
+
+  Node *n10 = new Node(10,110);
+  Node *n20 = new Node(20,120);
+  ASTList<Node> *astl0 = new ASTList<Node>();
+  astl0->append(n10);
+  astl0->append(n20);
+  LocString *loc0 = new LocString(SourceLocation(FileLocation(200,201), new SourceFile("there0")),
+                                  "somefilename");
+  AnotherList *al0 = new AnotherList(astl0, loc0);
+
+  Super *s3 = new Sub1(3, 103);
+
+  Super *s4 = new Sub2(4, 104);
+
+  // **** render it into xml
+  std::cout << "**************** first" << std::endl;
+  nl0->xmlPrint(std::cout,0);
+  std::cout << "**************** second" << std::endl;
+  al0->xmlPrint(std::cout,0);
+  std::cout << "**************** third" << std::endl;
+  s3->xmlPrint(std::cout,0);
+  std::cout << "**************** fourth" << std::endl;
+  s4->xmlPrint(std::cout,0);
+  std::cout << "**************** done" << std::endl;
+
+  return 0;
+}
