@@ -1,4 +1,4 @@
-grammar Cello;
+grammar Epsilon;
 options {backtrack=true;}
 
 
@@ -40,14 +40,14 @@ declaration: functionDeclaration
            | variableDeclaration
            ;
 
-functionDeclaration: type NAME '(' functionParamList ')' block
+functionDeclaration: 'function' NAME '(' functionParamList ')' block
                    ;
 functionParamList: (functionParam (',' functionParam)*)?
                  ;
-functionParam: type NAME
+functionParam: NAME
              ;
 
-variableDeclaration: type variableList ';'
+variableDeclaration: 'var' variableList ';'
                    ;
 variableList: initDecl (',' initDecl)*
             ;
@@ -56,25 +56,26 @@ initDecl: NAME ('=' initializer)?
 initializer: expression
            ;
 
-// Type
-type: primitiveType
-    ;
-primitiveType: 'int'
-             | 'string'
-             | 'boolean'
-             ;
-
 //Block, Statement
 block: '{' (statement|declaration)* '}'
      ;
 statement: block
-         | 'if' '(' expression ')' block ( 'else' block )?
-         | 'return' expression? ';'
-         | 'for' '(' expression? ';' expression? ';' expression? ')' block
-         | 'for' '(' variableDeclaration expression? ';' expression? ')' block
-         | expression ';'
-         | ';'
-         ;
+        | 'if' '(' expression ')' block ( 'else1' block )
+        | 'if' '(' expression ')' block ( 'else2' block )
+        | 'if' '(' expression ')' block ( 'else3' block )
+        | 'if' '(' expression ')' block ( 'else4' block )
+        | 'if' '(' expression ')' block ( 'else5' block )
+        | 'if' '(' expression ')' block ( 'else6' block )
+        | 'if' '(' expression ')' block ( 'else7' block )
+        | 'if' '(' expression ')' block ( 'else8' block )
+        | 'if' '(' expression ')' block ( 'else9' block )
+        | 'if' '(' expression ')' block ( 'elseA' block )
+        | 'if' '(' expression ')' block ( 'elseB' block )
+        | 'if' '(' expression ')' block ( 'elseC' block )
+        | 'if' '(' expression ')' block ( 'else' block )?
+        | 'return' expression? ';'
+        | expression ';'
+        ;
 
 //Expression
 expression: assignmentExpression (',' assignmentExpression)*;
@@ -87,8 +88,6 @@ relationalExpression: additiveExpression (('<'|'>') additiveExpression)*;
 additiveExpression: multiplicativeExpression (('+'|'-') multiplicativeExpression)*;
 multiplicativeExpression: unaryExpression (('*'|'/') unaryExpression)*;
 unaryExpression: postfixExpression
-               | '++' unaryExpression
-               | '--' unaryExpression
                | '!' unaryExpression
                ;
 postfixExpression: primaryExpression (functionCall)*;
@@ -96,7 +95,12 @@ functionCall: '(' expressionList? ')';
 primaryExpression: '(' expression ')'
                  | literal
                  | NAME
+                 | functionExpression
                  ;
+
+functionExpression: 'function' NAME? '(' functionParamList ')' block '::'
+                 ;
+
 
 expressionList: expression ( ',' expression)*
               ;
