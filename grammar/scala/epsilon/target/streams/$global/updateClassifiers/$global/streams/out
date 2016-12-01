@@ -1,0 +1,170 @@
+[debug] :: resolving dependencies :: default#epsilon$sources_2.12;1.0
+[debug] 	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool]
+[debug] 	validate = true
+[debug] 	refresh = false
+[debug] resolving dependencies for configuration 'compile'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->default(compile)]
+[info] Resolving org.scala-lang#scala-library;2.12.0 ...
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@58e339dd
+[debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.12.0
+[debug] 	found org.scala-lang#scala-library;2.12.0 in sbt-chain
+[debug] 	[2.12.0] org.scala-lang#scala-library;2.12.0
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] resolving dependencies for configuration 'runtime'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [runtime]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->master]
+[debug] resolving dependencies for configuration 'test'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [test]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [runtime]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->master]
+[debug] resolving dependencies for configuration 'provided'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [provided]
+[debug] resolving dependencies for configuration 'optional'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [optional]
+[debug] resolving dependencies for configuration 'compile-internal'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [compile-internal]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [optional]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [provided]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile-internal->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile-internal->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile-internal->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile-internal->master]
+[debug] resolving dependencies for configuration 'runtime-internal'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [runtime-internal]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [runtime]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->master]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [optional]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime-internal->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime-internal->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime-internal->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime-internal->master]
+[debug] resolving dependencies for configuration 'test-internal'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [test-internal]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [test]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [runtime]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [compile->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [runtime->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test->master]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [optional]
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [provided]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test-internal->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test-internal->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test-internal->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [test-internal->master]
+[debug] resolving dependencies for configuration 'plugin'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [plugin]
+[debug] resolving dependencies for configuration 'sources'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [sources]
+[debug] resolving dependencies for configuration 'docs'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [docs]
+[debug] resolving dependencies for configuration 'pom'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [pom]
+[debug] resolving dependencies for configuration 'scala-tool'
+[debug] == resolving dependencies for default#epsilon$sources_2.12;1.0 [scala-tool]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [scala-tool->default(compile)]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [scala-tool->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [scala-tool->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-library;2.12.0 [scala-tool->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-compiler;2.12.0 [scala-tool->default(compile)]
+[info] Resolving org.scala-lang#scala-compiler;2.12.0 ...
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-compiler;2.12.0 {scala-tool=[default(compile)]}
+[debug] sbt-chain: module revision found in cache: org.scala-lang#scala-compiler;2.12.0
+[debug] 	found org.scala-lang#scala-compiler;2.12.0 in sbt-chain
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-compiler;2.12.0 [scala-tool->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-compiler;2.12.0 [scala-tool->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-compiler;2.12.0 [scala-tool->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-reflect;2.12.0 [scala-tool->default(compile)]
+[info] Resolving org.scala-lang#scala-reflect;2.12.0 ...
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-reflect;2.12.0 {scala-tool=[default(compile)]}
+[debug] sbt-chain: module revision found in cache: org.scala-lang#scala-reflect;2.12.0
+[debug] 	found org.scala-lang#scala-reflect;2.12.0 in sbt-chain
+[debug] 	[2.12.0] org.scala-lang#scala-reflect;2.12.0
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-reflect;2.12.0 [scala-tool->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-reflect;2.12.0 [scala-tool->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang#scala-reflect;2.12.0 [scala-tool->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang.modules#scala-xml_2.12;1.0.5 [scala-tool->default(compile)]
+[info] Resolving org.scala-lang.modules#scala-xml_2.12;1.0.5 ...
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang.modules#scala-xml_2.12;1.0.5 {scala-tool=[default(compile)]}
+[debug] sbt-chain: module revision found in cache: org.scala-lang.modules#scala-xml_2.12;1.0.5
+[debug] 	found org.scala-lang.modules#scala-xml_2.12;1.0.5 in sbt-chain
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang.modules#scala-xml_2.12;1.0.5 [scala-tool->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang.modules#scala-xml_2.12;1.0.5 [scala-tool->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->org.scala-lang.modules#scala-xml_2.12;1.0.5 [scala-tool->master]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->jline#jline;2.14.1 [scala-tool->default(compile)]
+[info] Resolving jline#jline;2.14.1 ...
+[debug] sbt-chain: Checking cache for: dependency: jline#jline;2.14.1 {scala-tool=[default(compile)]}
+[debug] sbt-chain: module revision found in cache: jline#jline;2.14.1
+[debug] 	found jline#jline;2.14.1 in sbt-chain
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->jline#jline;2.14.1 [scala-tool->runtime]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->jline#jline;2.14.1 [scala-tool->compile]
+[debug] == resolving dependencies default#epsilon$sources_2.12;1.0->jline#jline;2.14.1 [scala-tool->master]
+[debug] circular dependency found: org.scala-lang#scala-compiler;2.12.0->org.scala-lang.modules#scala-xml_2.12;1.0.5->...
+[debug] 	resolved ivy file produced in cache
+[debug] :: downloading artifacts ::
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.0!scala-library.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.0!scala-library.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.0!scala-compiler.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.0!scala-reflect.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.5!scala-xml_2.12.jar(src)
+[debug] 	[NOT REQUIRED] jline#jline;2.14.1!jline.jar(src)
+[debug] :: resolution report :: resolve 24ms :: artifacts dl 7ms
+[debug] 	report for default#epsilon$sources_2.12;1.0 compile produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-compile.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 runtime produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-runtime.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 test produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-test.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 provided produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-provided.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 optional produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-optional.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 compile-internal produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-compile-internal.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 runtime-internal produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-runtime-internal.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 test-internal produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-test-internal.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 plugin produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-plugin.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 sources produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-sources.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 docs produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-docs.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 pom produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-pom.xml
+[debug] 	report for default#epsilon$sources_2.12;1.0 scala-tool produced in /Users/ryo/Documents/kuramitsulab/ParserMark/grammar/scala/epsilon/target/resolution-cache/reports/default-epsilon$sources_2.12-scala-tool.xml
+[debug] 	resolve done (24ms resolve - 7ms download)
