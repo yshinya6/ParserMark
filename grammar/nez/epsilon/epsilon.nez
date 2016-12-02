@@ -28,7 +28,7 @@ Declaration               = FunctionDeclaration
                           / VariableDeclaration
 
 FunctionDeclaration         = { "function" _ $name(Identifier) _ "(" $list(FunctionParamList) ")" $body(Block) #FunctionDecl }
-FunctionParamList           = { ( $(FunctionParam) ( "," $(FunctionParam) )* )? ( "," "..." )? #List }
+FunctionParamList           = { ( $(FunctionParam) ( "," $(FunctionParam) )* )?  #List }
 FunctionParam               = { $name(Identifier) #Param } _
 VariableDeclaration       = { "var" _ $list(VariableList) ";" #Declaration }
 VariableList              = { $(InitDecl) ( "," $(InitDecl) )*  #VarList}
@@ -43,23 +43,23 @@ example VariableDeclaration ~ef2263 int a=0;
 example VariableDeclaration ~4bd8c5 int a=0,b=1,c=2;
 
 // Block, Statement
-Block                     = { "{" ( $(Statement) / $(Declaration) / _ )* "}" #Block }
+Block                     = { "{" ( $(Statement) _ / $(Declaration) _ )* "}" #Block }
 Statement                 = Block
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else1' _ $else(Block) ) #If1 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else2' _ $else(Block) ) #If2 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else3' _ $else(Block) ) #If3 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else4' _ $else(Block) ) #If4 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else5' _ $else(Block) ) #If5 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else6' _ $else(Block) ) #If6 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else7' _ $else(Block) ) #If7 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else8' _ $else(Block) ) #If8 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else9' _ $else(Block) ) #If9 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'elseA' _ $else(Block) ) #IfA }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'elseB' _ $else(Block) ) #IfB }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'elseC' _ $else(Block) ) #IfC }
                           / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If1 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If2 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If3 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If4 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If5 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If6 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If7 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If8 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If9 }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfA }
-                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #IfB }
                           / { "return" _ $expr(Expression)? ";" #Return }
                           / { $expr(Expression) ";" #ExpressionStatement }
-                          / { #Empty } ";"
 
 example Block ~8909e9 '''
 {
