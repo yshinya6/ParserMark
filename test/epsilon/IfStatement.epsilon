@@ -1,0 +1,6 @@
+function func (a) {
+  if(true) { }
+  if(true) {
+    a = 1;
+  }
+}

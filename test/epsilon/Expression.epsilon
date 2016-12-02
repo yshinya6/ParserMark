@@ -1,0 +1,17 @@
+function func (a) {
+  a;
+  abcdefghijklmnopqrstuvwxyz;
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ;
+  a0123456789_$;
+  1;
+  0;
+  a = 1;
+  a == b;
+  a <= b;
+  (a == b) || (c == d);
+  !a;
+  func_call();
+  function f(){}::;
+  function (){}::;
+  function (){}::();
+}

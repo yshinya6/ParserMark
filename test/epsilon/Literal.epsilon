@@ -1,0 +1,8 @@
+function func (a) {
+  "hoge";
+  null;
+  123456;
+  0;
+  true;
+  false;
+}
