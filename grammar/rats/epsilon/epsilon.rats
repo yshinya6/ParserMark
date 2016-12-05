@@ -1,40 +1,32 @@
-module cello;
+module epsilon;
 
 
-public generic File = L ImportDeclaration* TopLevel+ L EOT;
+public generic File = L TopLevel+ L EOT;
 
 
 // all test passed
 //literal
- generic  ImportDeclaration =
-      "import" L Identifier  (void:"." Identifier)*  L
-              ;
  generic Declaration =
-        MethodDeclaration
+        FunctionDeclaration
         /VariableDeclaration
-        /Dummy1
-        /Dummy2
         ;
- generic MethodDeclaration =
-        Type L Identifier L "(" MethodParamList ")" (L Block L/ L ";")
+ generic FunctionDeclaration =
+        "function" L Identifier L "(" FunctionParamList ")" (L Block L/L ";")
         ;
-
- generic MethodParamList =
-         MethodParams? (void:';' void:"...")?
-         ;
-
- generic MethodParams =
-          MethodParam MethodParamRepeat*
+ generic FunctionParamList =
+          FunctionParamListOption?
           ;
-          generic MethodParamRepeat =
-            void:',' L MethodParam
+ generic FunctionParamListOption =
+          FunctionParam L FunctionParamRepeat*
+          ;
+          generic FunctionParamRepeat =
+            void:',' L FunctionParam
             ;
-
- generic MethodParam =
-         Type L Identifier? L
-         ;
+          generic FunctionParam =
+            Identifier L
+            ;
  generic VariableDeclaration =
-         Type L VariableList ";" L
+         "var" L VariableList ";" L
          ;
  generic VariableList =
         InitDecl VariableListRepeat*
@@ -52,33 +44,10 @@ public generic File = L ImportDeclaration* TopLevel+ L EOT;
  generic Initializer =
        AssignmentExpression
        ;
- generic Dummy1 =
-       "dummy1" VariableList ";"
-       ;
- generic Dummy2 =
-       "dummy2" VariableList ";"
-       ;
-
-
-//type
- generic Type =
-        PrimitiveType
-       / ReferenceType
-       ;
-
-       inline generic PrimitiveType =
-        "int"
-       / "boolean"
-       / "long"
-       / "string"
-       ;
-       inline generic ReferenceType =
-       Identifier
-       ;
 
 //block
  generic Block =
-     "{" L (Statement / Declaration )*  "}" L
+     "{" L (Statement / Declaration )* "}" L
      ;
 
 
@@ -97,14 +66,14 @@ public generic File = L ImportDeclaration* TopLevel+ L EOT;
           / "ifA" L "(" Expression ")" L Block Else?
           / "ifB" L "(" Expression ")" L Block Else?
           / "return" L Expression? ";" L
-          / Expression ";" L
+          / Expression L ";" L
           / ";"
           ;
  generic Else =
        "else" L Block;
 
  generic Expression=
-  AssignmentExpression Comma*
+  AssignmentExpression L Comma*
   ;
      generic Comma =
         void:"," L AssignmentExpression
@@ -112,7 +81,7 @@ public generic File = L ImportDeclaration* TopLevel+ L EOT;
 
 variant generic AssignmentExpression =
     UnaryExpression L AssignmentOperator L AssignmentExpression
-  / ConditionalExpression
+  / ConditionalExpression L
   ;
 
    String AssignmentOperator =
@@ -132,67 +101,76 @@ variant generic AssignmentExpression =
   ;
 
   generic ConditionalExpression =
-    LogicalOrExpression ExpressionRepeat*
+    LogicalOrExpression L ExpressionRepeat*
    ;
     generic ExpressionRepeat =
       void:"?" Expression void:":" LogicalOrExpression
       ;
  generic LogicalOrExpression =
-    LogicalAndExpression Or*
+    LogicalAndExpression L Or*
     ;
     generic Or =
          void:"||" L LogicalAndExpression
          ;
 
  generic LogicalAndExpression =
-   EqualityExpression And*
+   EqualityExpression L And*
    ;
       generic And =
         void:"&&" L EqualityExpression
         ;
 
  generic EqualityExpression =
-    RelationalExpression EqualOrNotEqual*
+    RelationalExpression L EqualOrNotEqual*
     ;
        generic EqualOrNotEqual =
        (void:"=="/void:"!=") L RelationalExpression
        ;
 
  generic RelationalExpression =
-      UnaryExpression LessOrMore*
+      UnaryExpression L LessOrMore*
       ;
       generic LessOrMore =
-         (void:"<"/ void:"<=" / void:">"/ void:">=") L
-         /UnaryExpression
+         ( void:"<=" / void:"<" / void:">=" / void:">") L UnaryExpression
          ;
 
  generic UnaryExpression =
        PostfixExpression
-      / "!"  L UnaryExpression
+      / void:"!" L UnaryExpression
      ;
 
  generic PostfixExpression =
-     PrimaryExpression (FunctionCall)*
+     FunctionCall
+     / PrimaryExpression
      ;
+generic FunctionCall =
+    PrimaryExpression FunctionCallMore+
+    ;
 
- generic FunctionCall =
+ generic FunctionCallMore =
     "(" ArgumentExpressionList? ")" L
     ;
 
  generic ArgumentExpressionList =
-   AssignmentExpression (void:"," AssignmentExpression)*
+   AssignmentExpression L AssignmentExpressionRepeat*
    ;
+   generic AssignmentExpressionRepeat =
+      void:"," L AssignmentExpression
+      ;
 
  generic PrimaryExpression =
-  Constant
-  /"(" Expression ")" L
-  /Identifier
-  /FunctionExpression
+  Constant L
+  / "(" Expression ")" L
+  / FunctionExpression L
+  / Identifier L
   ;
 
  generic FunctionExpression =
-   Type L Identifier? "(" MethodParamList ")" Block*
+   "function" L IdentifierSkip? "(" FunctionParamList ")" L Block void:"::" L
    ;
+    generic IdentifierSkip =
+              Identifier L
+              ;
 
  generic Constant =
     IntegerLiteral
@@ -227,9 +205,12 @@ variant generic AssignmentExpression =
   generic DIGIT                     = [0-9] ;
   generic W                         = [a-zA-Z0-9_$] ;
   generic NW                        = !W;
-  generic TopLevel                 = Declaration/";";
+  generic TopLevel                  = Declaration
+                                     /";"
+                                      ;
   generic KEYWORD                   = "else" L
                                     / "if" L
-                                    / "int" L
                                     / "return" L
+                                    / "function" L
+                                    / "var" L
                                     ;
