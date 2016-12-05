@@ -7,8 +7,8 @@ function func (a) {
   0;
   a = 1;
   a == b;
-  a <= b;
-  (a == b) || (c == d);
+  a  <=  b;
+ (a == b) || (c == d);
   !a;
   func_call();
   function f(){}::;
