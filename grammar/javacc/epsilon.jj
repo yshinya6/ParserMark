@@ -7,12 +7,12 @@ PARSER_BEGIN(EpsilonParser)
 import java.io.*;
 
 /**
- * Grammar to parse Cello language
+ * Grammar to parse Epsilon language
  * @author Shun Kubota, Shinya Yamaguchi
  */
-public class CelloParser
+public class EpsilonParser
 {
-   public CelloParser(String fileName)
+   public EpsilonParser(String fileName)
    {
       this(System.in);
       try { ReInit(new FileInputStream(new File(fileName))); }
@@ -21,7 +21,7 @@ public class CelloParser
 
   public static void main(String args[]) {
     if (args.length != 1) {
-      System.err.println("This is a JavaCC parser for Cello");
+      System.err.println("This is a JavaCC parser for Epsilon");
       System.err.println("Usage: <Input>");
       System.exit(1);
     }
@@ -29,11 +29,11 @@ public class CelloParser
   }
 
   public static void parse(String filePath) {
-    CelloParser parser;
+    EpsilonParser parser;
     long fastest = 0;
     for (int i = 0; i < 5; i++) {
       try {
-        parser = new CelloParser(new java.io.FileInputStream(filePath));
+        parser = new EpsilonParser(new java.io.FileInputStream(filePath));
       } catch (java.io.FileNotFoundException e) {
         System.out.println("File " + filePath + " not found.");
         return;
@@ -56,7 +56,7 @@ public class CelloParser
   }
 }
 
-PARSER_END(CelloParser)
+PARSER_END(EpsilonParser)
 
 
 // Lexer Rule
@@ -143,6 +143,10 @@ TOKEN :
 | < LSHIFTASSIGN: "<<=" >
 | < RSIGNEDSHIFTASSIGN: ">>=" >
 | < RUNSIGNEDSHIFTASSIGN: ">>>=" >
+| < LEFTPAREN: "(" >
+| < RIGHTPAREN: ")">
+| < OR: "|" >
+| < COMMA: "." >
 }
 
 /* RESERVED WORDS AND LITERALS */
@@ -235,7 +239,7 @@ void TopLevel():
 void Declaration():
 {}
 {
-  LOOKAHEAD(3)
+//  LOOKAHEAD(3)
       FunctionDeclaration()
     | VariableDeclaration()
 }
@@ -243,8 +247,8 @@ void Declaration():
 void FunctionDeclaration():
 {}
 {
- LOOKAHEAD(2)
- ("function" <NAME> "(" (FunctionParamList())? ")" Block()
+ //LOOKAHEAD(2)
+ "function" <NAME> "(" (FunctionParamList())? ")" Block()
 }
 
 void FunctionParamList():
@@ -352,7 +356,7 @@ void UnaryExpression():
 void PostfixExpression():
 {}
 {
-   FunctionCall
+  FunctionCall
  | PrimaryExpression
 }
 
