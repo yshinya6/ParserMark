@@ -1,0 +1,408 @@
+options {
+  JDK_VERSION = "1.8";
+}
+
+PARSER_BEGIN(CelloParser)
+
+import java.io.*;
+
+/**
+ * Grammar to parse Java version 1.5
+ * @author Sreenivasa Viswanadha - Simplified and enhanced for 1.5
+ */
+public class CelloParser
+{
+   public CelloParser(String fileName)
+   {
+      this(System.in);
+      try { ReInit(new FileInputStream(new File(fileName))); }
+      catch(Exception e) { e.printStackTrace(); }
+   }
+
+  public static void main(String args[]) {
+    CelloParser parser;
+    if (args.length == 0) {
+      System.out.println("Java Parser Version 1.1:  Reading from standard input . . .");
+      parser = new CelloParser(System.in);
+    } else if (args.length == 1) {
+      System.out.println("Java Parser Version 1.1:  Reading from file " + args[0] + " . . .");
+      try {
+        parser = new CelloParser(new java.io.FileInputStream(args[0]));
+      } catch (java.io.FileNotFoundException e) {
+        System.out.println("Java Parser Version 1.1:  File " + args[0] + " not found.");
+        return;
+      }
+    } else {
+      System.out.println("Java Parser Version 1.1:  Usage is one of:");
+      System.out.println("         java CelloParser < inputfile");
+      System.out.println("OR");
+      System.out.println("         java CelloParser inputfile");
+      return;
+    }
+    try {
+      parser.File();
+      System.out.println("Java Parser Version 1.1:  Java program parsed successfully.");
+    } catch (ParseException e) {
+      System.out.println(e.getMessage());
+      System.out.println("Java Parser Version 1.1:  Encountered errors during parse.");
+    }
+  }
+
+}
+
+PARSER_END(CelloParser)
+
+
+// Lexer Rule
+/* WHITE SPACE */
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+/* COMMENTS */
+
+MORE :
+{
+  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
+|
+  "/*" : IN_MULTI_LINE_COMMENT
+}
+
+SPECIAL_TOKEN :
+{
+  <SINGLE_LINE_COMMENT: "//" (~["\n", "\r"])* ("\n" | "\r" | "\r\n")?>
+}
+
+<IN_FORMAL_COMMENT>
+SPECIAL_TOKEN :
+{
+  <FORMAL_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <MULTI_LINE_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
+MORE :
+{
+  < ~[] >
+}
+
+TOKEN :
+{
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+}
+
+/* OPERATORS */
+
+TOKEN :
+{
+  < ASSIGN: "=" >
+| < LT: "<" >
+| < GT: ">" >
+| < BANG: "!" >
+| < EQ: "==" >
+| < NE: "!=" >
+| < SC_OR: "||" >
+| < SC_AND: "&&" >
+| < ELLIPSIS: "..." >
+}
+
+/* RESERVED WORDS AND LITERALS */
+
+TOKEN :
+{
+  < BOOLEAN: "boolean" >
+| < ELSE: "else" >
+| < FOR: "for" >
+| < FALSE: "false" >
+| < IF: "if" >
+| < IMPORT: "import" >
+| < INT: "int" >
+| < LONG: "long" >
+| < NULL: "null" >
+| < RETURN: "return" >
+| < STRING: "string" >
+| < TRUE: "true" >
+}
+
+/* LITERALS */
+
+TOKEN :
+{
+  < INTEGER_LITERAL:
+         <DECIMAL_LITERAL> (["l","L"])?
+        |<ZERO> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #ZERO: "0">
+|
+  < STRING_LITERAL:
+      "\""
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )*
+      "\""
+  >
+| < NAME: <LETTER> (<PART_LETTER>)* >
+| < #LETTER:
+      [  "$","A"-"Z","_","a"-"z"]
+  >
+|
+  < #PART_LETTER:
+      [
+         "$",
+         "0"-"9",
+         "A"-"Z",
+         "_",
+         "a"-"z"
+      ]
+  >
+}
+
+/* TYPE */
+void Type():
+{}
+{
+ PrimitiveType()
+ |
+ ReferenceType()
+}
+
+void PrimitiveType():
+{}
+{
+ "int"
+ |"boolean"
+ |"long"
+ |"string"
+}
+
+void ReferenceType():
+{}
+{
+ <NAME>
+}
+
+// Parsing Rule
+void File():
+{}
+{
+ (ImportDeclaration())* (TopLevel())+
+}
+
+void ImportDeclaration():
+{}
+{
+ "import" <NAME> ("." <NAME>)*
+}
+
+void TopLevel():
+{}
+{
+ Declaration()
+}
+
+/*declaration*/
+void Declaration():
+{}
+{
+  LOOKAHEAD(3)
+      MethodDeclaration()
+    | VariableDeclaration()
+}
+
+void MethodDeclaration():
+{}
+{
+ LOOKAHEAD(2)
+ (Type() <NAME> "(" (MethodParamList())? ")" (Block() | ";"))
+ |
+  Type() Block()
+}
+
+void MethodParamList():
+{}
+{
+ MethodParam() ("," MethodParam())*
+}
+
+void MethodParam():
+{}
+{
+  Type() (<NAME>)?
+}
+
+void VariableDeclaration():
+{}
+{
+ Type() VariableList() ";"
+}
+
+void VariableList():
+{}
+{
+ InitDecl() (","InitDecl())*
+}
+
+void InitDecl():
+{}
+{
+ <NAME> ("=" AssignmentExpression())?
+}
+
+
+
+/*block,statement*/
+void Block():
+{}
+{
+  "{" (LOOKAHEAD(2)
+        Statement()
+      | Declaration())* "}"
+}
+
+void Statement():
+{}
+{
+  Block()
+  | "if" "(" Expression() ")" Block() ("else" Block())?
+  | "return" (Expression())? ";"
+  | Expression() ";"
+  | ";"
+}
+
+
+/*expression*/
+void Expression():
+{}
+{
+ AssignmentExpression() ("," AssignmentExpression())*
+}
+
+void AssignmentExpression():
+{}
+{
+    ConditionalExpression()
+  [ LOOKAHEAD(2) "=" AssignmentExpression() ]
+
+}
+
+void ConditionalExpression():
+{}
+{
+ EqualityExpression() (("||"|"&&") EqualityExpression())*
+}
+
+void EqualityExpression():
+{}
+{
+ RelationalExpression() (("=="|"!=") RelationalExpression())*
+}
+
+void RelationalExpression():
+{}
+{
+ UnaryExpression() ("<" UnaryExpression())*
+}
+
+void UnaryExpression():
+{}
+{
+ PostfixExpression()
+ |"!" UnaryExpression()
+}
+
+void PostfixExpression():
+{}
+{
+ PrimaryExpression() ( LOOKAHEAD(2) FunctionCall())*
+}
+
+void FunctionCall():
+{}
+{
+ "(" [ArgumentExpressionList()] ")"
+}
+
+void ArgumentExpressionList():
+{}
+{
+ AssignmentExpression() ("," AssignmentExpression())*
+
+}
+
+void PrimaryExpression():
+{}
+{
+  Constant()
+ |"("Expression()")"
+ | ExpressionName()
+}
+
+
+
+void Constant():
+{}
+{
+  IntegerLiteral()
+ |BooleanLiteral()
+ |StringLiteral()
+ |NullLiteral()
+}
+
+void ExpressionName():
+{}
+{
+  <NAME>
+}
+
+
+void IntegerLiteral():
+{}
+{
+  <INTEGER_LITERAL>
+}
+
+void BooleanLiteral():
+{}
+{
+   "true"
+  |"false"
+}
+
+void StringLiteral():
+{}
+{
+  <STRING_LITERAL>
+}
+
+void NullLiteral():
+{}
+{
+  "null"
+}
