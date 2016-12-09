@@ -143,10 +143,7 @@ TOKEN :
 | < LSHIFTASSIGN: "<<=" >
 | < RSIGNEDSHIFTASSIGN: ">>=" >
 | < RUNSIGNEDSHIFTASSIGN: ">>>=" >
-| < LEFTPAREN: "(" >
-| < RIGHTPAREN: ")">
-| < OR: "|" >
-| < COMMA: "." >
+
 }
 
 /* RESERVED WORDS AND LITERALS */
@@ -171,6 +168,7 @@ TOKEN :
 |< ELSEA: "elseA">
 |< ELSEB: "elseB">
 |< ELSEC: "elseC">
+|< IF: "if">
 | < INT: "int" >
 | < LONG: "long" >
 | < NULL: "null" >
@@ -294,18 +292,18 @@ void Statement():
 {}
 {
   Block()
-  | "if" "(" Expression() ")" Block() ("else1" Block())?
-  | "if" "(" Expression() ")" Block() ("else2" Block())?
-  | "if" "(" Expression() ")" Block() ("else3" Block())?
-  | "if" "(" Expression() ")" Block() ("else4" Block())?
-  | "if" "(" Expression() ")" Block() ("else5" Block())?
-  | "if" "(" Expression() ")" Block() ("else6" Block())?
-  | "if" "(" Expression() ")" Block() ("else7" Block())?
-  | "if" "(" Expression() ")" Block() ("else8" Block())?
-  | "if" "(" Expression() ")" Block() ("else9" Block())?
-  | "if" "(" Expression() ")" Block() ("elseA" Block())?
-  | "if" "(" Expression() ")" Block() ("elseB" Block())?
-  | "if" "(" Expression() ")" Block() ("elseC" Block())?
+//  | "if" "(" Expression() ")" Block() ("else1" Block())?
+//  | "if" "(" Expression() ")" Block() ("else2" Block())?
+//  | "if" "(" Expression() ")" Block() ("else3" Block())?
+//  | "if" "(" Expression() ")" Block() ("else4" Block())?
+//  | "if" "(" Expression() ")" Block() ("else5" Block())?
+//  | "if" "(" Expression() ")" Block() ("else6" Block())?
+//  | "if" "(" Expression() ")" Block() ("else7" Block())?
+//  | "if" "(" Expression() ")" Block() ("else8" Block())?
+//  | "if" "(" Expression() ")" Block() ("else9" Block())?
+//  | "if" "(" Expression() ")" Block() ("elseA" Block())?
+//  | "if" "(" Expression() ")" Block() ("elseB" Block())?
+//  | "if" "(" Expression() ")" Block() ("elseC" Block())?
   | "if" "(" Expression() ")" Block() ("else" Block())?
   | "return" (Expression())? ";"
   | Expression() ";"
@@ -355,21 +353,21 @@ void UnaryExpression():
 
 void PostfixExpression():
 {}
-{
-  FunctionCall
- | PrimaryExpression
+{ LOOKAHEAD(3)
+ FunctionCall()
+ | PrimaryExpression()
 }
 
 void FunctionCall():
 {}
 {
- PrimaryExpression FunctionCallPlus+
+ PrimaryExpression() (FunctionCallPlus())+
 }
 
 void FunctionCallPlus():
 {}
 {
- "(" [ArgumentExpressionList()] ")"
+ "(" (ArgumentExpressionList())? ")"
 }
 
 void ArgumentExpressionList():
@@ -384,10 +382,9 @@ void PrimaryExpression():
 {
   Constant()
  | "(" Expression() ")"
+ | FunctionExpression()
  | ExpressionName()
- //| (LOOKAHEAD(2) ExpressionName()
- //| FunctionExpression()
- //)
+
 }
 
 void FunctionExpression():
