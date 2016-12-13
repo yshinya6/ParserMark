@@ -1,4 +1,3 @@
-options {
   JDK_VERSION = "1.8";
 }
 
@@ -10,53 +9,48 @@ import java.io.*;
  * Grammar to parse Epsilon language
  * @author Shun Kubota, Shinya Yamaguchi
  */
-public class EpsilonParser
-{
-   public EpsilonParser(String fileName)
-   {
-      this(System.in);
-      try { ReInit(new FileInputStream(new File(fileName))); }
-      catch(Exception e) { e.printStackTrace(); }
+
+ public class EpsilonParser
+ {
+    public EpsilonParser(String fileName)
+    {
+       this(System.in);
+       try { ReInit(new FileInputStream(new File(fileName))); }
+       catch(Exception e) { e.printStackTrace(); }
+    }
+
+   public static void main(String args[]) {
+     EpsilonParser parser;
+     if (args.length == 0) {
+       System.out.println("Java Parser Version 1.1:  Reading from standard input . . .");
+       parser = new EpsilonParser(System.in);
+     } else if (args.length == 1) {
+       System.out.println("Java Parser Version 1.1:  Reading from file " + args[0] + " . . .");
+       try {
+         parser = new EpsilonParser(new java.io.FileInputStream(args[0]));
+       } catch (java.io.FileNotFoundException e) {
+         System.out.println("Java Parser Version 1.1:  File " + args[0] + " not found.");
+         return;
+       }
+     } else {
+       System.out.println("Java Parser Version 1.1:  Usage is one of:");
+       System.out.println("         java EpsilonParser < inputfile");
+       System.out.println("OR");
+       System.out.println("         java EpsilonParser inputfile");
+       return;
+     }
+     try {
+       parser.File();
+       System.out.println("Java Parser Version 1.1:  Java program parsed successfully.");
+     } catch (ParseException e) {
+       System.out.println(e.getMessage());
+       System.out.println("Java Parser Version 1.1:  Encountered errors during parse.");
+     }
    }
 
-  public static void main(String args[]) {
-    if (args.length != 1) {
-      System.err.println("This is a JavaCC parser for Epsilon");
-      System.err.println("Usage: <Input>");
-      System.exit(1);
-    }
-    parse(args[0]);
-  }
+ }
 
-  public static void parse(String filePath) {
-    EpsilonParser parser;
-    long fastest = 0;
-    for (int i = 0; i < 5; i++) {
-      try {
-        parser = new EpsilonParser(new java.io.FileInputStream(filePath));
-      } catch (java.io.FileNotFoundException e) {
-        System.out.println("File " + filePath + " not found.");
-        return;
-      }
-      try {
-        long start = System.nanoTime();
-        parser.File();
-        long end = System.nanoTime();
-        if ((end - start) < fastest || fastest == 0) {
-          fastest = (end - start);
-        }
-      } catch (ParseException e) {
-        System.out.println(e.getMessage());
-        System.out.println(String.format("%s ERROR", filePath));
-        System.exit(1);
-      }
-    }
-    double result = fastest/1000000.0;
-    System.out.println(String.format("%s %s", filePath, result));
-  }
-}
-
-PARSER_END(EpsilonParser)
+ PARSER_END(EpsilonParser)
 
 
 // Lexer Rule
@@ -114,6 +108,8 @@ TOKEN :
 | < SEMICOLON: ";" >
 | < COMMA: "," >
 | < DOT: "." >
+| < COLON:":">
+| < COLONCOLON:"::">
 }
 
 /* OPERATORS */
@@ -237,7 +233,6 @@ void TopLevel():
 void Declaration():
 {}
 {
-//  LOOKAHEAD(3)
       FunctionDeclaration()
     | VariableDeclaration()
 }
@@ -245,7 +240,6 @@ void Declaration():
 void FunctionDeclaration():
 {}
 {
- //LOOKAHEAD(2)
  "function" <NAME> "(" (FunctionParamList())? ")" Block()
 }
 
@@ -306,9 +300,11 @@ void Statement():
 //  | "if" "(" Expression() ")" Block() ("elseC" Block())?
   | "if" "(" Expression() ")" Block() ("else" Block())?
   | "return" (Expression())? ";"
-  | Expression() ";"
-  | ";"
-}
+  | (LOOKAHEAD(8)
+      FunctionDeclaration()
+     |Expression() ";"
+     )
+   }
 
 
 /*expression*/
@@ -321,15 +317,33 @@ void Expression():
 void AssignmentExpression():
 {}
 {
-    ConditionalExpression()
-  [ LOOKAHEAD(2) ("="|"*="|"/="|"%="|"+="|"-="|"<<="|">>="|">>>="|"&="|"^="|"|=") AssignmentExpression() ]
-
+ConditionalExpression()
+[ LOOKAHEAD(2) AssignmentOperator() AssignmentExpression() ]
+//   UnaryExpression() [LOOKAHEAD(2) AssignmentOperator()  AssignmentExpression()]
+// | ConditionalExpression()
 }
 
+void AssignmentOperator():
+{}
+{
+  "="|"*="|"/="|"%="|"+="|"-="|"<<="|">>="|">>>="|"&="|"^="|"|="
+}
 void ConditionalExpression():
 {}
 {
- EqualityExpression() (("||"|"&&") EqualityExpression())*
+  LogicalOrExpression() ("?" Expression() ":" LogicalOrExpression() )*
+}
+
+void LogicalOrExpression():
+{}
+{
+ LogicalAndExpression() ("||" LogicalAndExpression())*
+}
+
+void LogicalAndExpression():
+{}
+{
+ EqualityExpression() ("&&" EqualityExpression())*
 }
 
 void EqualityExpression():
@@ -361,7 +375,7 @@ void PostfixExpression():
 void FunctionCall():
 {}
 {
- PrimaryExpression() (FunctionCallPlus())+
+ PrimaryExpression() (FunctionCallPlus())*
 }
 
 void FunctionCallPlus():
@@ -379,7 +393,7 @@ void ArgumentExpressionList():
 
 void PrimaryExpression():
 {}
-{
+{ LOOKAHEAD(2)
   Constant()
  | "(" Expression() ")"
  | FunctionExpression()
@@ -391,6 +405,7 @@ void FunctionExpression():
 {}
 {
   "function" (<NAME>)? "(" (FunctionParamList())? ")" Block() "::"
+
 }
 
 void Constant():
