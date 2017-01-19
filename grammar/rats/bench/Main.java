@@ -89,7 +89,7 @@ public class Main {
 				String msg = String.format("%s,%s,%s", fileName, fileSize, "failed");
 				System.out.println(msg);
 			} else {
-				String msg = String.format("%s,%s,%s", fileName, fileSize, fastest);
+				String msg = String.format("%s,%s,%s", fileName, fileSize, ((double) (aveTime / 9.0))  /1000000.0);
 				System.out.println(msg);
 			}
 		}
