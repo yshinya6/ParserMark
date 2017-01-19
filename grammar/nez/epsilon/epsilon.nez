@@ -1,4 +1,4 @@
-File                      = _ { ( $(TopLevel) _ )* #Source } EOT
+File                      = _ TopLevel _ EOT
 _                         = ( S / BLOCKCOMMENT / LINECOMMENT )*
 S                         = [ \n\r\t]
 BLOCKCOMMENT              = '/*' ( !'*/' . )* '*/'
@@ -8,7 +8,7 @@ Identifier                = { NAME #Name } _
 NAME                      = !DIGIT !( KEYWORD) W+
 DIGIT                     = [0-9]
 W                         = [a-zA-Z0-9_$]
-TopLevel                  = ( Statement / Declaration )+
+TopLevel                  = { ( $(Statement) / $(Declaration) )+ #Source }
 KEYWORD                   = ('else'
                           / 'if'
                           / 'return'
