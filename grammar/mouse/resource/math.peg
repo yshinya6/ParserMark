@@ -1,0 +1,7 @@
+File = Expression (_)* ;
+UB = (S )* ;
+S = [\t ];
+Expression = Sum ;
+Sum = Product (("+"UB  / "-"UB ) Product )* ;
+Product = Value (("*"UB  / "/"UB  / "%"UB ) Value )* ;
+Value = (([0-9])+ UB  / ([0-9A-Z_a-z])+ UB  / "("UB Expression ")"UB ) ;
