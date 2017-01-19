@@ -1,20 +1,19 @@
-File                      = _ { ( $(TopLevel) / _ )* #Source } EOT
+File                      = _ { ( $(TopLevel) _ )* #Source } EOT
 _                         = ( S / BLOCKCOMMENT / LINECOMMENT )*
-S                         = [ \n\r\t\u000B\u000C]
+S                         = [ \n\r\t]
 BLOCKCOMMENT              = '/*' ( !'*/' . )* '*/'
 LINECOMMENT               = '//' ( !'\n' . )*
 EOT                       = !.
-Identifier                      = { NAME #Name } _
-NAME                      = !DIGIT !( KEYWORD !W ) W+
+Identifier                = { NAME #Name } _
+NAME                      = !DIGIT !( KEYWORD) W+
 DIGIT                     = [0-9]
 W                         = [a-zA-Z0-9_$]
-TopLevel                  = Declaration
-                          / { #Empty } ";"
-KEYWORD                   = "else"
-                          / "if"
-                          / "return"
-                          / "function"
-                          / "var"
+TopLevel                  = ( Statement / Declaration )+
+KEYWORD                   = ('else'
+                          / 'if'
+                          / 'return'
+                          / 'function'
+                          / 'var') !W
 
 example File '''
 int fib(int n) {
