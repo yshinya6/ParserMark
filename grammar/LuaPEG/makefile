@@ -28,8 +28,12 @@ CC = gcc
 FILES = lpvm.o lpcap.o lptree.o lpcode.o lpprint.o
 
 # For Mac OS
-macosx:
-	make lpeg.so "DLLFLAGS = -bundle -undefined dynamic_lookup"
+#macosx:
+#	make lpeg.so "DLLFLAGS = -bundle -undefined dynamic_lookup"
+
+# For Linux
+linux:
+	make lpeg.so "DLLFLAGS = -shared -fPIC"
 
 lpeg.so: $(FILES)
 	env $(CC) $(DLLFLAGS) $(FILES) -o lpeg.so

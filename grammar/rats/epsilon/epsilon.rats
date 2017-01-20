@@ -1,7 +1,7 @@
 module epsilon;
 
 
-public generic File = L TopLevel+ L EOT;
+public generic File = L TopLevel L EOT;
 
 
 // all test passed
@@ -205,8 +205,7 @@ generic FunctionCall =
   generic DIGIT                     = [0-9] ;
   generic W                         = [a-zA-Z0-9_$] ;
   generic NW                        = !W;
-  generic TopLevel                  = Declaration
-                                     /";"
+  generic TopLevel                  = (Statement / Declaration)+
                                       ;
   generic KEYWORD                   = "else" L
                                     / "if" L

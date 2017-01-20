@@ -26,7 +26,12 @@ var fs = require("fs");
 var file = fs.readFileSync(inputPath);
 var input = file.toString("utf-8");
 for (var i = 0; i < repeat; i++) {
-  console.time(inputPath);
+  //console.time(inputPath);
   p.parse(input);
-  console.timeEnd(inputPath);
+  //console.timeEnd(inputPath);
 }
+console.time(inputPath);
+p.parse(input);
+console.timeEnd(inputPath);
+
+

@@ -22,7 +22,7 @@ public class Main {
 		fileSize = sourceFile.file().length();
 
 
-		System.out.println("[" + args[1] + "]");
+		//System.out.println("[" + args[1] + "]");
 
 		for (int i = 0; i < 10; i++) {
 			try {
@@ -43,7 +43,7 @@ public class Main {
 			}
 		}
 		double fastestTime = (double) calcExecTime(elapsedTimeList) / 1000000.0;
-		System.out.println("Elapsed Time: " + fastestTime + " [ms]\n");
+		System.out.println(args[1] + "  " + fastestTime + " [ms]");
 	}
 
 	private static long calcExecTime(long[] timeList) {

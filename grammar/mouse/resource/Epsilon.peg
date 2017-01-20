@@ -1,4 +1,4 @@
-File = UB (TopLevel UB )* EOT ;
+File = UB TopLevel UB EOT ;
 UB = ((S  / BLOCKCOMMENT  / LINECOMMENT ) )* ;
 S = [\t-\n] / "\r" / " " ;
 BLOCKCOMMENT = "/""*"(!("*""/") _)* "*""/";
