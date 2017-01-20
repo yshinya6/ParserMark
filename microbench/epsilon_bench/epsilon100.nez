@@ -1,0 +1,350 @@
+File                      = _ { ( $(TopLevel) _ )* #Source } EOT
+_                         = ( S / BLOCKCOMMENT / LINECOMMENT )*
+S                         = [ \n\r\t]
+BLOCKCOMMENT              = '/*' ( !'*/' . )* '*/'
+LINECOMMENT               = '//' ( !'\n' . )*
+EOT                       = !.
+Identifier                = { NAME #Name } _
+NAME                      = !DIGIT !( KEYWORD) W+
+DIGIT                     = [0-9]
+W                         = [a-zA-Z0-9_$]
+TopLevel                  = ( Statement / Declaration )+
+KEYWORD                   = ('else'
+                          / 'if'
+                          / 'return'
+                          / 'function'
+                          / 'var') !W
+
+example File '''
+int fib(int n) {
+  if(n < 3) return 1;
+  return fib(n-1)+fib(n-2);
+}
+'''
+
+// Declaration
+Declaration               = FunctionDeclaration
+                          / VariableDeclaration
+
+FunctionDeclaration         = { "function" _ $name(Identifier) _ "(" $list(FunctionParamList) ")" $body(Block) #FunctionDecl }
+FunctionParamList           = { ( $(FunctionParam) ( "," $(FunctionParam) )* )?  #List }
+FunctionParam               = { $name(Identifier) #Param } _
+VariableDeclaration       = { "var" _ $list(VariableList) ";" #Declaration }
+VariableList              = { $(InitDecl) ( "," $(InitDecl) )*  #VarList}
+InitDecl                  = { $name(Identifier) ( "=" $expr(Initializer) )? #VarDecl } _
+Initializer               = AssignmentExpression
+
+
+example Declaration int a = 0;
+example VariableDeclaration ~0cf1e0 int a;
+example VariableDeclaration ~83437a int a,b,c;
+example VariableDeclaration ~ef2263 int a=0;
+example VariableDeclaration ~4bd8c5 int a=0,b=1,c=2;
+
+// Block, Statement
+Block                     = { "{" ( $(Statement) _ / $(Declaration) _ )* "}" #Block }
+Statement                 = Block
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else00' _ $else(Block) ) #If00 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else01' _ $else(Block) ) #If01 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else02' _ $else(Block) ) #If02 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else03' _ $else(Block) ) #If03 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else04' _ $else(Block) ) #If04 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else05' _ $else(Block) ) #If05 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else06' _ $else(Block) ) #If06 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else07' _ $else(Block) ) #If07 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else08' _ $else(Block) ) #If08 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else09' _ $else(Block) ) #If09 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else10' _ $else(Block) ) #If10 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else11' _ $else(Block) ) #If11 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else12' _ $else(Block) ) #If12 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else13' _ $else(Block) ) #If13 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else14' _ $else(Block) ) #If14 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else15' _ $else(Block) ) #If15 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else16' _ $else(Block) ) #If16 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else17' _ $else(Block) ) #If17 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else18' _ $else(Block) ) #If18 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else19' _ $else(Block) ) #If19 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else20' _ $else(Block) ) #If20 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else21' _ $else(Block) ) #If21 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else22' _ $else(Block) ) #If22 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else23' _ $else(Block) ) #If23 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else24' _ $else(Block) ) #If24 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else25' _ $else(Block) ) #If25 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else26' _ $else(Block) ) #If26 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else27' _ $else(Block) ) #If27 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else28' _ $else(Block) ) #If28 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else29' _ $else(Block) ) #If29 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else30' _ $else(Block) ) #If30 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else31' _ $else(Block) ) #If31 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else32' _ $else(Block) ) #If32 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else33' _ $else(Block) ) #If33 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else34' _ $else(Block) ) #If34 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else35' _ $else(Block) ) #If35 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else36' _ $else(Block) ) #If36 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else37' _ $else(Block) ) #If37 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else38' _ $else(Block) ) #If38 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else39' _ $else(Block) ) #If39 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else40' _ $else(Block) ) #If40 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else41' _ $else(Block) ) #If41 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else42' _ $else(Block) ) #If42 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else43' _ $else(Block) ) #If43 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else44' _ $else(Block) ) #If44 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else45' _ $else(Block) ) #If45 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else46' _ $else(Block) ) #If46 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else47' _ $else(Block) ) #If47 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else48' _ $else(Block) ) #If48 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else49' _ $else(Block) ) #If49 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else50' _ $else(Block) ) #If50 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else51' _ $else(Block) ) #If51 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else52' _ $else(Block) ) #If52 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else53' _ $else(Block) ) #If53 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else54' _ $else(Block) ) #If54 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else55' _ $else(Block) ) #If55 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else56' _ $else(Block) ) #If56 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else57' _ $else(Block) ) #If57 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else58' _ $else(Block) ) #If58 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else59' _ $else(Block) ) #If59 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else60' _ $else(Block) ) #If60 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else61' _ $else(Block) ) #If61 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else62' _ $else(Block) ) #If62 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else63' _ $else(Block) ) #If63 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else64' _ $else(Block) ) #If64 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else65' _ $else(Block) ) #If65 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else66' _ $else(Block) ) #If66 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else67' _ $else(Block) ) #If67 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else68' _ $else(Block) ) #If68 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else69' _ $else(Block) ) #If69 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else70' _ $else(Block) ) #If70 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else71' _ $else(Block) ) #If71 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else72' _ $else(Block) ) #If72 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else73' _ $else(Block) ) #If73 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else74' _ $else(Block) ) #If74 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else75' _ $else(Block) ) #If75 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else76' _ $else(Block) ) #If76 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else77' _ $else(Block) ) #If77 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else78' _ $else(Block) ) #If78 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else79' _ $else(Block) ) #If79 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else80' _ $else(Block) ) #If80 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else81' _ $else(Block) ) #If81 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else82' _ $else(Block) ) #If82 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else83' _ $else(Block) ) #If83 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else84' _ $else(Block) ) #If84 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else85' _ $else(Block) ) #If85 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else86' _ $else(Block) ) #If86 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else87' _ $else(Block) ) #If87 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else88' _ $else(Block) ) #If88 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else89' _ $else(Block) ) #If89 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else90' _ $else(Block) ) #If90 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else91' _ $else(Block) ) #If91 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else92' _ $else(Block) ) #If92 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else93' _ $else(Block) ) #If93 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else94' _ $else(Block) ) #If94 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else95' _ $else(Block) ) #If95 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else96' _ $else(Block) ) #If96 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else97' _ $else(Block) ) #If97 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else98' _ $else(Block) ) #If98 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( 'else99' _ $else(Block) ) #If99 }
+                          / { "if" _ "(" $cond(Expression) ")" $then(Block) ( "else" _ $else(Block) )? #If }
+                          / { "return" _ $expr(Expression)? ";" #Return }
+                          / { $expr(Expression) ";" #ExpressionStatement }
+
+example Block ~8909e9 '''
+{
+}
+'''
+example Block ~0038ad '''
+{
+a;
+}
+'''
+example Block ~6bba1c '''
+{
+a=0;
+}
+'''
+example Statement ~1591a2 '''
+if(c){
+}
+'''
+
+// Expression
+Expression                = AssignmentExpression {$ "," $(AssignmentExpression) #Expression }*
+AssignmentExpression      = { $left(UnaryExpression) _AssignmentOperator $right(AssignmentExpression) }
+                          / ConditionalExpression
+_AssignmentOperator       = "=" #Assign
+                          / "*=" #AssignMul
+                          / "/=" #AssignDiv
+                          / "%=" #AssignMod
+                          / "+=" #AssignAdd
+                          / "-=" #AssignSub
+                          / "<<=" #AssignLeftShift
+                          / ">>=" #AssignRightShift
+                          / ">>>=" #AssignLogicalRightShift
+                          / "&=" #AssignBitwiseAnd
+                          / "^=" #AssignBitwiseXOr
+                          / "|=" #AssignBitwiseOr
+ConstantExpression        = ConditionalExpression
+ConditionalExpression     = LogicalOrExpression {$cond "?" $then(Expression) ":" $else(LogicalOrExpression) #Conditional }*
+LogicalOrExpression       = LogicalAndExpression {$left "||" $right(LogicalAndExpression) #Or }*
+LogicalAndExpression      = EqualityExpression {$left "&&" $right(EqualityExpression) #And }*
+EqualityExpression        = RelationalExpression {$left ("==" #Equals / "!=" #NotEquals) $right(RelationalExpression) }*
+RelationalExpression      = UnaryExpression {$left ("<" #LessThan / "<=" #LessThanEquals / ">" #GreaterThan / ">=" #GreaterThanEquals)  $right(UnaryExpression) }*
+UnaryExpression           = PostfixExpression
+                          / { "!" $expr(UnaryExpression) #Not }
+PostfixExpression         = FunctionCall
+                          / PrimaryExpression
+FunctionCall              = PrimaryExpression {$recv _FunctionCall }+
+_FunctionCall             = $({ "(" _ArgumentExpressionList? ")" #List }) #Apply
+_ArgumentExpressionList   = $(AssignmentExpression) ( "," $(AssignmentExpression) )*
+PrimaryExpression         = Constant
+                          / "(" Expression ")"
+                          / FunctionExpression
+                          / Identifier
+
+FunctionExpression        = { "function" _ ($name(Identifier) _ )? "(" $list(FunctionParamList) ")" $body(Block) "::" #FunctionExpr }
+
+//Literal
+Constant                  = IntegerLiteral
+                          / BooleanLiteral
+                          / StringLiteral
+                          / NullLiteral
+
+IntegerLiteral            = { DECIMAL #Integer } _
+DECIMAL                   = [1-9] DIGIT* / '0'
+BooleanLiteral            = "true" { #True } _
+                          / "false" { #False } _
+StringLiteral             = '"' { STRING_CONTENT* #String } '"' _
+STRING_CONTENT            = ![\"\n\\] .
+NullLiteral               = "null" { #Null} _
+
+example Constant 1
+
+"="                       = '=' !'=' _
+"*="                      = '*=' _
+"/="                      = '/=' _
+"%="                      = '%=' _
+"+="                      = '+=' _
+"-="                      = '-=' _
+"<<="                     = '<<=' _
+">>="                     = '>>=' _
+">>>="                    = '>>>=' _
+"&="                      = '&=' _
+"^="                      = '^=' _
+"|="                      = '|=' _
+"."                       = '.' _
+"'"                       = '\'' _
+"("                       = '(' _
+")"                       = ')' _
+"{"                       = '{' _
+"["                       = '[' _
+"]"                       = ']' _
+","                       = ',' _
+"..."                     = '...' _
+"::"                      = '::' _
+":"                       = ':' ![>] _
+"/"                       = '/' !'=' _
+"<"                       = '<' ![=] _
+">"                       = '>' ![=] _
+"<="                      = '<=' ![=] _
+">="                      = '>=' ![=] _
+"=="                      = '==' _
+"!="                      = '!=' _
+"&&"                      = '&&' _
+"||"                      = '||' _
+";"                       = ';' _
+"?"                       = '?' _
+"}"                       = '}' _
+"++"                      = '++' _
+"--"                      = '--' _
+"+"                       = '+' ![+=] _
+"-"                       = '-' !( '-' / [=>] ) _
+"*"                       = '*' _
+"!"                       = '!' !'=' _
+"if"                      = 'if' !W
+"for"                     = 'for' !W
+"else"                    = 'else' !W
+"return"                  = 'return' !W
+"false"                   = 'false' !W
+"true"                    = 'true' !W
+"null"                    = 'null' !W
+"import"                  = 'import' !W
+"function"                = 'function' !W
+"var"                     = 'var' !W
+"if0"                      = 'if0' !W
+"if1"                      = 'if1' !W
+"if2"                      = 'if2' !W
+"if3"                      = 'if3' !W
+"if4"                      = 'if4' !W
+"if5"                      = 'if5' !W
+"if6"                      = 'if6' !W
+"if7"                      = 'if7' !W
+"if8"                      = 'if8' !W
+"if9"                      = 'if9' !W
+"ifA"                      = 'ifA' !W
+"ifB"                      = 'ifB' !W
+"ifC"                      = 'ifC' !W
+"ifD"                      = 'ifD' !W
+"ifE"                      = 'ifE' !W
+
+
+
+
+example Statement '''
+return 1;
+'''
+example Expression ~46f038 '''
+x=y
+'''
+example Expression ~8e03b0 '''
+x+=y
+'''
+example Expression ~4e09fb '''
+c?x:y
+'''
+example Expression ~7ac13c '''
+x<<y
+'''
+example Expression ~9b2696 '''
+x>>y
+'''
+example Expression ~dea67f '''
+x|y
+'''
+example Expression ~7f3ecc '''
+x&y
+'''
+example Expression ~78b953 '''
+x^y
+'''
+example Expression ~f21916 '''
+~x
+'''
+example Expression ~006e0a '''
+x&&y
+'''
+example Expression ~b60455 '''
+x||y
+'''
+example Expression ~51b2b2 '''
+!x
+'''
+example Expression ~b0be29 '''
+x==y
+'''
+example Expression ~f89dae '''
+x!=y
+'''
+example Expression ~ad9f44 '''
+x<y
+'''
+example Expression ~37ebeb '''
+x<=y
+'''
+example Expression ~ae662a '''
+x+y
+'''
+example Expression ~fa8a6a '''
+x*y
+'''
+
+// formatted by $ nez format
