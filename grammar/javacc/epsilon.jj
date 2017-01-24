@@ -393,7 +393,7 @@ void ArgumentExpressionList():
 
 void PrimaryExpression():
 {}
-{ LOOKAHEAD(2)
+{  LOOKAHEAD(2)
   Constant()
  | "(" Expression() ")"
  | FunctionExpression()
