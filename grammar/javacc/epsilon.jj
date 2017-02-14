@@ -1,0 +1,448 @@
+options{
+  JDK_VERSION = "1.8";
+}
+
+PARSER_BEGIN(EpsilonParser)
+
+import java.io.*;
+
+/**
+ * Grammar to parse Epsilon language
+ * @author Shun Kubota, Shinya Yamaguchi
+ */
+
+ public class EpsilonParser
+ {
+    public EpsilonParser(String fileName)
+    {
+       this(System.in);
+       try { ReInit(new FileInputStream(new File(fileName))); }
+       catch(Exception e) { e.printStackTrace(); }
+    }
+
+   public static void main(String args[]) {
+     EpsilonParser parser;
+     if (args.length == 0) {
+       System.out.println("Java Parser Version 1.1:  Reading from standard input . . .");
+       parser = new EpsilonParser(System.in);
+     } else if (args.length == 1) {
+       System.out.println("Java Parser Version 1.1:  Reading from file " + args[0] + " . . .");
+       try {
+         parser = new EpsilonParser(new java.io.FileInputStream(args[0]));
+       } catch (java.io.FileNotFoundException e) {
+         System.out.println("Java Parser Version 1.1:  File " + args[0] + " not found.");
+         return;
+       }
+     } else {
+       System.out.println("Java Parser Version 1.1:  Usage is one of:");
+       System.out.println("         java EpsilonParser < inputfile");
+       System.out.println("OR");
+       System.out.println("         java EpsilonParser inputfile");
+       return;
+     }
+     try {
+       parser.File();
+       System.out.println("Java Parser Version 1.1:  Java program parsed successfully.");
+     } catch (ParseException e) {
+       System.out.println(e.getMessage());
+       System.out.println("Java Parser Version 1.1:  Encountered errors during parse.");
+     }
+   }
+
+ }
+
+ PARSER_END(EpsilonParser)
+
+
+// Lexer Rule
+/* WHITE SPACE */
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+/* COMMENTS */
+
+MORE :
+{
+  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
+|
+  "/*" : IN_MULTI_LINE_COMMENT
+}
+
+SPECIAL_TOKEN :
+{
+  <SINGLE_LINE_COMMENT: "//" (~["\n", "\r"])* ("\n" | "\r" | "\r\n")?>
+}
+
+<IN_FORMAL_COMMENT>
+SPECIAL_TOKEN :
+{
+  <FORMAL_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <MULTI_LINE_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
+MORE :
+{
+  < ~[] >
+}
+
+TOKEN :
+{
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+| < COLON:":">
+| < COLONCOLON:"::">
+}
+
+/* OPERATORS */
+
+TOKEN :
+{
+  < ASSIGN: "=" >
+| < LT: "<" >
+| < GT: ">" >
+| < BANG: "!" >
+| < HOOK: "?" >
+| < EQ: "==" >
+| < NE: "!=" >
+| < LE: "<=" >
+| < GE: ">=" >
+| < SC_OR: "||" >
+| < SC_AND: "&&" >
+| < ELLIPSIS: "..." >
+| < PLUSASSIGN: "+=" >
+| < MINUSASSIGN: "-=" >
+| < STARASSIGN: "*=" >
+| < SLASHASSIGN: "/=" >
+| < ANDASSIGN: "&=" >
+| < ORASSIGN: "|=" >
+| < XORASSIGN: "^=" >
+| < REMASSIGN: "%=" >
+| < LSHIFTASSIGN: "<<=" >
+| < RSIGNEDSHIFTASSIGN: ">>=" >
+| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
+
+}
+
+/* RESERVED WORDS AND LITERALS */
+
+TOKEN :
+{
+  < BOOLEAN: "boolean" >
+| < ELSE: "else" >
+| < FOR: "for" >
+| < FALSE: "false" >
+| < FUNCTION: "function">
+| < VAR: "var">
+|< ELSE1: "else1">
+|< ELSE2: "else2">
+|< ELSE3: "else3">
+|< ELSE4: "else4">
+|< ELSE5: "else5">
+|< ELSE6: "else6">
+|< ELSE7: "else7">
+|< ELSE8: "else8">
+|< ELSE9: "else9">
+|< ELSEA: "elseA">
+|< ELSEB: "elseB">
+|< ELSEC: "elseC">
+|< IF: "if">
+| < INT: "int" >
+| < LONG: "long" >
+| < NULL: "null" >
+| < RETURN: "return" >
+| < TRUE: "true" >
+| < DUMMY1: "dummy1">
+| < DUMMY2: "dummy2">
+}
+
+/* LITERALS */
+
+TOKEN :
+{
+  < INTEGER_LITERAL:
+         <DECIMAL_LITERAL> (["l","L"])?
+        |<ZERO> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #ZERO: "0">
+|
+  < STRING_LITERAL:
+      "\""
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )*
+      "\""
+  >
+| < NAME: <LETTER> (<PART_LETTER>)* >
+| < #LETTER:
+      [  "$","A"-"Z","_","a"-"z"]
+  >
+|
+  < #PART_LETTER:
+      [
+         "$",
+         "0"-"9",
+         "A"-"Z",
+         "_",
+         "a"-"z"
+      ]
+  >
+}
+
+
+// Parsing Rule
+void File():
+{}
+{
+  (TopLevel())+
+}
+
+void TopLevel():
+{}
+{
+ Declaration()
+}
+
+/*declaration*/
+void Declaration():
+{}
+{
+      FunctionDeclaration()
+    | VariableDeclaration()
+}
+
+void FunctionDeclaration():
+{}
+{
+ "function" <NAME> "(" (FunctionParamList())? ")" Block()
+}
+
+void FunctionParamList():
+{}
+{
+ FunctionParam() ("," FunctionParam())*
+}
+
+void FunctionParam():
+{}
+{
+  <NAME>
+}
+
+void VariableDeclaration():
+{}
+{
+ "var" VariableList() ";"
+}
+
+void VariableList():
+{}
+{
+ InitDecl() (","InitDecl())*
+}
+
+void InitDecl():
+{}
+{
+ <NAME> ("=" AssignmentExpression())?
+}
+
+/*block,statement*/
+void Block():
+{}
+{
+  "{" ( LOOKAHEAD(2)
+        Statement()
+      | Declaration())* "}"
+}
+
+void Statement():
+{}
+{
+  Block()
+//  | "if" "(" Expression() ")" Block() "else1" Block()
+//  | "if" "(" Expression() ")" Block() "else2" Block()
+//  | "if" "(" Expression() ")" Block() "else3" Block()
+//  | "if" "(" Expression() ")" Block() "else4" Block()
+//  | "if" "(" Expression() ")" Block() "else5" Block()
+//  | "if" "(" Expression() ")" Block() "else6" Block()
+//  | "if" "(" Expression() ")" Block() "else7" Block()
+//  | "if" "(" Expression() ")" Block() "else8" Block()
+//  | "if" "(" Expression() ")" Block() "else9" Block()
+//  | "if" "(" Expression() ")" Block() "elseA" Block()
+//  | "if" "(" Expression() ")" Block() "elseB" Block()
+//  | "if" "(" Expression() ")" Block() "elseC" Block()
+  | "if" "(" Expression() ")" Block() ("else" Block())?
+  | "return" (Expression())? ";"
+  | Expression() ";"
+   }
+
+
+/*expression*/
+void Expression():
+{}
+{
+ AssignmentExpression() ("," AssignmentExpression())*
+}
+
+void AssignmentExpression():
+{}
+{
+ ConditionalExpression()
+ [ LOOKAHEAD(2) AssignmentOperator() AssignmentExpression() ]
+//   UnaryExpression()  AssignmentOperator()  AssignmentExpression()
+// | ConditionalExpression()
+}
+
+void AssignmentOperator():
+{}
+{
+  "="|"*="|"/="|"%="|"+="|"-="|"<<="|">>="|">>>="|"&="|"^="|"|="
+}
+void ConditionalExpression():
+{}
+{
+  LogicalOrExpression() ("?" Expression() ":" LogicalOrExpression() )*
+}
+
+void LogicalOrExpression():
+{}
+{
+ LogicalAndExpression() ("||" LogicalAndExpression())*
+}
+
+void LogicalAndExpression():
+{}
+{
+ EqualityExpression() ("&&" EqualityExpression())*
+}
+
+void EqualityExpression():
+{}
+{
+ RelationalExpression() (("=="|"!=") RelationalExpression())*
+}
+
+void RelationalExpression():
+{}
+{
+ UnaryExpression() (("<"|"<="|">"|">=") UnaryExpression())*
+}
+
+void UnaryExpression():
+{}
+{
+ PostfixExpression()
+ |"!" UnaryExpression()
+}
+
+void PostfixExpression():
+{}
+{ LOOKAHEAD(3)
+ FunctionCall()
+ | PrimaryExpression()
+}
+
+void FunctionCall():
+{}
+{
+ PrimaryExpression() (FunctionCallPlus())*
+}
+
+void FunctionCallPlus():
+{}
+{
+ "(" (ArgumentExpressionList())? ")"
+}
+
+void ArgumentExpressionList():
+{}
+{
+ AssignmentExpression() ("," AssignmentExpression())*
+
+}
+
+void PrimaryExpression():
+{}
+{  LOOKAHEAD(2)
+  Constant()
+ | "(" Expression() ")"
+ | FunctionExpression()
+ | ExpressionName()
+
+}
+
+void FunctionExpression():
+{}
+{
+  "function" (<NAME>)? "(" (FunctionParamList())? ")" Block() "::"
+
+}
+
+void Constant():
+{}
+{
+  IntegerLiteral()
+ |BooleanLiteral()
+ |StringLiteral()
+ |NullLiteral()
+}
+
+void ExpressionName():
+{}
+{
+  <NAME>
+}
+
+
+void IntegerLiteral():
+{}
+{
+  <INTEGER_LITERAL>
+}
+
+void BooleanLiteral():
+{}
+{
+   "true"
+  |"false"
+}
+
+void StringLiteral():
+{}
+{
+  <STRING_LITERAL>
+}
+
+void NullLiteral():
+{}
+{
+  "null"
+}

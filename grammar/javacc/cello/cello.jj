@@ -7,8 +7,8 @@ PARSER_BEGIN(CelloParser)
 import java.io.*;
 
 /**
- * Grammar to parse Cello language
- * @author Shun Kubota, Shinya Yamaguchi
+ * Grammar to parse Java version 1.5
+ * @author Sreenivasa Viswanadha - Simplified and enhanced for 1.5
  */
 public class CelloParser
 {
@@ -20,40 +20,34 @@ public class CelloParser
    }
 
   public static void main(String args[]) {
-    if (args.length != 1) {
-      System.err.println("This is a JavaCC parser for Cello");
-      System.err.println("Usage: <Input>");
-      System.exit(1);
-    }
-    parse(args[0]);
-  }
-
-  public static void parse(String filePath) {
     CelloParser parser;
-    long fastest = 0;
-    for (int i = 0; i < 5; i++) {
+    if (args.length == 0) {
+      System.out.println("Java Parser Version 1.1:  Reading from standard input . . .");
+      parser = new CelloParser(System.in);
+    } else if (args.length == 1) {
+      System.out.println("Java Parser Version 1.1:  Reading from file " + args[0] + " . . .");
       try {
-        parser = new CelloParser(new java.io.FileInputStream(filePath));
+        parser = new CelloParser(new java.io.FileInputStream(args[0]));
       } catch (java.io.FileNotFoundException e) {
-        System.out.println("File " + filePath + " not found.");
+        System.out.println("Java Parser Version 1.1:  File " + args[0] + " not found.");
         return;
       }
-      try {
-        long start = System.nanoTime();
-        parser.File();
-        long end = System.nanoTime();
-        if ((end - start) < fastest || fastest == 0) {
-          fastest = (end - start);
-        }
-      } catch (ParseException e) {
-        System.out.println(e.getMessage());
-        System.out.println(String.format("%s ERROR", filePath));
-        System.exit(1);
-      }
+    } else {
+      System.out.println("Java Parser Version 1.1:  Usage is one of:");
+      System.out.println("         java CelloParser < inputfile");
+      System.out.println("OR");
+      System.out.println("         java CelloParser inputfile");
+      return;
     }
-    double result = fastest/1000000.0;
-    System.out.println(String.format("%s %s", filePath, result));
+    try {
+      parser.File();
+      System.out.println("Java Parser Version 1.1:  Java program parsed successfully.");
+    } catch (ParseException e) {
+      System.out.println(e.getMessage());
+      System.out.println("Java Parser Version 1.1:  Encountered errors during parse.");
+    }
   }
+
 }
 
 PARSER_END(CelloParser)
@@ -124,25 +118,11 @@ TOKEN :
 | < LT: "<" >
 | < GT: ">" >
 | < BANG: "!" >
-| < HOOK: "?" >
 | < EQ: "==" >
 | < NE: "!=" >
-| < LE: "<=" >
-| < GE: ">=" >
 | < SC_OR: "||" >
 | < SC_AND: "&&" >
 | < ELLIPSIS: "..." >
-| < PLUSASSIGN: "+=" >
-| < MINUSASSIGN: "-=" >
-| < STARASSIGN: "*=" >
-| < SLASHASSIGN: "/=" >
-| < ANDASSIGN: "&=" >
-| < ORASSIGN: "|=" >
-| < XORASSIGN: "^=" >
-| < REMASSIGN: "%=" >
-| < LSHIFTASSIGN: "<<=" >
-| < RSIGNEDSHIFTASSIGN: ">>=" >
-| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
 }
 
 /* RESERVED WORDS AND LITERALS */
@@ -154,26 +134,13 @@ TOKEN :
 | < FOR: "for" >
 | < FALSE: "false" >
 | < IF: "if" >
-|< IF0: "if0">
-|< IF1: "if1">
-|< IF2: "if2">
-|< IF3: "if3">
-|< IF4: "if4">
-|< IF5: "if5">
-|< IF6: "if6">
-|< IF7: "if7">
-|< IF8: "if8">
-|< IF9: "if9">
-|< IFA: "ifA">
-|< IFB: "ifB">
 | < IMPORT: "import" >
 | < INT: "int" >
 | < LONG: "long" >
 | < NULL: "null" >
 | < RETURN: "return" >
+| < STRING: "string" >
 | < TRUE: "true" >
-| < DUMMY1: "dummy1">
-| < DUMMY2: "dummy2">
 }
 
 /* LITERALS */
@@ -232,6 +199,7 @@ void PrimitiveType():
  "int"
  |"boolean"
  |"long"
+ |"string"
 }
 
 void ReferenceType():
@@ -266,8 +234,6 @@ void Declaration():
   LOOKAHEAD(3)
       MethodDeclaration()
     | VariableDeclaration()
-    | Dummy1()
-    | Dummy2()
 }
 
 void MethodDeclaration():
@@ -309,17 +275,7 @@ void InitDecl():
  <NAME> ("=" AssignmentExpression())?
 }
 
-void Dummy1():
-{}
-{
-  "dummy1" VariableList() ";"
-}
 
-void Dummy2():
-{}
-{
-  "dummy2" VariableList() ";"
-}
 
 /*block,statement*/
 void Block():
@@ -335,18 +291,6 @@ void Statement():
 {
   Block()
   | "if" "(" Expression() ")" Block() ("else" Block())?
-  | "if0" "(" Expression() ")" Block() ("else" Block())?
-  | "if1" "(" Expression() ")" Block() ("else" Block())?
-  | "if2" "(" Expression() ")" Block() ("else" Block())?
-  | "if3" "(" Expression() ")" Block() ("else" Block())?
-  | "if4" "(" Expression() ")" Block() ("else" Block())?
-  | "if5" "(" Expression() ")" Block() ("else" Block())?
-  | "if6" "(" Expression() ")" Block() ("else" Block())?
-  | "if7" "(" Expression() ")" Block() ("else" Block())?
-  | "if8" "(" Expression() ")" Block() ("else" Block())?
-  | "if9" "(" Expression() ")" Block() ("else" Block())?
-  | "ifA" "(" Expression() ")" Block() ("else" Block())?
-  | "ifB" "(" Expression() ")" Block() ("else" Block())?
   | "return" (Expression())? ";"
   | Expression() ";"
   | ";"
@@ -364,7 +308,7 @@ void AssignmentExpression():
 {}
 {
     ConditionalExpression()
-  [ LOOKAHEAD(2) ("="|"*="|"/="|"%="|"+="|"-="|"<<="|">>="|">>>="|"&="|"^="|"|=") AssignmentExpression() ]
+  [ LOOKAHEAD(2) "=" AssignmentExpression() ]
 
 }
 
@@ -383,7 +327,7 @@ void EqualityExpression():
 void RelationalExpression():
 {}
 {
- UnaryExpression() (("<"|"<="|">"|">=") UnaryExpression())*
+ UnaryExpression() ("<" UnaryExpression())*
 }
 
 void UnaryExpression():
@@ -416,18 +360,11 @@ void PrimaryExpression():
 {}
 {
   Constant()
- | "(" Expression() ")"
+ |"("Expression()")"
  | ExpressionName()
- //| (LOOKAHEAD(2) ExpressionName()
- //| FunctionExpression()
- //)
 }
 
-void FunctionExpression():
-{}
-{
-  Type() (<NAME>)? "(" (MethodParamList())? ")" Block()
-}
+
 
 void Constant():
 {}
