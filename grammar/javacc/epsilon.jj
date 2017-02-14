@@ -280,6 +280,7 @@ void Block():
 {
   "{" ( LOOKAHEAD(2)
         Statement()
+      | LOOKAHEAD(FunctionExpression()) FunctionExpression() (FunctionCallPlus())* ";"
       | Declaration())* "}"
 }
 
@@ -302,6 +303,7 @@ void Statement():
   | "if" "(" Expression() ")" Block() ("else" Block())?
   | "return" (Expression())? ";"
   | Expression() ";"
+  //| LOOKAHEAD(FunctionExpression()) FunctionExpression() (FunctionCallPlus())* ";"
    }
 
 
@@ -394,7 +396,7 @@ void PrimaryExpression():
 {  LOOKAHEAD(2)
   Constant()
  | "(" Expression() ")"
- | FunctionExpression()
+ //| FunctionExpression()
  | ExpressionName()
 
 }
@@ -403,7 +405,6 @@ void FunctionExpression():
 {}
 {
   "function" (<NAME>)? "(" (FunctionParamList())? ")" Block() "::"
-
 }
 
 void Constant():
