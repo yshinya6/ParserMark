@@ -1,3 +1,4 @@
+options{
   JDK_VERSION = "1.8";
 }
 
@@ -277,7 +278,7 @@ void InitDecl():
 void Block():
 {}
 {
-  "{" (LOOKAHEAD(2)
+  "{" ( LOOKAHEAD(2)
         Statement()
       | Declaration())* "}"
 }
@@ -286,24 +287,21 @@ void Statement():
 {}
 {
   Block()
-//  | "if" "(" Expression() ")" Block() ("else1" Block())?
-//  | "if" "(" Expression() ")" Block() ("else2" Block())?
-//  | "if" "(" Expression() ")" Block() ("else3" Block())?
-//  | "if" "(" Expression() ")" Block() ("else4" Block())?
-//  | "if" "(" Expression() ")" Block() ("else5" Block())?
-//  | "if" "(" Expression() ")" Block() ("else6" Block())?
-//  | "if" "(" Expression() ")" Block() ("else7" Block())?
-//  | "if" "(" Expression() ")" Block() ("else8" Block())?
-//  | "if" "(" Expression() ")" Block() ("else9" Block())?
-//  | "if" "(" Expression() ")" Block() ("elseA" Block())?
-//  | "if" "(" Expression() ")" Block() ("elseB" Block())?
-//  | "if" "(" Expression() ")" Block() ("elseC" Block())?
+//  | "if" "(" Expression() ")" Block() "else1" Block()
+//  | "if" "(" Expression() ")" Block() "else2" Block()
+//  | "if" "(" Expression() ")" Block() "else3" Block()
+//  | "if" "(" Expression() ")" Block() "else4" Block()
+//  | "if" "(" Expression() ")" Block() "else5" Block()
+//  | "if" "(" Expression() ")" Block() "else6" Block()
+//  | "if" "(" Expression() ")" Block() "else7" Block()
+//  | "if" "(" Expression() ")" Block() "else8" Block()
+//  | "if" "(" Expression() ")" Block() "else9" Block()
+//  | "if" "(" Expression() ")" Block() "elseA" Block()
+//  | "if" "(" Expression() ")" Block() "elseB" Block()
+//  | "if" "(" Expression() ")" Block() "elseC" Block()
   | "if" "(" Expression() ")" Block() ("else" Block())?
   | "return" (Expression())? ";"
-  | (LOOKAHEAD(8)
-      FunctionDeclaration()
-     |Expression() ";"
-     )
+  | Expression() ";"
    }
 
 
@@ -317,9 +315,9 @@ void Expression():
 void AssignmentExpression():
 {}
 {
-ConditionalExpression()
-[ LOOKAHEAD(2) AssignmentOperator() AssignmentExpression() ]
-//   UnaryExpression() [LOOKAHEAD(2) AssignmentOperator()  AssignmentExpression()]
+ ConditionalExpression()
+ [ LOOKAHEAD(2) AssignmentOperator() AssignmentExpression() ]
+//   UnaryExpression()  AssignmentOperator()  AssignmentExpression()
 // | ConditionalExpression()
 }
 
