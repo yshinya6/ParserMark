@@ -1,0 +1,304 @@
+module epsilon100;
+
+public generic File = L TopLevel+ L EOT;
+
+
+// all test passed
+//literal
+ generic Declaration =
+        FunctionDeclaration
+        /VariableDeclaration
+        ;
+ generic FunctionDeclaration =
+        "function" L Identifier L "(" FunctionParamList ")" (L Block L/L ";")
+        ;
+ generic FunctionParamList =
+          FunctionParamListOption?
+          ;
+ generic FunctionParamListOption =
+          FunctionParam L FunctionParamRepeat*
+          ;
+          generic FunctionParamRepeat =
+            void:',' L FunctionParam
+            ;
+          generic FunctionParam =
+            Identifier L
+            ;
+ generic VariableDeclaration =
+         "var" L VariableList ";" L
+         ;
+ generic VariableList =
+        InitDecl VariableListRepeat*
+        ;
+        generic VariableListRepeat =
+        void:"," L InitDecl
+        ;
+ generic InitDecl =
+        Identifier L Equal? L
+        ;
+        generic Equal =
+        void:"=" L Initializer
+        ;
+
+ generic Initializer =
+       AssignmentExpression
+       ;
+
+//block
+ generic Block =
+     "{" L (Statement / Declaration )* "}" L
+     ;
+
+
+ generic Statement =
+           Block
+/  "if" L "(" Expression ")" L Block  "Else0" Block  
+/  "if" L "(" Expression ")" L Block  "Else1" Block  
+/  "if" L "(" Expression ")" L Block  "Else2" Block  
+/  "if" L "(" Expression ")" L Block  "Else3" Block  
+/  "if" L "(" Expression ")" L Block  "Else4" Block  
+/  "if" L "(" Expression ")" L Block  "Else5" Block  
+/  "if" L "(" Expression ")" L Block  "Else6" Block  
+/  "if" L "(" Expression ")" L Block  "Else7" Block  
+/  "if" L "(" Expression ")" L Block  "Else8" Block  
+/  "if" L "(" Expression ")" L Block  "Else9" Block  
+/  "if" L "(" Expression ")" L Block  "Else10" Block  
+/  "if" L "(" Expression ")" L Block  "Else11" Block  
+/  "if" L "(" Expression ")" L Block  "Else12" Block  
+/  "if" L "(" Expression ")" L Block  "Else13" Block  
+/  "if" L "(" Expression ")" L Block  "Else14" Block  
+/  "if" L "(" Expression ")" L Block  "Else15" Block  
+/  "if" L "(" Expression ")" L Block  "Else16" Block  
+/  "if" L "(" Expression ")" L Block  "Else17" Block  
+/  "if" L "(" Expression ")" L Block  "Else18" Block  
+/  "if" L "(" Expression ")" L Block  "Else19" Block  
+/  "if" L "(" Expression ")" L Block  "Else20" Block  
+/  "if" L "(" Expression ")" L Block  "Else21" Block  
+/  "if" L "(" Expression ")" L Block  "Else22" Block  
+/  "if" L "(" Expression ")" L Block  "Else23" Block  
+/  "if" L "(" Expression ")" L Block  "Else24" Block  
+/  "if" L "(" Expression ")" L Block  "Else25" Block  
+/  "if" L "(" Expression ")" L Block  "Else26" Block  
+/  "if" L "(" Expression ")" L Block  "Else27" Block  
+/  "if" L "(" Expression ")" L Block  "Else28" Block  
+/  "if" L "(" Expression ")" L Block  "Else29" Block  
+/  "if" L "(" Expression ")" L Block  "Else30" Block  
+/  "if" L "(" Expression ")" L Block  "Else31" Block  
+/  "if" L "(" Expression ")" L Block  "Else32" Block  
+/  "if" L "(" Expression ")" L Block  "Else33" Block  
+/  "if" L "(" Expression ")" L Block  "Else34" Block  
+/  "if" L "(" Expression ")" L Block  "Else35" Block  
+/  "if" L "(" Expression ")" L Block  "Else36" Block  
+/  "if" L "(" Expression ")" L Block  "Else37" Block  
+/  "if" L "(" Expression ")" L Block  "Else38" Block  
+/  "if" L "(" Expression ")" L Block  "Else39" Block  
+/  "if" L "(" Expression ")" L Block  "Else40" Block  
+/  "if" L "(" Expression ")" L Block  "Else41" Block  
+/  "if" L "(" Expression ")" L Block  "Else42" Block  
+/  "if" L "(" Expression ")" L Block  "Else43" Block  
+/  "if" L "(" Expression ")" L Block  "Else44" Block  
+/  "if" L "(" Expression ")" L Block  "Else45" Block  
+/  "if" L "(" Expression ")" L Block  "Else46" Block  
+/  "if" L "(" Expression ")" L Block  "Else47" Block  
+/  "if" L "(" Expression ")" L Block  "Else48" Block  
+/  "if" L "(" Expression ")" L Block  "Else49" Block  
+/  "if" L "(" Expression ")" L Block  "Else50" Block  
+/  "if" L "(" Expression ")" L Block  "Else51" Block  
+/  "if" L "(" Expression ")" L Block  "Else52" Block  
+/  "if" L "(" Expression ")" L Block  "Else53" Block  
+/  "if" L "(" Expression ")" L Block  "Else54" Block  
+/  "if" L "(" Expression ")" L Block  "Else55" Block  
+/  "if" L "(" Expression ")" L Block  "Else56" Block  
+/  "if" L "(" Expression ")" L Block  "Else57" Block  
+/  "if" L "(" Expression ")" L Block  "Else58" Block  
+/  "if" L "(" Expression ")" L Block  "Else59" Block  
+/  "if" L "(" Expression ")" L Block  "Else60" Block  
+/  "if" L "(" Expression ")" L Block  "Else61" Block  
+/  "if" L "(" Expression ")" L Block  "Else62" Block  
+/  "if" L "(" Expression ")" L Block  "Else63" Block  
+/  "if" L "(" Expression ")" L Block  "Else64" Block  
+/  "if" L "(" Expression ")" L Block  "Else65" Block  
+/  "if" L "(" Expression ")" L Block  "Else66" Block  
+/  "if" L "(" Expression ")" L Block  "Else67" Block  
+/  "if" L "(" Expression ")" L Block  "Else68" Block  
+/  "if" L "(" Expression ")" L Block  "Else69" Block  
+/  "if" L "(" Expression ")" L Block  "Else70" Block  
+/  "if" L "(" Expression ")" L Block  "Else71" Block  
+/  "if" L "(" Expression ")" L Block  "Else72" Block  
+/  "if" L "(" Expression ")" L Block  "Else73" Block  
+/  "if" L "(" Expression ")" L Block  "Else74" Block  
+/  "if" L "(" Expression ")" L Block  "Else75" Block  
+/  "if" L "(" Expression ")" L Block  "Else76" Block  
+/  "if" L "(" Expression ")" L Block  "Else77" Block  
+/  "if" L "(" Expression ")" L Block  "Else78" Block  
+/  "if" L "(" Expression ")" L Block  "Else79" Block  
+/  "if" L "(" Expression ")" L Block  "Else80" Block  
+/  "if" L "(" Expression ")" L Block  "Else81" Block  
+/  "if" L "(" Expression ")" L Block  "Else82" Block  
+/  "if" L "(" Expression ")" L Block  "Else83" Block  
+/  "if" L "(" Expression ")" L Block  "Else84" Block  
+/  "if" L "(" Expression ")" L Block  "Else85" Block  
+/  "if" L "(" Expression ")" L Block  "Else86" Block  
+/  "if" L "(" Expression ")" L Block  "Else87" Block  
+/  "if" L "(" Expression ")" L Block  "Else88" Block  
+/  "if" L "(" Expression ")" L Block  "Else89" Block  
+/  "if" L "(" Expression ")" L Block  "Else90" Block  
+/  "if" L "(" Expression ")" L Block  "Else91" Block  
+/  "if" L "(" Expression ")" L Block  "Else92" Block  
+/  "if" L "(" Expression ")" L Block  "Else93" Block  
+/  "if" L "(" Expression ")" L Block  "Else94" Block  
+/  "if" L "(" Expression ")" L Block  "Else95" Block  
+/  "if" L "(" Expression ")" L Block  "Else96" Block  
+/  "if" L "(" Expression ")" L Block  "Else97" Block  
+/  "if" L "(" Expression ")" L Block  "Else98" Block  
+/  "if" L "(" Expression ")" L Block  "Else99" Block  
+/ "if" L "(" Expression ")" L Block Else?
+/ "return" L Expression? ";" L
+/ Expression L ";" L
+/ ";"
+;
+generic Else =
+"else" L Block;
+
+generic Expression=
+AssignmentExpression L Comma*
+;
+generic Comma =
+void:"," L AssignmentExpression
+;
+
+variant generic AssignmentExpression =
+UnaryExpression L AssignmentOperator L AssignmentExpression
+/ ConditionalExpression L
+;
+
+String AssignmentOperator =
+"="
+/ "*="
+/ "/="
+/ "%="
+/ "+="
+/ "-="
+/ "<<="
+/ ">>="
+/ ">>>="
+/ "&="
+/ "^="
+/ "|="
+
+;
+
+generic ConditionalExpression =
+LogicalOrExpression L ExpressionRepeat*
+;
+generic ExpressionRepeat =
+void:"?" Expression void:":" LogicalOrExpression
+;
+generic LogicalOrExpression =
+LogicalAndExpression L Or*
+;
+generic Or =
+void:"||" L LogicalAndExpression
+;
+
+generic LogicalAndExpression =
+EqualityExpression L And*
+;
+generic And =
+void:"&&" L EqualityExpression
+;
+
+generic EqualityExpression =
+RelationalExpression L EqualOrNotEqual*
+;
+generic EqualOrNotEqual =
+(void:"=="/void:"!=") L RelationalExpression
+;
+
+generic RelationalExpression =
+UnaryExpression L LessOrMore*
+;
+generic LessOrMore =
+( void:"<=" / void:"<" / void:">=" / void:">") L UnaryExpression
+;
+
+generic UnaryExpression =
+PostfixExpression
+/ void:"!" L UnaryExpression
+;
+
+generic PostfixExpression =
+FunctionCall
+/ PrimaryExpression
+;
+generic FunctionCall =
+PrimaryExpression FunctionCallMore+
+;
+
+generic FunctionCallMore =
+"(" ArgumentExpressionList? ")" L
+;
+
+generic ArgumentExpressionList =
+AssignmentExpression L AssignmentExpressionRepeat*
+;
+generic AssignmentExpressionRepeat =
+void:"," L AssignmentExpression
+;
+
+generic PrimaryExpression =
+Constant L
+/ "(" Expression ")" L
+/ FunctionExpression L
+/ Identifier L
+;
+
+generic FunctionExpression =
+"function" L IdentifierSkip? "(" FunctionParamList ")" L Block void:"::" L
+;
+generic IdentifierSkip =
+    Identifier L
+    ;
+
+generic Constant =
+IntegerLiteral
+/ BooleanLiteral
+/ StringLiteral
+/ NullLiteral
+;
+
+
+generic IntegerLiteral            =  Decimal L
+;
+generic Decimal                   = [1-9] DIGIT* / '0'
+;
+generic BooleanLiteral            =
+    "true"  L
+  / "false" L
+  ;
+generic StringLiteral             =
+  '"' StringContent*  '"' L
+ ;
+String StringContent            = ![\"\n\\]_ ;
+generic NullLiteral               = "null" L ;
+
+
+generic L                         = ( S / BlockComment / LineComment )* ;
+generic S                         = [ \n\r\t\u000B\u000C] ;
+generic BlockComment              = "/*" ( !"*/" _ )* "*/" ;
+generic LineComment               = "//" ( !"\n" _ )* ;
+generic EOT                       = !_ ;
+generic Identifier                = NAME L;
+generic NAME                      = !DIGIT !( KEYWORD NW ) W+ ;
+generic DIGIT                     = [0-9] ;
+generic W                         = [a-zA-Z0-9_$] ;
+generic NW                        = !W;
+generic TopLevel                  = Declaration
+                           /";"
+                            ;
+generic KEYWORD                   = "else" L
+                          / "if" L
+                          / "return" L
+                          / "function" L
+                          / "var" L
+                          ;
